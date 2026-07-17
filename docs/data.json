@@ -32,17 +32,17 @@
  ],
  "flights": {
   "QR858": {
-   "route": "도하 (DOH) → 인천 (ICN)",
-   "route_en": "Doha (DOH) → Incheon (ICN)",
+   "route": "도하 (DOH) → 서울 (ICN)",
+   "route_en": "Doha (DOH) → Seoul (ICN)",
    "sched_dep": "02:20",
    "sched_arr": "17:05",
    "labels": {
     "dep": "출발 (도하)",
-    "arr": "도착 (인천)"
+    "arr": "도착 (서울)"
    },
    "labels_en": {
     "dep": "Departure (Doha)",
-    "arr": "Arrival (Incheon)"
+    "arr": "Arrival (Seoul)"
    },
    "daily": true,
    "note": "매일 운항 · A350-1000",
@@ -57,11 +57,11 @@
      "label": "7/18 (토)",
      "label_en": "Sat 7/18",
      "dep": "02:20",
-     "arr": "17:05",
-     "kind": "plan",
-     "cls": "plan",
-     "delay": 0,
-     "confirmed": false
+     "arr": "17:15",
+     "kind": "sched",
+     "cls": "good",
+     "delay": 10,
+     "confirmed": true
     },
     {
      "date": "2026-07-19",
@@ -145,16 +145,16 @@
    "fr24": "https://www.flightradar24.com/data/flights/qr858"
   },
   "QR859": {
-   "route": "인천 (ICN) → 도하 (DOH)",
-   "route_en": "Incheon (ICN) → Doha (DOH)",
+   "route": "서울 (ICN) → 도하 (DOH)",
+   "route_en": "Seoul (ICN) → Doha (DOH)",
    "sched_dep": "01:20",
    "sched_arr": "05:20",
    "labels": {
-    "dep": "출발 (인천)",
+    "dep": "출발 (서울)",
     "arr": "도착 (도하)"
    },
    "labels_en": {
-    "dep": "Departure (Incheon)",
+    "dep": "Departure (Seoul)",
     "arr": "Arrival (Doha)"
    },
    "daily": true,
@@ -266,17 +266,17 @@
    "fr24": "https://www.flightradar24.com/data/flights/qr859"
   },
   "QR862": {
-   "route": "도하 (DOH) → 인천 (ICN)",
-   "route_en": "Doha (DOH) → Incheon (ICN)",
+   "route": "도하 (DOH) → 서울 (ICN)",
+   "route_en": "Doha (DOH) → Seoul (ICN)",
    "sched_dep": "19:45",
    "sched_arr": "익일 10:30",
    "labels": {
     "dep": "출발 (도하)",
-    "arr": "도착 (인천)"
+    "arr": "도착 (서울)"
    },
    "labels_en": {
     "dep": "Departure (Doha)",
-    "arr": "Arrival (Incheon)"
+    "arr": "Arrival (Seoul)"
    },
    "daily": false,
    "note": "매주 목요일 운항 · A350-1000",
