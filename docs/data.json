@@ -4,6 +4,8 @@
  "generated_at_seoul": "2026-07-18 03:10",
  "airspace": {
   "risk_level": "Three",
+  "closed": false,
+  "status": "open",
   "source": "https://safeairspace.net/qatar/",
   "checked_at_utc": "2026-07-17T18:10:00+00:00",
   "ok": true

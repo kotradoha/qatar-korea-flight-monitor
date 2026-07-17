@@ -184,13 +184,21 @@ def fetch_qa_alerts():
 
 
 def fetch_airspace(prev):
-    """SafeAirspace 카타르 페이지에서 위험 등급 추출. 실패 시 이전 값 유지."""
+    """SafeAirspace 카타르 페이지에서 위험 등급 및 폐쇄 여부 추출. 실패 시 이전 값 유지."""
     try:
         html = http_get("https://safeairspace.net/qatar/")
         text = re.sub(r"<[^>]+>", " ", html)
+        low = text.lower()
         m = re.search(r"(?:Risk\s*)?Level[:\s]*([A-Za-z]+)", text)
+        # 영공 '폐쇄'로 판단하는 보수적 키워드 (단순 권고/주의는 폐쇄 아님)
+        closed = bool(re.search(
+            r"airspace\s+clos|fully\s+clos|closed\s+to\s+all|"
+            r"complete\s+clos|suspend(ed)?\s+all\s+flight|no\s+overflight",
+            low))
         return {
             "risk_level": m.group(1).strip() if m else None,
+            "closed": closed,
+            "status": "closed" if closed else "open",
             "source": "https://safeairspace.net/qatar/",
             "checked_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "ok": True,
