@@ -53,26 +53,15 @@
    },
    "days": [
     {
-     "date": "2026-07-17",
-     "label": "7/17 (금)",
-     "label_en": "Fri 7/17",
-     "dep": "02:22",
-     "arr": "17:33",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 28,
-     "confirmed": true
-    },
-    {
      "date": "2026-07-18",
      "label": "7/18 (토)",
      "label_en": "Sat 7/18",
      "dep": "02:20",
-     "arr": "17:15",
-     "kind": "sched",
-     "cls": "good",
-     "delay": 10,
-     "confirmed": true
+     "arr": "17:05",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     },
     {
      "date": "2026-07-19",
@@ -80,10 +69,10 @@
      "label_en": "Sun 7/19",
      "dep": "02:20",
      "arr": "17:05",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "plan",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
     },
     {
      "date": "2026-07-20",
@@ -91,10 +80,65 @@
      "label_en": "Mon 7/20",
      "dep": "02:20",
      "arr": "17:05",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "plan",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-21",
+     "label": "7/21 (화)",
+     "label_en": "Tue 7/21",
+     "dep": "02:20",
+     "arr": "17:05",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-22",
+     "label": "7/22 (수)",
+     "label_en": "Wed 7/22",
+     "dep": "02:20",
+     "arr": "17:05",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-23",
+     "label": "7/23 (목)",
+     "label_en": "Thu 7/23",
+     "dep": "02:20",
+     "arr": "17:05",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-24",
+     "label": "7/24 (금)",
+     "label_en": "Fri 7/24",
+     "dep": "02:20",
+     "arr": "17:05",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-25",
+     "label": "7/25 (토)",
+     "label_en": "Sat 7/25",
+     "dep": "02:20",
+     "arr": "17:05",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     }
    ],
    "position": null,
@@ -122,26 +166,15 @@
    },
    "days": [
     {
-     "date": "2026-07-17",
-     "label": "7/17 (금)",
-     "label_en": "Fri 7/17",
-     "dep": "01:18",
-     "arr": "05:01",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 0,
-     "confirmed": true
-    },
-    {
      "date": "2026-07-18",
      "label": "7/18 (토)",
      "label_en": "Sat 7/18",
-     "dep": "01:12",
-     "arr": "04:51",
-     "kind": "inflight",
-     "cls": "good",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
     },
     {
      "date": "2026-07-19",
@@ -149,10 +182,10 @@
      "label_en": "Sun 7/19",
      "dep": "01:20",
      "arr": "05:20",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "plan",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
     },
     {
      "date": "2026-07-20",
@@ -160,10 +193,65 @@
      "label_en": "Mon 7/20",
      "dep": "01:20",
      "arr": "05:20",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "plan",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-21",
+     "label": "7/21 (화)",
+     "label_en": "Tue 7/21",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-22",
+     "label": "7/22 (수)",
+     "label_en": "Wed 7/22",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-23",
+     "label": "7/23 (목)",
+     "label_en": "Thu 7/23",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-24",
+     "label": "7/24 (금)",
+     "label_en": "Fri 7/24",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-25",
+     "label": "7/25 (토)",
+     "label_en": "Sat 7/25",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     }
    ],
    "position": {
@@ -199,15 +287,26 @@
    },
    "days": [
     {
-     "date": "2026-07-16",
-     "label": "7/16 (목)",
-     "label_en": "Thu 7/16",
-     "dep": "19:52",
-     "arr": "10:41",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 11,
-     "confirmed": true
+     "date": "2026-07-23",
+     "label": "7/23 (목)",
+     "label_en": "Thu 7/23",
+     "dep": "19:45",
+     "arr": "익일 10:30",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-30",
+     "label": "7/30 (목)",
+     "label_en": "Thu 7/30",
+     "dep": "19:45",
+     "arr": "익일 10:30",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     }
    ],
    "position": null,

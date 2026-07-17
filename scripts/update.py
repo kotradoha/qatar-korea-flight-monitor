@@ -182,10 +182,13 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
     confirmed_any = False
     net_error = False
 
-    # 카타르항공/FlightStats에서 '검색되는'(개별 편이 확인되는) 날짜만 표시한다.
-    # 조회 가능 범위는 오늘 ±3일. 매일편은 어제~+3일, 비정기(목요일)편은 -3~+3일 중 해당 요일.
-    lo, hi = (-1, 4) if cfg["daily"] else (-3, 4)
-    for offset in range(lo, hi):
+    # 표시 정책:
+    #  - 카타르항공 발행 스케줄 기준으로 '오늘 이후'만 표시(도착 완료편은 제외).
+    #  - 현재 진행 중(비행 중)과 미래 예정편만 남긴다.
+    #  - 오늘 ±3일 안은 FlightStats로 실시간 상태(비행중/지연/결항)를 확인,
+    #    ±3일 밖은 발행 스케줄(운항 예정)로 채워 카타르항공 검색 결과와 동일 범위로 맞춘다.
+    horizon = 7 if cfg["daily"] else 14
+    for offset in range(0, horizon + 1):
         d = today_local + timedelta(days=offset)
         if not cfg["daily"] and d.weekday() != 3:   # 비정기편은 운항 요일(목)만
             continue
@@ -193,45 +196,46 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
             "date": d.isoformat(),
             "label": f"{d.month}/{d.day} ({DOW_KR[d.weekday()]})",
             "label_en": f"{DOW_EN[d.weekday()]} {d.month}/{d.day}",
-            "dep": cfg["sched_dep"], "arr": cfg["sched_arr"],
-            "kind": "checking", "cls": "plan", "delay": 0, "confirmed": False,
+            "dep": cfg["sched_dep"], "arr": cfg["sched_arr"],   # 시각은 카타르항공 스케줄 기준
+            "kind": "plan", "cls": "plan", "delay": 0, "confirmed": False,
         }
-        try:
-            fs = fetch_flight(num, d)      # 범위가 ±3 이내라 항상 조회
-            health["ok"] += 1
-        except FetchError:
-            fs = None
-            health["err"] += 1
-            net_error = True
-        else:
-            if fs:
-                dep_t = to_local(fs["dep_est_utc"], tz) or to_local(fs["dep_sched_utc"], tz)
-                arr_t = to_local(fs["arr_est_utc"], arr_tz) or to_local(fs["arr_sched_utc"], arr_tz)
-                entry["dep"] = dep_t or cfg["sched_dep"]
-                entry["arr"] = arr_t or cfg["sched_arr"]
-                result = classify(fs, entry, fno, offset, d, alerts)
-                confirmed_any = True
-                if offset >= 0 and result is not None:
-                    if isinstance(result, tuple):
-                        badge = {"state": "warn", "kind": "delayed", "delay": result[1]}
-                    elif result == "cancelled":
+        if offset <= 3:   # FlightStats 실시간 확인 가능 범위
+            try:
+                fs = fetch_flight(num, d)
+                health["ok"] += 1
+            except FetchError:
+                fs = None
+                health["err"] += 1
+                net_error = True
+                entry["kind"], entry["cls"] = "checking", "plan"
+            else:
+                if fs:
+                    code = fs["code"]
+                    if code == "L":            # 이미 도착 완료 → 표시하지 않음
+                        continue
+                    confirmed_any = True
+                    worst = max(fs["delay_dep"], fs["delay_arr"])
+                    entry["delay"] = worst
+                    if code == "C":
+                        entry["kind"], entry["cls"] = "cancelled", "crit"
+                        alerts.append({"flight": fno, "date": d.isoformat(), "type": "cancelled"})
                         badge = {"state": "crit", "kind": "cancelled"}
-                    elif result == "diverted":
+                    elif code in ("D", "R"):
+                        entry["kind"], entry["cls"] = "diverted", "crit"
+                        alerts.append({"flight": fno, "date": d.isoformat(), "type": "diverted"})
                         badge = {"state": "crit", "kind": "diverted"}
-        # '검색되는' 편만 = 확정된 날짜만 남긴다 (스케줄 추정 행은 표시하지 않음)
-        if entry["confirmed"]:
-            days.append(entry)
-
-    # 확정 편이 하나도 없으면(조회 불가 등) 빈 표 대신 안내 한 줄
-    if not days:
-        pd = today_local if cfg["daily"] else today_local + timedelta(days=(3 - today_local.weekday()) % 7)
-        days.append({
-            "date": pd.isoformat(),
-            "label": f"{pd.month}/{pd.day} ({DOW_KR[pd.weekday()]})",
-            "label_en": f"{DOW_EN[pd.weekday()]} {pd.month}/{pd.day}",
-            "dep": cfg["sched_dep"], "arr": cfg["sched_arr"],
-            "kind": "checking", "cls": "plan", "delay": 0, "confirmed": False,
-        })
+                    elif code == "A":          # 현재 비행 중
+                        entry["kind"], entry["cls"] = "inflight", "good"
+                    elif worst >= DELAY_ALERT_MIN and code == "S":
+                        entry["kind"], entry["cls"] = "delayed", "warn"
+                        alerts.append({"flight": fno, "date": d.isoformat(), "type": "delay", "minutes": worst})
+                        if badge is None or badge.get("state") == "good":
+                            badge = {"state": "warn", "kind": "delayed", "delay": worst}
+                    else:                      # 정시 예정(확인됨)
+                        entry["kind"], entry["cls"] = "sched", "good"
+                # fs None(±3 내 데이터 없음) → '운항 예정'(plan) 유지
+        # offset > 3 → 발행 스케줄(운항 예정) 그대로 표시
+        days.append(entry)
 
     # 배지 결정: 확정 이상상태 > 확정 정상 > 확인 실패(check) > 정상(추정)
     if badge is None:
