@@ -74,6 +74,12 @@ DOW_EN = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 DELAY_ALERT_MIN = 20  # 분
 
+# 핵심 3편(858/859/862) 외에 도하<->인천을 운항할 수 있는 QR 편명 후보.
+# 매시간 스캔하여 실제 편성이 확인되면 임시·추가편으로 대시보드에 자동 추가한다.
+# 임시 증편이 다른 번호로 생기면 이 목록에 편명만 추가하면 된다.
+EXTRA_CANDIDATES = ["860", "864", "866", "868", "870", "872", "876", "888"]
+ROUTE_APS = {"DOH", "ICN"}
+
 
 def tz_of(key):
     return TZ_DOHA if key == "doha" else TZ_SEOUL
@@ -111,8 +117,12 @@ def fetch_flight(number, d):
     code = (status.get("statusCode") or "U").upper()
     if note.get("canceled"):
         code = "C"
+    dep_ap = ((data.get("departureAirport") or {}).get("fs") or "").upper()
+    arr_ap = ((data.get("arrivalAirport") or {}).get("fs") or "").upper()
     return {
         "code": code,
+        "dep_ap": dep_ap,
+        "arr_ap": arr_ap,
         "dep_sched_utc": sched.get("scheduledDepartureUTC"),
         "arr_sched_utc": sched.get("scheduledArrivalUTC"),
         "dep_est_utc": sched.get("estimatedActualDepartureUTC"),
@@ -210,6 +220,88 @@ def fetch_airspace(prev):
         return old
 
 
+def discover_extra_flights(now_utc, alerts):
+    """핵심편 외 도하<->인천 QR 임시·추가편을 스캔해 flights_out 항목 dict를 반환."""
+    core = {f[2:] for f in FLIGHTS}
+    doha_today = now_utc.astimezone(TZ_DOHA).date()
+    found = {}
+    for num in EXTRA_CANDIDATES:
+        if num in core:
+            continue
+        try:
+            days, direction = [], None
+            badge = {"state": "good", "kind": "normal"}
+            for offset in range(-1, 4):
+                d = doha_today + timedelta(days=offset)
+                fs = fetch_flight(num, d)
+                if not fs:
+                    continue
+                if fs["dep_ap"] not in ROUTE_APS or fs["arr_ap"] not in ROUTE_APS:
+                    continue  # 도하<->인천 노선이 아니면 무시
+                if fs["dep_ap"] == fs["arr_ap"]:
+                    continue
+                dep_tz = TZ_SEOUL if fs["dep_ap"] == "ICN" else TZ_DOHA
+                arr_tz = TZ_SEOUL if fs["arr_ap"] == "ICN" else TZ_DOHA
+                if direction is None:
+                    direction = (fs["dep_ap"], fs["arr_ap"])
+                code = fs["code"]
+                dep_t = to_local(fs["dep_est_utc"], dep_tz) or to_local(fs["dep_sched_utc"], dep_tz)
+                arr_t = to_local(fs["arr_est_utc"], arr_tz) or to_local(fs["arr_sched_utc"], arr_tz)
+                worst = max(fs["delay_dep"], fs["delay_arr"])
+                entry = {
+                    "date": d.isoformat(),
+                    "label": f"{d.month}/{d.day} ({DOW_KR[d.weekday()]})",
+                    "label_en": f"{DOW_EN[d.weekday()]} {d.month}/{d.day}",
+                    "dep": dep_t or "—", "arr": arr_t or "—",
+                    "kind": "sched", "cls": "good", "delay": worst, "confirmed": True,
+                }
+                fno = "QR" + num
+                if code == "C":
+                    entry["kind"], entry["cls"] = "cancelled", "crit"
+                    alerts.append({"flight": fno, "date": d.isoformat(), "type": "cancelled"})
+                    if offset >= 0:
+                        badge = {"state": "crit", "kind": "cancelled"}
+                elif code in ("D", "R"):
+                    entry["kind"], entry["cls"] = "diverted", "crit"
+                    alerts.append({"flight": fno, "date": d.isoformat(), "type": "diverted"})
+                    badge = {"state": "crit", "kind": "diverted"}
+                elif worst >= DELAY_ALERT_MIN and code in ("S", "A"):
+                    entry["kind"], entry["cls"] = "delayed", "warn"
+                    alerts.append({"flight": fno, "date": d.isoformat(), "type": "delay", "minutes": worst})
+                    if offset >= 0 and badge["state"] == "good":
+                        badge = {"state": "warn", "kind": "delayed", "delay": worst}
+                else:
+                    entry["kind"] = {"S": "sched", "A": "inflight", "L": "landed"}.get(code, "sched")
+                days.append(entry)
+
+            if not days or direction is None:
+                continue  # 운항 미확인 → 표시하지 않음
+            dep_ap, arr_ap = direction
+            if arr_ap == "ICN":
+                route = "도하 (DOH) → 인천 (ICN)"; route_en = "Doha (DOH) → Incheon (ICN)"
+                labels = {"dep": "출발 (도하)", "arr": "도착 (인천)"}
+                labels_en = {"dep": "Departure (Doha)", "arr": "Arrival (Incheon)"}
+            else:
+                route = "인천 (ICN) → 도하 (DOH)"; route_en = "Incheon (ICN) → Doha (DOH)"
+                labels = {"dep": "출발 (인천)", "arr": "도착 (도하)"}
+                labels_en = {"dep": "Departure (Incheon)", "arr": "Arrival (Doha)"}
+            fno = "QR" + num
+            found[fno] = {
+                "route": route, "route_en": route_en,
+                "labels": labels, "labels_en": labels_en,
+                "daily": False, "temp": True,
+                "note": "임시·추가 편성 (자동 감지)",
+                "note_en": "Temporary / extra service (auto-detected)",
+                "badge": badge, "days": days,
+                "position": fetch_position(f"QTR{num}"),
+                "fr24": f"https://www.flightradar24.com/data/flights/qr{num}",
+            }
+        except Exception as e:
+            print(f"[warn] extra scan QR{num}: {e}", file=sys.stderr)
+            continue
+    return found
+
+
 def main():
     prev = None
     if DATA_PATH.exists():
@@ -292,6 +384,17 @@ def main():
                             "position": position,
                             "fr24": f"https://www.flightradar24.com/data/flights/qr{num}"}
 
+    # 임시·추가 항공편 자동 감지 (실패해도 핵심 대시보드에는 영향 없음)
+    core_order = list(FLIGHTS.keys())
+    try:
+        extra = discover_extra_flights(now_utc, alerts)
+    except Exception as e:
+        print(f"[warn] discover_extra_flights failed: {e}", file=sys.stderr)
+        extra = {}
+    for fno, data_f in extra.items():
+        flights_out[fno] = data_f
+    order = core_order + sorted(extra.keys())
+
     airspace = fetch_airspace(prev)
     qa_alerts = fetch_qa_alerts()
     if not qa_alerts.get("ok") and prev:
@@ -304,6 +407,7 @@ def main():
         "airspace": airspace,
         "qa_alerts": qa_alerts,
         "alerts": alerts,
+        "order": order,
         "flights": flights_out,
     }
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)

@@ -72,6 +72,8 @@
   .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px 18px 16px; }
   .card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
   .fno { font-size: 16px; font-weight: 700; }
+  .temp-tag { display: inline-block; font-size: 10.5px; font-weight: 700; vertical-align: middle;
+    color: #fff; background: var(--accent); border-radius: 5px; padding: 1px 6px; margin-right: 2px; }
   .route { color: var(--text-secondary); font-size: 13px; margin-top: 2px; }
   .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
            padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
@@ -453,7 +455,7 @@ function render() {
   }
   banner.style.display = "";
 
-  var order = ["QR858", "QR859", "QR862"];
+  var order = data.order || ["QR858", "QR859", "QR862"];
   var html = "";
   order.forEach(function(fno) {
     var f = data.flights[fno];
@@ -461,6 +463,7 @@ function render() {
     var bcls = { good: "b-good", warn: "b-warn", crit: "b-crit" }[f.badge.state] || "b-good";
     var route = LANG === "ko" ? f.route : f.route_en;
     var note = LANG === "ko" ? f.note : f.note_en;
+    var tempTag = f.temp ? "<span class='temp-tag'>" + (LANG === "ko" ? "임시편" : "TEMP") + "</span> " : "";
     var labels = LANG === "ko" ? f.labels : f.labels_en;
     var rows = (f.days || []).map(function(d) {
       var cls = { good: "st-good", plan: "st-plan", warn: "st-warn", crit: "st-crit" }[d.cls] || "st-plan";
@@ -470,7 +473,7 @@ function render() {
              "</td><td>" + esc(arrTxt) + "</td><td class='" + cls + "'>" + esc(kindLabel(d)) + "</td></tr>";
     }).join("");
     html += "<div class='card'><div class='card-top'><div>" +
-      "<div class='fno'>" + esc(fno) + "</div>" +
+      "<div class='fno'>" + tempTag + esc(fno) + "</div>" +
       "<div class='route'>" + esc(route) + " · " + esc(note) + "</div></div>" +
       "<span class='badge " + bcls + "'><span class='dot'></span>" + esc(badgeLabel(f.badge)) + "</span></div>" +
       "<table><thead><tr><th>" + t().th[0] + "</th><th>" + esc(labels.dep) + "</th><th>" +

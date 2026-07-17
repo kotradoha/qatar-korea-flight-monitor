@@ -12,6 +12,7 @@
  },
  "qa_alerts": {"ok": true, "korea_route_mentions": [], "source": "https://www.qatarairways.com/en/travel-alerts.html"},
  "alerts": [],
+ "order": ["QR858", "QR859", "QR862"],
  "flights": {
   "QR858": {
    "route": "도하 (DOH) → 인천 (ICN)",
