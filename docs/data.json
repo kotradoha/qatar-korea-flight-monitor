@@ -1,23 +1,27 @@
 {
- "generated_at_utc": "2026-07-17T18:10:00+00:00",
- "generated_at_doha": "2026-07-17 21:10",
- "generated_at_seoul": "2026-07-18 03:10",
+ "generated_at_utc": "2026-07-17T19:57:25+00:00",
+ "generated_at_doha": "2026-07-17 22:57",
+ "generated_at_seoul": "2026-07-18 04:57",
  "airspace": {
   "risk_level": "Three",
-  "closed": false,
-  "status": "open",
+  "closed": true,
+  "status": "closed",
   "advisories": [
    {
-    "code": "EASA CZIB 2026-07",
-    "valid_until": "July 29, 2026"
+    "code": "ued Valid to France Notam LFFF F1553/26",
+    "valid_until": null
    },
    {
-    "code": "France NOTAM F1553/26",
-    "valid_until": "July 22, 2026"
+    "code": "EASA CZIB 2026-07",
+    "valid_until": null
+   },
+   {
+    "code": "Notam LFFF F1553/26",
+    "valid_until": null
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-17T18:10:00+00:00",
+  "checked_at_utc": "2026-07-17T19:57:32+00:00",
   "ok": true
  },
  "qa_alerts": {
@@ -54,14 +58,25 @@
    },
    "days": [
     {
+     "date": "2026-07-16",
+     "label": "7/16 (목)",
+     "label_en": "Thu 7/16",
+     "dep": "02:28",
+     "arr": "17:16",
+     "kind": "landed",
+     "cls": "good",
+     "delay": 11,
+     "confirmed": true
+    },
+    {
      "date": "2026-07-17",
      "label": "7/17 (금)",
      "label_en": "Fri 7/17",
-     "dep": "02:20",
-     "arr": "17:05",
+     "dep": "02:22",
+     "arr": "17:33",
      "kind": "landed",
      "cls": "good",
-     "delay": 0,
+     "delay": 28,
      "confirmed": true
     },
     {
@@ -129,17 +144,6 @@
      "cls": "plan",
      "delay": 0,
      "confirmed": false
-    },
-    {
-     "date": "2026-07-24",
-     "label": "7/24 (금)",
-     "label_en": "Fri 7/24",
-     "dep": "02:20",
-     "arr": "17:05",
-     "kind": "plan",
-     "cls": "plan",
-     "delay": 0,
-     "confirmed": false
     }
    ],
    "position": null,
@@ -163,9 +167,20 @@
    "note_en": "Daily · A350-1000",
    "badge": {
     "state": "good",
-    "kind": "inflight"
+    "kind": "normal"
    },
    "days": [
+    {
+     "date": "2026-07-17",
+     "label": "7/17 (금)",
+     "label_en": "Fri 7/17",
+     "dep": "01:18",
+     "arr": "05:01",
+     "kind": "landed",
+     "cls": "good",
+     "delay": 0,
+     "confirmed": true
+    },
     {
      "date": "2026-07-18",
      "label": "7/18 (토)",
@@ -205,10 +220,10 @@
      "label_en": "Tue 7/21",
      "dep": "01:20",
      "arr": "05:20",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "plan",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
     },
     {
      "date": "2026-07-22",
@@ -242,17 +257,6 @@
      "cls": "plan",
      "delay": 0,
      "confirmed": false
-    },
-    {
-     "date": "2026-07-25",
-     "label": "7/25 (토)",
-     "label_en": "Sat 7/25",
-     "dep": "01:20",
-     "arr": "05:20",
-     "kind": "plan",
-     "cls": "plan",
-     "delay": 0,
-     "confirmed": false
     }
    ],
    "position": null,
@@ -279,6 +283,17 @@
     "kind": "normal"
    },
    "days": [
+    {
+     "date": "2026-07-16",
+     "label": "7/16 (목)",
+     "label_en": "Thu 7/16",
+     "dep": "19:52",
+     "arr": "10:41",
+     "kind": "landed",
+     "cls": "good",
+     "delay": 11,
+     "confirmed": true
+    },
     {
      "date": "2026-07-17",
      "label": "7/17 (금)",
@@ -319,6 +334,28 @@
      "dep": "—",
      "arr": "—",
      "kind": "no_service",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-21",
+     "label": "7/21 (화)",
+     "label_en": "Tue 7/21",
+     "dep": "19:45",
+     "arr": "익일 10:30",
+     "kind": "checking",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-22",
+     "label": "7/22 (수)",
+     "label_en": "Wed 7/22",
+     "dep": "19:45",
+     "arr": "익일 10:30",
+     "kind": "checking",
      "cls": "plan",
      "delay": 0,
      "confirmed": false
