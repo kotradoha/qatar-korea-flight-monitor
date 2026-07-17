@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://hits.sh https://*.tile.openstreetmap.org; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; connect-src 'self' https://api.adsb.lol; frame-ancestors 'none'; base-uri 'self'">
 <title>카타르항공 도하↔인천 운항 모니터링 대시보드 | Qatar Airways DOH↔ICN Flight Monitoring Dashboard</title>
 <meta name="description" content="카타르항공 QR858·QR862·QR859 도하-인천 노선 영공폐쇄·지연·결항 상시 모니터링 (매시간 자동 갱신)">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -35,11 +36,12 @@
     padding: 14px 18px; border: 1px solid var(--border); margin-bottom: 18px; }
   .airstrip.open { background: var(--good-bg); }
   .airstrip.closed { background: var(--crit-bg); }
+  .airstrip.unknown { background: var(--banner-bg); }
   .airstrip .astatus { width: 14px; height: 14px; border-radius: 50%; flex: none; margin-top: 3px;
     box-shadow: 0 0 0 4px rgba(0,0,0,0.04); }
   .airstrip.open .astatus { background: var(--good); }
-  .airstrip.closed .astatus { background: var(--critical);
-    animation: pulse 1.4s ease-in-out infinite; }
+  .airstrip.closed .astatus { background: var(--critical); animation: pulse 1.4s ease-in-out infinite; }
+  .airstrip.unknown .astatus { background: var(--text-muted); }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
   .atitle { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
   .airstrip.open .atitle { color: var(--good-text); }
@@ -57,6 +59,8 @@
   .lang button.on { background: var(--accent); color: #fff; }
   .sub { color: var(--text-secondary); font-size: 13px; margin-top: 4px; line-height: 1.5; }
   .updated { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
+  .stale { margin-top: 8px; font-size: 12px; padding: 10px 12px; border-radius: 8px;
+    background: var(--banner-bg); color: var(--text-secondary); line-height: 1.55; display: none; }
   .banner { margin-top: 16px; border: 1px solid var(--border); border-radius: 12px;
             background: var(--banner-bg); padding: 14px 16px; }
   .banner h2 { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
@@ -81,6 +85,7 @@
   .b-good { color: var(--good-text); } .b-good .dot { background: var(--good); }
   .b-warn { color: var(--text-primary); } .b-warn .dot { background: var(--warning); }
   .b-crit { color: var(--crit-text); } .b-crit .dot { background: var(--critical); }
+  .b-check { color: var(--text-muted); } .b-check .dot { background: var(--text-muted); }
   table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12.5px; }
   th { text-align: left; font-weight: 600; font-size: 11px; color: var(--text-muted);
        text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 8px; border-bottom: 1px solid var(--hairline); }
@@ -100,26 +105,6 @@
              padding: 18px; margin-top: 16px; }
   .section h2 { font-size: 15px; font-weight: 700; }
   .section p { font-size: 12.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.55; }
-  .tabs { display: inline-flex; gap: 4px; border: 1px solid var(--hairline); border-radius: 8px;
-    padding: 2px; margin-bottom: 12px; }
-  .tabs button { font: inherit; font-size: 12.5px; font-weight: 600; padding: 6px 14px;
-    border: none; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; }
-  .tabs button.on { background: var(--accent); color: #fff; }
-  .form-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .form-row input, .form-row select { font: inherit; font-size: 13px; padding: 9px 12px;
-    border: 1px solid var(--hairline); border-radius: 8px; background: var(--page);
-    color: var(--text-primary); min-width: 0; }
-  .form-row input.contact { flex: 1 1 220px; }
-  #ccodeManual { flex: 0 0 120px; }
-  #unsubNo { flex: 1 1 100%; }
-  .form-row button.submit { font: inherit; font-size: 13px; font-weight: 600; padding: 9px 16px;
-    border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
-  .form-row button.submit.danger { background: var(--critical); }
-  .form-msg { font-size: 13px; margin-top: 12px; padding: 12px 14px; border-radius: 10px;
-    background: var(--good-bg); color: var(--good-text); display: none; line-height: 1.55; }
-  .form-msg.cancel { background: var(--crit-bg); color: var(--crit-text); }
-  .form-msg b { font-size: 15px; letter-spacing: 0.02em; }
-
   .bubbles { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 12px; }
   .bubble { border: 1px solid var(--border); border-left-width: 4px; border-radius: 10px;
     padding: 12px 14px; background: var(--page); }
@@ -166,6 +151,7 @@
       </div>
     </div>
     <div class="updated" id="updated"></div>
+    <div class="stale" id="staleNote"></div>
     <div id="loadError" data-i18n="load_error"></div>
 
     <div class="banner" id="banner" style="display:none">
@@ -178,29 +164,7 @@
 
     <div class="cards" id="cards"></div>
 
-    <!-- 구독 / 구독 취소 -->
-    <div class="section">
-      <div class="tabs">
-        <button id="tabSub" class="on" onclick="setMode('sub')" data-i18n="tab_sub"></button>
-        <button id="tabUnsub" onclick="setMode('unsub')" data-i18n="tab_unsub"></button>
-      </div>
-      <h2 id="subHeading"></h2>
-      <p id="subDescP"></p>
-      <form id="subForm" action="https://formsubmit.co/qatarandkorea@gmail.com" method="POST">
-        <input type="hidden" name="_subject" id="subjectField" value="">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="mode" id="modeField" value="subscribe">
-        <input type="hidden" name="type" value="email">
-        <input type="hidden" name="contact_final" id="contactFinal" value="">
-        <div class="form-row">
-          <input type="email" name="contact" id="contact" class="contact" required>
-          <button type="submit" id="submitBtn" class="submit" data-i18n="btn_submit"></button>
-        </div>
-      </form>
-      <div class="form-msg" id="formMsg"></div>
-    </div>
-
-    <!-- 알림 예시 -->
+    <!-- 상황별 표기 예시 -->
     <div class="section">
       <h2 data-i18n="ex_title"></h2>
       <p data-i18n="ex_desc"></p>
@@ -223,10 +187,6 @@
 function ls_get(k){ try { return window.localStorage ? localStorage.getItem(k) : null; } catch(e){ return null; } }
 function ls_set(k,v){ try { if (window.localStorage) localStorage.setItem(k,v); } catch(e){} }
 var LANG = ls_get("qrmon_lang") || (navigator.language && navigator.language.indexOf("ko") === 0 ? "ko" : "en");
-var MODE = "sub";
-// 자동 발송용 Google 앱스스크립트 웹앱 URL. 배포 후 여기에 /exec 주소를 붙여넣으면
-// 구독/취소가 시트에 저장되고 자동 이메일 발송이 활성화됩니다. 비워두면 이메일 수집만 됩니다.
-var APPS_SCRIPT_URL = "";
 var SAFE_URL = "https://safeairspace.net/qatar/";
 var HAMAD_URL = "https://dohahamadairport.com/";
 var QR_ALERTS_URL = "https://www.qatarairways.com/en/travel-alerts.html";
@@ -236,15 +196,20 @@ var I18N = {
     title: "카타르항공 도하 ↔ 인천 운항 모니터링 대시보드",
     subtitle: "QR858 · QR862 (도하→인천) · QR859 (인천→도하) — 중동 정세 관련 한국 노선 영공폐쇄·지연·결항 상시 모니터링 · 매시간 자동 갱신",
     updated: function(d){ return "마지막 확인: " + d.generated_at_doha + " (도하) / " + d.generated_at_seoul + " (인천)"; },
+    stale_note: "⚠ 실시간 운항 데이터 갱신이 지연되고 있습니다. 아래 상태는 정기 스케줄 기준이며, 최신 상태는 각 항공편의 Flightradar24·FlightStats·카타르항공 공식 링크에서 확인해 주세요.",
     load_error: "데이터를 불러오지 못했습니다. 잠시 후 새로고침해 주세요.",
     air_open_title: "카타르 영공 · 정상 운영 중",
     air_open_sub: function(risk){ return "도하 하마드 국제공항 영공이 정상적으로 운영되고 있으며, 인천 노선도 정상 운항 중입니다" +
       (risk ? ". 현재 국제 권고 등급은 " + risk + "단계로, 권고는 발효 중이지만 영공이 폐쇄된 것은 아닙니다" : "") + "."; },
+    air_unknown_title: "카타르 영공 · 상태 확인 중",
+    air_unknown_sub: "영공 상태 정보를 일시적으로 불러오지 못했습니다. 아래 출처 링크에서 직접 확인해 주세요.",
     air_closed_title: "⚠ 카타르 영공 폐쇄 — 운항 차질 발생 가능",
     air_closed_sub: "카타르(도하 하마드) 영공 폐쇄가 감지되었습니다. 인천 노선 결항·회항·지연 가능성이 높습니다. 카타르항공 공식 채널을 반드시 확인하세요.",
     air_src: function(){ return "근거: <a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace 영공 권고(EASA·NOTAM 종합)</a> · 공식 확인: " +
       "<a href='" + QR_ALERTS_URL + "' target='_blank' rel='noopener'>카타르항공 여행경보</a> · " +
       "<a href='" + HAMAD_URL + "' target='_blank' rel='noopener'>하마드국제공항</a>"; },
+    banner_degraded_title: "운항 상태 실시간 확인 지연",
+    banner_degraded_body: "현재 실시간 운항 데이터를 일시적으로 불러오지 못해 정기 스케줄을 표시하고 있습니다. 각 항공편의 <b>Flightradar24·카타르항공 공식</b> 링크에서 최신 상태를 확인해 주세요.",
     banner_ok_title: "현재 도하↔인천 노선 정상 운항 중",
     banner_ok_body: function(risk){ return "이란 관련 무력 충돌로 카타르 영공에 대한 국제 권고가 발효 중입니다" +
       (risk ? " (<a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace</a> 위험 등급: <b>" + risk + "</b>)" : "") +
@@ -255,35 +220,24 @@ var I18N = {
     th: ["출발일", "상태"],
     kinds: { sched: "✓ 운항 예정 · 정시", inflight: "✓ 비행 중", landed: "✓ 도착 완료",
              cancelled: "✕ 결항", diverted: "⚠ 회항", plan: "스케줄 예정",
-             no_service: "스케줄상 운항 없음", checking: "운항 여부 확인 중" },
+             no_service: "스케줄상 운항 없음", checking: "확인 중" },
     delayed: function(m){ return "⚠ 지연 " + m + "분"; },
     badge: { normal: "✓ 정상 운항", inflight: "✓ 비행 중 · 정상", cancelled: "✕ 결항 발생",
-             diverted: "⚠ 회항 발생" },
+             diverted: "⚠ 회항 발생", checking: "확인 중" },
     badge_delayed: function(m){ return "⚠ 지연 " + m + "분"; },
     links: ["실시간 위치 (Flightradar24)", "FlightStats", "카타르항공 공식 조회"],
-    tab_sub: "구독 신청", tab_unsub: "구독 취소",
-    sub_title: "영공폐쇄·지연·결항 알림 구독 (이메일)",
-    sub_desc: "이메일 주소를 입력하고 구독하시면, 별도 승인 절차 없이 바로 등록됩니다. 이후 영공 폐쇄나 지연·결항이 발생하면 등록하신 이메일로 곧바로 알림을 보내드립니다.",
-    unsub_title: "구독 취소",
-    unsub_desc: "구독하실 때 사용한 이메일 주소를 입력하시면, 별도 승인 없이 바로 구독이 취소됩니다.",
-    btn_submit: "구독하기", btn_unsub: "구독 취소하기",
-    ph_email: "이메일 주소 (예: name@example.com)",
-    sub_done: function(no, c){ return "구독이 완료되었습니다. 등록하신 연락처(<b>" + c +
-      "</b>)로 영공 폐쇄·지연·결항이 발생하면 바로 알림을 보내드립니다. 감사합니다."; },
-    unsub_done: function(c){ return "구독이 취소되었습니다.<br>연락처(" + c +
-      ")가 알림 명단에서 제외됩니다. 그동안 이용해 주셔서 감사합니다."; },
-    ex_title: "알림 예시 — 이런 상황이 발생하면 이렇게 발송됩니다",
-    ex_desc: "실제 영공폐쇄·지연·결항이 감지되면 구독하신 이메일로 아래와 같은 형태의 메시지가 발송됩니다.",
+    ex_title: "상황별 표기 예시 — 이렇게 표시·안내됩니다",
+    ex_desc: "영공 폐쇄·지연·결항이 실제로 감지되면, 대시보드 상단과 아래 표가 다음과 같은 형태로 상세히 표시됩니다.",
     examples: [
       { type: "closed", t: "① 영공 폐쇄",
-        d: "[카타르항공 운항 알림] ⚠️ 카타르(도하 하마드) 영공 폐쇄 감지\n· 감지 시각: 2026-07-18 14:00 (도하)\n· 근거 권고: EASA CZIB 2026-07 (유효 ~2026-07-29), 프랑스 NOTAM F1553/26 (유효 ~2026-07-22)\n· 영향 편·날짜: QR858 7/18·7/19 결항, QR859 7/19 회항 예상\n· 최신 상황: kotradoha.github.io/qatar-korea-flight-monitor · 예약 확인은 카타르항공 공식 채널" },
+        d: "⚠️ 카타르(도하 하마드) 영공 폐쇄 감지\n· 감지 시각: 2026-07-18 14:00 (도하)\n· 근거 권고: EASA CZIB 2026-07 (유효 ~2026-07-29), 프랑스 NOTAM F1553/26 (유효 ~2026-07-22)\n· 영향 편·날짜: QR858 7/18·7/19 결항, QR859 7/19 회항 예상\n· 예약 확인은 카타르항공 공식 채널을 이용하세요." },
       { type: "delay", t: "② 출발 지연",
-        d: "[카타르항공 운항 알림] ⏱ QR858 (도하→인천, 7/18) 출발 약 45분 지연\n· 예정 02:20 → 예상 03:05 (도하 출발)\n· 도착 예정: 인천 7/18 17:50경\n· 상세: 대시보드에서 실시간 확인 · (알림 시각 2026-07-18 01:30 도하)" },
+        d: "⏱ QR858 (도하→인천, 7/18) 출발 약 45분 지연\n· 예정 02:20 → 예상 03:05 (도하 출발)\n· 도착 예정: 인천 7/18 17:50경\n· 상세는 대시보드에서 실시간 확인" },
       { type: "cancel", t: "③ 결항",
-        d: "[카타르항공 운항 알림] ✕ QR859 (인천→도하, 7/19) 결항\n· 대상편: 7/19 인천 01:20 출발편\n· 재예약: 카타르항공 콜센터 또는 공식 사이트(fs.qatarairways.com)\n· (알림 시각 2026-07-18 20:00 도하)" }
+        d: "✕ QR859 (인천→도하, 7/19) 결항\n· 대상편: 7/19 인천 01:20 출발편\n· 재예약: 카타르항공 콜센터 또는 공식 사이트(fs.qatarairways.com)" }
     ],
     foot_sources: "데이터 출처: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a>(운항 상태) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>카타르항공 공식 여행 경보</a> · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a>(영공 폐쇄·권고) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a>(실시간 위치) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a>(위치 추적)",
-    foot_legend: "상태 표기: ✓ 확인됨 / 스케줄 예정 / ⚠ 지연 / ✕ 결항 — \"확인됨\"은 개별 편 데이터가 확인된 날짜(약 ±3일), \"스케줄 예정\"은 정기 스케줄 기준입니다.",
+    foot_legend: "상태 표기: ✓ 확인됨 / 스케줄 예정 / 확인 중 / ⚠ 지연 / ✕ 결항 — \"확인됨\"은 개별 편 데이터가 확인된 날짜(약 ±3일), \"스케줄 예정\"은 정기 스케줄 기준, \"확인 중\"은 실시간 조회가 일시적으로 안 된 상태입니다.",
     foot_notice: "본 페이지는 데이터 출처 웹사이트의 항공 정보 등 실시간 API 연동을 기준으로 한 참고용 모니터링 정보이며, 항공권 예약·변경 등 최종 확인은 반드시 <a href='https://fs.qatarairways.com/' target='_blank' rel='noopener'>카타르항공 공식 채널</a>에서 하시기 바랍니다.",
     visitors: "누적 방문:"
   },
@@ -291,15 +245,20 @@ var I18N = {
     title: "Qatar Airways Doha ↔ Incheon Flight Monitoring Dashboard",
     subtitle: "QR858 · QR862 (DOH→ICN) · QR859 (ICN→DOH) — continuous monitoring of airspace closures, delays & cancellations on the Korea route · auto-updated hourly",
     updated: function(d){ return "Last checked: " + d.generated_at_doha + " (Doha) / " + d.generated_at_seoul + " (Incheon)"; },
+    stale_note: "⚠ Live flight data is delayed. The statuses below are based on the regular schedule; for the latest status use each flight's Flightradar24 / FlightStats / Qatar Airways links.",
     load_error: "Failed to load data. Please refresh in a moment.",
     air_open_title: "Qatar airspace · Open / operating normally",
     air_open_sub: function(risk){ return "Doha Hamad International Airport airspace is operating normally, and the Incheon route is running on schedule" +
       (risk ? ". The current international advisory level is " + risk + " — an advisory is in effect, but the airspace is not closed" : "") + "."; },
+    air_unknown_title: "Qatar airspace · Status unavailable",
+    air_unknown_sub: "Airspace status could not be loaded at the moment. Please check the source links below directly.",
     air_closed_title: "⚠ Qatar airspace CLOSED — disruptions likely",
     air_closed_sub: "A closure of Qatari (Doha Hamad) airspace has been detected. Cancellations, diversions or delays on the Incheon route are likely. Please check official Qatar Airways channels.",
     air_src: function(){ return "Basis: <a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace advisory (EASA/NOTAM aggregate)</a> · Verify: " +
       "<a href='" + QR_ALERTS_URL + "' target='_blank' rel='noopener'>Qatar Airways travel alerts</a> · " +
       "<a href='" + HAMAD_URL + "' target='_blank' rel='noopener'>Hamad Intl Airport</a>"; },
+    banner_degraded_title: "Live status temporarily unavailable",
+    banner_degraded_body: "Live flight data could not be loaded right now, so the regular schedule is shown. Please check the latest status via each flight's <b>Flightradar24 / Qatar Airways official</b> links.",
     banner_ok_title: "Doha↔Incheon flights currently operating normally",
     banner_ok_body: function(risk){ return "International advisories are in effect for Qatari airspace due to the Iran-related conflict" +
       (risk ? " (<a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace</a> risk level: <b>" + risk + "</b>)" : "") +
@@ -310,35 +269,24 @@ var I18N = {
     th: ["Date", "Status"],
     kinds: { sched: "✓ Scheduled · on time", inflight: "✓ In flight", landed: "✓ Landed",
              cancelled: "✕ Cancelled", diverted: "⚠ Diverted", plan: "Per schedule",
-             no_service: "No service this day", checking: "To be confirmed" },
+             no_service: "No service this day", checking: "Checking" },
     delayed: function(m){ return "⚠ Delayed " + m + " min"; },
     badge: { normal: "✓ Operating normally", inflight: "✓ In flight · normal", cancelled: "✕ Cancellation",
-             diverted: "⚠ Diversion" },
+             diverted: "⚠ Diversion", checking: "Checking" },
     badge_delayed: function(m){ return "⚠ Delayed " + m + " min"; },
     links: ["Live position (Flightradar24)", "FlightStats", "Qatar Airways official"],
-    tab_sub: "Subscribe", tab_unsub: "Unsubscribe",
-    sub_title: "Subscribe to airspace closure · delay · cancellation alerts (email)",
-    sub_desc: "Enter your email address and subscribe — there's no approval step, so you're registered right away. Whenever an airspace closure, delay, or cancellation occurs, we'll send an alert straight to your email.",
-    unsub_title: "Unsubscribe",
-    unsub_desc: "Enter the same email address you used to subscribe, and you'll be unsubscribed right away — no approval needed.",
-    btn_submit: "Subscribe", btn_unsub: "Unsubscribe",
-    ph_email: "Email address (e.g. name@example.com)",
-    sub_done: function(no, c){ return "You're subscribed. Whenever an airspace closure, delay, or cancellation occurs, we'll send an alert to your contact (<b>" + c +
-      "</b>). Thank you."; },
-    unsub_done: function(c){ return "You've been unsubscribed.<br>Your contact (" + c +
-      ") will be removed from the alert list. Thank you for using the service."; },
-    ex_title: "Alert examples — how a notification is sent when this happens",
-    ex_desc: "When an actual airspace closure, delay or cancellation is detected, an email like the ones below is sent to your subscribed address.",
+    ex_title: "Status examples — how situations are shown",
+    ex_desc: "When an airspace closure, delay, or cancellation is actually detected, the top bar and the tables below show it in detail, like this.",
     examples: [
       { type: "closed", t: "① Airspace closure",
-        d: "[Qatar Airways Flight Alert] ⚠️ Closure of Qatari (Doha Hamad) airspace detected\n· Detected: 2026-07-18 14:00 (Doha)\n· Advisories: EASA CZIB 2026-07 (valid until 2026-07-29), France NOTAM F1553/26 (valid until 2026-07-22)\n· Affected flights: QR858 Jul 18·19 cancelled, QR859 Jul 19 diverted (expected)\n· Latest: kotradoha.github.io/qatar-korea-flight-monitor · Verify via official Qatar Airways channels" },
+        d: "⚠️ Closure of Qatari (Doha Hamad) airspace detected\n· Detected: 2026-07-18 14:00 (Doha)\n· Advisories: EASA CZIB 2026-07 (valid until 2026-07-29), France NOTAM F1553/26 (valid until 2026-07-22)\n· Affected flights: QR858 Jul 18·19 cancelled, QR859 Jul 19 diverted (expected)\n· Verify via official Qatar Airways channels." },
       { type: "delay", t: "② Departure delay",
-        d: "[Qatar Airways Flight Alert] ⏱ QR858 (DOH→ICN, Jul 18) departure delayed ~45 min\n· Scheduled 02:20 → estimated 03:05 (departing Doha)\n· Estimated arrival: Incheon Jul 18 ~17:50\n· Details on the dashboard · (alert sent 2026-07-18 01:30 Doha)" },
+        d: "⏱ QR858 (DOH→ICN, Jul 18) departure delayed ~45 min\n· Scheduled 02:20 → estimated 03:05 (departing Doha)\n· Estimated arrival: Incheon Jul 18 ~17:50\n· See the dashboard for live details" },
       { type: "cancel", t: "③ Cancellation",
-        d: "[Qatar Airways Flight Alert] ✕ QR859 (ICN→DOH, Jul 19) cancelled\n· Flight: Jul 19 Incheon 01:20 departure\n· Rebook via the Qatar Airways call center or official site (fs.qatarairways.com)\n· (alert sent 2026-07-18 20:00 Doha)" }
+        d: "✕ QR859 (ICN→DOH, Jul 19) cancelled\n· Flight: Jul 19 Incheon 01:20 departure\n· Rebook via the Qatar Airways call center or official site (fs.qatarairways.com)" }
     ],
     foot_sources: "Sources: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a> (flight status) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>Qatar Airways official travel alerts</a> · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a> (airspace closures & advisories) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a> (live positions) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a> (tracking)",
-    foot_legend: "Legend: ✓ confirmed / per schedule / ⚠ delayed / ✕ cancelled — \"confirmed\" means per-flight data exists (about ±3 days); \"per schedule\" is based on the regular timetable.",
+    foot_legend: "Legend: ✓ confirmed / per schedule / checking / ⚠ delayed / ✕ cancelled — \"confirmed\" means per-flight data exists (about ±3 days); \"per schedule\" is the regular timetable; \"checking\" means live lookup is temporarily unavailable.",
     foot_notice: "This page is reference-only monitoring information based on real-time API integration of flight data from the source websites; for bookings and final confirmation always use the <a href='https://fs.qatarairways.com/' target='_blank' rel='noopener'>official Qatar Airways channel</a>.",
     visitors: "Total visits:"
   }
@@ -364,22 +312,6 @@ function applyStatic() {
     return "<div class='bubble " + e.type + "'><div class='bt'>" + esc(e.t) +
       "</div><div class='bd'>" + esc(e.d).replace(/\n/g, "<br>") + "</div></div>";
   }).join("");
-  setMode(MODE);
-  document.getElementById("contact").placeholder = t().ph_email;
-}
-
-function setMode(m) {
-  MODE = m;
-  var isSub = (m === "sub");
-  document.getElementById("tabSub").className = isSub ? "on" : "";
-  document.getElementById("tabUnsub").className = isSub ? "" : "on";
-  document.getElementById("subHeading").textContent = isSub ? t().sub_title : t().unsub_title;
-  document.getElementById("subDescP").textContent = isSub ? t().sub_desc : t().unsub_desc;
-  var btn = document.getElementById("submitBtn");
-  btn.textContent = isSub ? t().btn_submit : t().btn_unsub;
-  btn.className = isSub ? "submit" : "submit danger";
-  document.getElementById("modeField").value = isSub ? "subscribe" : "unsubscribe";
-  document.getElementById("formMsg").style.display = "none";
 }
 
 function kindLabel(d) {
@@ -387,12 +319,13 @@ function kindLabel(d) {
   return t().kinds[d.kind] || d.kind;
 }
 function badgeLabel(b) {
+  b = b || {};
   if (b.kind === "delayed") return t().badge_delayed(b.delay || 0);
   return t().badge[b.kind] || t().badge.normal;
 }
 
 function affectedSummary(alerts) {
-  var list = (alerts || []).filter(function(a){ return a.type !== "airspace_closed"; });
+  var list = (alerts || []).filter(function(a){ return a.type !== "airspace_closed" && a.date; });
   if (!list.length) return "";
   return list.map(function(a){
     var d = esc((a.date || "").slice(5).replace("-", "/"));
@@ -419,17 +352,20 @@ function closureDetailLines(d) {
 
 function renderAirstrip() {
   var strip = document.getElementById("airstrip");
-  var closed = DATA && DATA.airspace && DATA.airspace.closed;
-  var risk = (DATA && DATA.airspace && DATA.airspace.risk_level) || null;
+  var a = (DATA && DATA.airspace) || {};
   var sub = document.getElementById("airSub");
-  if (closed) {
+  if (a.closed) {
     strip.className = "airstrip closed";
     document.getElementById("airTitle").textContent = t().air_closed_title;
     sub.innerHTML = t().air_closed_sub + "<br>" + closureDetailLines(DATA).join("<br>");
+  } else if (a.ok === false || a.status === "unknown") {
+    strip.className = "airstrip unknown";
+    document.getElementById("airTitle").textContent = t().air_unknown_title;
+    sub.textContent = t().air_unknown_sub;
   } else {
     strip.className = "airstrip open";
     document.getElementById("airTitle").textContent = t().air_open_title;
-    sub.textContent = t().air_open_sub(risk ? esc(risk) : "");
+    sub.textContent = t().air_open_sub(a.risk_level ? esc(a.risk_level) : "");
   }
   document.getElementById("airSrc").innerHTML = t().air_src();
 }
@@ -438,17 +374,20 @@ function render() {
   if (!DATA) return;
   var data = DATA;
   document.getElementById("updated").textContent = t().updated(data);
+  var stale = document.getElementById("staleNote");
+  if (data.degraded) { stale.textContent = t().stale_note; stale.style.display = "block"; }
+  else { stale.style.display = "none"; }
   renderAirstrip();
 
   var banner = document.getElementById("banner");
-  var alerts = data.alerts || [];
+  var alerts = (data.alerts || []).filter(function(a){ return a.date; });
   var closed = data.airspace && data.airspace.closed;
   var risk = (data.airspace && data.airspace.risk_level) || null;
   if (alerts.length > 0 || closed) {
     banner.className = "banner crit";
     var msgs = alerts.map(function(a) {
-      var base = a.flight + " " + a.date.slice(5).replace("-", "/");
-      if (a.type === "delay") return base + (LANG === "ko" ? " 지연 " + a.minutes + "분" : " delayed " + a.minutes + " min");
+      var base = esc(a.flight) + " " + esc((a.date || "").slice(5).replace("-", "/"));
+      if (a.type === "delay") return base + (LANG === "ko" ? " 지연 " + esc(a.minutes) + "분" : " delayed " + esc(a.minutes) + " min");
       if (a.type === "cancelled") return base + (LANG === "ko" ? " 결항" : " cancelled");
       return base + (LANG === "ko" ? " 회항" : " diverted");
     });
@@ -457,23 +396,28 @@ function render() {
     var bodyHtml = t().banner_alert_body;
     if (closed) bodyHtml += "<br><br>" + closureDetailLines(data).join("<br>");
     document.getElementById("bannerBody").innerHTML = bodyHtml;
+  } else if (data.degraded) {
+    banner.className = "banner";
+    document.getElementById("bannerTitle").textContent = t().banner_degraded_title;
+    document.getElementById("bannerBody").innerHTML = t().banner_degraded_body;
   } else {
     banner.className = "banner";
     document.getElementById("bannerTitle").textContent = t().banner_ok_title;
-    document.getElementById("bannerBody").innerHTML = t().banner_ok_body(esc(risk));
+    document.getElementById("bannerBody").innerHTML = t().banner_ok_body(risk ? esc(risk) : "");
   }
   banner.style.display = "";
 
-  var order = data.order || ["QR858", "QR859", "QR862"];
+  var order = data.order || Object.keys(data.flights || {});
   var html = "";
   order.forEach(function(fno) {
-    var f = data.flights[fno];
+    var f = data.flights && data.flights[fno];
     if (!f) return;
-    var bcls = { good: "b-good", warn: "b-warn", crit: "b-crit" }[f.badge.state] || "b-good";
+    var badge = f.badge || { state: "check", kind: "checking" };
+    var bcls = { good: "b-good", warn: "b-warn", crit: "b-crit", check: "b-check" }[badge.state] || "b-check";
     var route = LANG === "ko" ? f.route : f.route_en;
     var note = LANG === "ko" ? f.note : f.note_en;
     var tempTag = f.temp ? "<span class='temp-tag'>" + (LANG === "ko" ? "임시편" : "TEMP") + "</span> " : "";
-    var labels = LANG === "ko" ? f.labels : f.labels_en;
+    var labels = (LANG === "ko" ? f.labels : f.labels_en) || { dep: "", arr: "" };
     var rows = (f.days || []).map(function(d) {
       var cls = { good: "st-good", plan: "st-plan", warn: "st-warn", crit: "st-crit" }[d.cls] || "st-plan";
       var depTxt = LANG === "ko" ? d.dep : String(d.dep).replace("익일", "+1d");
@@ -484,27 +428,24 @@ function render() {
     html += "<div class='card'><div class='card-top'><div>" +
       "<div class='fno'>" + tempTag + esc(fno) + "</div>" +
       "<div class='route'>" + esc(route) + " · " + esc(note) + "</div></div>" +
-      "<span class='badge " + bcls + "'><span class='dot'></span>" + esc(badgeLabel(f.badge)) + "</span></div>" +
+      "<span class='badge " + bcls + "'><span class='dot'></span>" + esc(badgeLabel(badge)) + "</span></div>" +
       "<table><thead><tr><th>" + t().th[0] + "</th><th>" + esc(labels.dep) + "</th><th>" +
       esc(labels.arr) + "</th><th>" + t().th[1] + "</th></tr></thead><tbody>" + rows + "</tbody></table>" +
       "<div class='links'>" +
       "<a href='" + esc(f.fr24) + "' target='_blank' rel='noopener'>" + t().links[0] + "</a>" +
-      "<a href='https://www.flightstats.com/v2/flight-tracker/QR/" + fno.slice(2) + "' target='_blank' rel='noopener'>" + t().links[1] + "</a>" +
+      "<a href='https://www.flightstats.com/v2/flight-tracker/QR/" + esc(fno.slice(2)) + "' target='_blank' rel='noopener'>" + t().links[1] + "</a>" +
       "<a href='https://fs.qatarairways.com/' target='_blank' rel='noopener'>" + t().links[2] + "</a>" +
       "</div></div>";
   });
   document.getElementById("cards").innerHTML = html;
 
   order.forEach(function(fno) {
-    var p = data.flights[fno] && data.flights[fno].position;
+    var p = data.flights && data.flights[fno] && data.flights[fno].position;
     if (p && p.lat != null) placeMarker(fno, p.lat, p.lon, p.alt_ft);
   });
 }
 
-function setLang(l) {
-  LANG = l; ls_set("qrmon_lang", l);
-  applyStatic(); render();
-}
+function setLang(l) { LANG = l; ls_set("qrmon_lang", l); applyStatic(); render(); }
 
 function ensureMap() {
   if (map) return;
@@ -539,42 +480,6 @@ function pollPositions() {
 
 document.getElementById("hitsBadge").src =
   "https://hits.sh/" + location.hostname + location.pathname.replace(/index\.html$/, "") + ".svg?label=visits&color=2a78d6";
-
-var contact = document.getElementById("contact");
-
-document.getElementById("subForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  var email = contact.value.trim();
-  var msg = document.getElementById("formMsg");
-  document.getElementById("contactFinal").value = email;
-
-  if (MODE === "sub") {
-    document.getElementById("subjectField").value = "[QR Flight Monitor] Subscribe";
-    msg.className = "form-msg";
-    msg.innerHTML = t().sub_done("", esc(email));
-  } else {
-    document.getElementById("subjectField").value = "[QR Flight Monitor] UNSUBSCRIBE";
-    msg.className = "form-msg cancel";
-    msg.innerHTML = t().unsub_done(esc(email));
-  }
-
-  if (APPS_SCRIPT_URL) {
-    // 앱스스크립트: 시트 저장 + 자동 발송 파이프라인
-    var params = new URLSearchParams();
-    params.set("action", MODE === "sub" ? "subscribe" : "unsubscribe");
-    params.set("type", "email");
-    params.set("contact", email);
-    fetch(APPS_SCRIPT_URL, { method: "POST", body: params }).catch(function(){});
-  } else {
-    // 폴백: FormSubmit으로 운영자 이메일에 수집
-    fetch(this.action, { method: "POST", body: new FormData(this), headers: { "Accept": "application/json" } })
-      .catch(function(){});
-  }
-
-  msg.style.display = "block";
-  this.reset();
-  setMode(MODE);
-});
 
 applyStatic();
 fetch("data.json?t=" + Date.now())
