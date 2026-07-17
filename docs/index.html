@@ -93,14 +93,15 @@
   .b-crit { color: var(--crit-text); } .b-crit .dot { background: var(--critical); }
   .b-check { color: var(--text-muted); } .b-check .dot { background: var(--text-muted); }
   .tablewrap { margin-top: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
   th { text-align: left; font-weight: 600; font-size: 11px; color: var(--text-muted);
-       text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 8px; border-bottom: 1px solid var(--hairline);
-       white-space: nowrap; }
+       text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 8px; border-bottom: 1px solid var(--hairline); }
   td { padding: 6px 8px; border-bottom: 1px solid var(--hairline); color: var(--text-secondary);
-       font-variant-numeric: tabular-nums; }
-  td:nth-child(2), td:nth-child(3), th:nth-child(2), th:nth-child(3) { white-space: nowrap; }
-  td:first-child, th:first-child { white-space: nowrap; }
+       font-variant-numeric: tabular-nums; word-break: keep-all; }
+  /* 헤더/상태는 줄바꿈 허용, 날짜·시각은 유지 → 좁은 화면에서도 가로 스크롤 없음 */
+  td:first-child, th:first-child { white-space: nowrap; width: 21%; }
+  td:nth-child(2), th:nth-child(2), td:nth-child(3), th:nth-child(3) { width: 24%; }
+  td:nth-child(4), th:nth-child(4) { width: 31%; }
   td:first-child { color: var(--text-primary); font-weight: 500; }
   tr:last-child td { border-bottom: none; }
   .st-good { color: var(--good-text); font-weight: 600; }
@@ -276,7 +277,7 @@ var I18N = {
     badge: { normal: "✓ 정상 운항", inflight: "✓ 비행 중 · 정상", cancelled: "✕ 결항 발생",
              diverted: "⚠ 회항 발생", checking: "확인 중" },
     badge_delayed: function(m){ return "⚠ 지연 " + m + "분"; },
-    links: ["실시간 위치 (Flightradar24)", "FlightStats", "카타르항공 공식 조회"],
+    links: ["실시간 위치 (Flightradar24)", "운항 상태 (FlightStats)", "카타르항공 공식 조회"],
     ex_title: "상황별 표기 예시 — 이렇게 표시·안내됩니다",
     ex_desc: "영공 폐쇄·지연·결항이 실제로 감지되면, 대시보드 상단과 아래 표가 다음과 같은 형태로 상세히 표시됩니다.",
     examples: [
@@ -287,8 +288,8 @@ var I18N = {
       { type: "cancel", t: "③ 결항",
         d: "✕ QR859 (인천→도하, 7/19) 결항\n· 대상편: 7/19 인천 01:20 출발편\n· 재예약: 카타르항공 콜센터 또는 공식 사이트(fs.qatarairways.com)" }
     ],
-    foot_sources: "데이터 출처: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a>(운항 상태) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>카타르항공 공식 여행 경보</a> · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a>(영공 폐쇄·권고) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a>(실시간 위치) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a>(위치 추적)",
-    foot_legend: "표에는 카타르항공에서 검색되는(운항이 확인된) 편만 표시합니다. 상태: ✓ 확인됨 / ⚠ 지연 / ✕ 결항 / 확인 중(실시간 조회 일시 불가).",
+    foot_sources: "데이터 출처: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a>(운항 상태) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>Qatar Airways(카타르항공)</a>(여행 경보) · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a>(영공 폐쇄·권고) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a>(지도 내 위치) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a>(위치 추적)",
+    foot_legend: "표에는 카타르항공에서 검색되는(운항이 확인된) 편만 표시합니다.<br>상태: ✓ 확인됨 / ⚠ 지연 / ✕ 결항 / 확인 중(실시간 조회 일시 불가)",
     foot_notice: "본 페이지는 데이터 출처 웹사이트의 항공 정보 등 실시간 API 연동을 기준으로 한 참고용 모니터링 정보이며, 항공권 예약·변경 등 최종 확인은 반드시 <a href='https://fs.qatarairways.com/' target='_blank' rel='noopener'>카타르항공 공식 채널</a>에서 하시기 바랍니다.",
     travel_qr: "카타르항공 여행경보(Travel Alerts)",
     travel_hamad: "하마드공항 운항정보",
@@ -298,7 +299,7 @@ var I18N = {
     sb_seetable: " (아래 표에서 확인)",
     air_status: function(level, risk){
       if (level === "closed") return "카타르 영공: <b>폐쇄 확인됨</b>. 도하↔인천 노선의 결항·회항·지연 가능성이 높습니다.";
-      if (level === "caution") return "카타르 영공 폐쇄 여부: <b>현재 폐쇄되지 않음</b>. 다만 카타르 영공에 대한 국제 회피 권고가 발효 중입니다" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
+      if (level === "caution") return "카타르 영공 폐쇄 여부: <b>현재 폐쇄되지 않음</b> · 카타르 영공 국제 회피 권고 발효 중" + (risk ? " (권고 등급 " + risk + ")" : "");
       if (level === "unknown") return "카타르 영공: 상태를 일시적으로 확인하지 못했습니다. 아래 공식 링크에서 확인해 주세요.";
       return "카타르 영공 폐쇄 여부: <b>폐쇄되지 않음(정상 운영)</b>. 도하↔인천 노선 정상 운항 중입니다" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
     },
@@ -341,7 +342,7 @@ var I18N = {
     badge: { normal: "✓ Operating normally", inflight: "✓ In flight · normal", cancelled: "✕ Cancellation",
              diverted: "⚠ Diversion", checking: "Checking" },
     badge_delayed: function(m){ return "⚠ Delayed " + m + " min"; },
-    links: ["Live position (Flightradar24)", "FlightStats", "Qatar Airways official"],
+    links: ["Live position (Flightradar24)", "Flight status (FlightStats)", "Qatar Airways official"],
     ex_title: "Status examples — how situations are shown",
     ex_desc: "When an airspace closure, delay, or cancellation is actually detected, the top bar and the tables below show it in detail, like this.",
     examples: [
@@ -353,7 +354,7 @@ var I18N = {
         d: "✕ QR859 (ICN→DOH, Jul 19) cancelled\n· Flight: Jul 19 Incheon 01:20 departure\n· Rebook via the Qatar Airways call center or official site (fs.qatarairways.com)" }
     ],
     foot_sources: "Sources: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a> (flight status) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>Qatar Airways official travel alerts</a> · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a> (airspace closures & advisories) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a> (live positions) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a> (tracking)",
-    foot_legend: "Only flights searchable on Qatar Airways (i.e. confirmed) are shown. Status: ✓ confirmed / ⚠ delayed / ✕ cancelled / checking (live lookup temporarily unavailable).",
+    foot_legend: "Only flights searchable on Qatar Airways (i.e. confirmed) are shown.<br>Status: ✓ confirmed / ⚠ delayed / ✕ cancelled / checking (live lookup temporarily unavailable)",
     foot_notice: "This page is reference-only monitoring information based on real-time API integration of flight data from the source websites; for bookings and final confirmation always use the <a href='https://fs.qatarairways.com/' target='_blank' rel='noopener'>official Qatar Airways channel</a>.",
     travel_qr: "Qatar Airways Travel Alerts",
     travel_hamad: "Hamad Airport flight status",
@@ -405,9 +406,9 @@ var I18N = {
     badge: { normal: "✓ تعمل بشكل طبيعي", inflight: "✓ في الجو · طبيعي", cancelled: "✕ إلغاء",
              diverted: "⚠ تحويل", checking: "جارٍ التحقق" },
     badge_delayed: function(m){ return "⚠ تأخير " + m + " دقيقة"; },
-    links: ["الموقع المباشر (Flightradar24)", "FlightStats", "الموقع الرسمي للخطوط القطرية"],
+    links: ["الموقع المباشر (Flightradar24)", "حالة الرحلة (FlightStats)", "الموقع الرسمي للخطوط القطرية"],
     foot_sources: "المصادر: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a> (حالة الرحلة) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>تنبيهات سفر الخطوط القطرية</a> · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a> (إغلاق/تحذيرات المجال) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a> (مواقع مباشرة) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a>",
-    foot_legend: "تُعرض فقط الرحلات التي يمكن البحث عنها لدى الخطوط القطرية (أي المؤكدة). الحالة: ✓ مؤكد / ⚠ تأخير / ✕ إلغاء / جارٍ التحقق (تعذّر الجلب المباشر مؤقتًا).",
+    foot_legend: "تُعرض فقط الرحلات التي يمكن البحث عنها لدى الخطوط القطرية (أي المؤكدة).<br>الحالة: ✓ مؤكد / ⚠ تأخير / ✕ إلغاء / جارٍ التحقق (تعذّر الجلب المباشر مؤقتًا)",
     foot_notice: "هذه الصفحة معلومات متابعة للاسترشاد فقط مبنية على ربط API مباشر من مواقع المصادر؛ للحجز والتأكيد النهائي استخدم دائمًا <a href='https://fs.qatarairways.com/' target='_blank' rel='noopener'>القناة الرسمية للخطوط القطرية</a>.",
     travel_qr: "تنبيهات سفر الخطوط القطرية",
     travel_hamad: "حالة رحلات مطار حمد",

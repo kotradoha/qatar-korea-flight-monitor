@@ -65,8 +65,8 @@ FLIGHTS = {
         "labels": {"dep": "출발 (도하)", "arr": "도착 (인천)"},
         "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Incheon)"},
         "daily": False,
-        "note": "비정기 운항 (최근 목요일 위주) · 스케줄에 없는 날은 결항 아님",
-        "note_en": "Not daily (recently Thursdays) · absence from schedule is not a cancellation",
+        "note": "매주 목요일 운항 · A350-1000",
+        "note_en": "Weekly on Thursdays · A350-1000",
     },
 }
 
