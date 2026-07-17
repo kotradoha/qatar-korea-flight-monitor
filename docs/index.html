@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://hits.sh; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'">
-<title>카타르항공 도하↔인천 운항 모니터링 대시보드 | Qatar Airways DOH↔ICN Flight Monitoring Dashboard</title>
-<meta name="description" content="카타르항공 QR858·QR862·QR859 도하-인천 노선 영공폐쇄·지연·결항 상시 모니터링 (15분마다 자동 갱신)">
+<title>카타르항공 도하↔서울 운항 모니터링 대시보드 | Qatar Airways DOH↔ICN Flight Monitoring Dashboard</title>
+<meta name="description" content="카타르항공 QR858·QR862·QR859 도하-서울 노선 영공폐쇄·지연·결항 상시 모니터링 (15분마다 자동 갱신)">
 <style>
   :root {
     color-scheme: light;
@@ -233,28 +233,28 @@ var QR_ALERTS_URL = "https://www.qatarairways.com/en/travel-alerts.html";
 
 var I18N = {
   ko: {
-    title: "카타르항공 도하 ↔ 인천 운항 모니터링 대시보드",
-    subtitle: "카타르항공 도하–인천 노선의 정상 운항·지연·결항 여부와 카타르 영공 상황을 15분마다 자동으로 불러와 보여주는 대시보드입니다. 표에는 현재 비행 중이거나 앞으로 약 1주일간 예정된 항공편만 표시되며, 예정편은 카타르항공 공식 스케줄과 동일합니다.",
+    title: "카타르항공 도하 ↔ 서울 운항 모니터링 대시보드",
+    subtitle: "카타르항공 도하–서울 노선의 정상 운항·지연·결항 여부와 카타르 영공 상황을 15분마다 자동으로 불러와 보여주는 대시보드입니다. 표에는 현재 비행 중이거나 앞으로 약 1주일간 예정된 항공편만 표시되며, 예정편은 카타르항공 공식 스케줄과 동일합니다.",
     updated: function(d){ return "마지막 확인: " + d.generated_at_doha + " (카타르) / " + d.generated_at_seoul + " (한국)"; },
     stale_note: "⚠ 실시간 운항 데이터 갱신이 지연되고 있습니다. 아래 상태는 정기 스케줄 기준이며, 최신 상태는 각 항공편의 Flightradar24·FlightStats·카타르항공 공식 링크에서 확인해 주세요.",
     load_error: "데이터를 불러오지 못했습니다. 잠시 후 새로고침해 주세요.",
     air_open_title: "🟢 카타르 영공 · 정상 운영 중",
-    air_open_sub: function(risk){ return "지금 카타르(도하 하마드) 영공은 정상적으로 열려 있고, 인천 노선도 평소대로 운항하고 있어요" +
+    air_open_sub: function(risk){ return "지금 카타르(도하 하마드) 영공은 정상적으로 열려 있고, 서울 노선도 평소대로 운항하고 있어요" +
       (risk ? ". 참고로 국제 권고 등급은 " + risk + "단계지만, 영공이 닫힌 것은 아닙니다" : "") + "."; },
     air_caution_title: "🟠 카타르 영공 · 폐쇄 가능성 있음 (예상)",
     air_caution_sub: function(risk){ return "카타르 영공에 대한 회피 권고가 내려져 있어, 앞으로 영공이 닫힐 가능성이 있습니다(예상). " +
-      "다만 지금은 인천 노선이 정상적으로 운항 중이며, 실제로 폐쇄되면 이 박스가 빨간색으로 바뀝니다" +
+      "다만 지금은 서울 노선이 정상적으로 운항 중이며, 실제로 폐쇄되면 이 박스가 빨간색으로 바뀝니다" +
       (risk ? " (국제 권고 등급 " + risk + "단계)" : "") + "."; },
     air_unknown_title: "⚪ 카타르 영공 · 상태 확인 중",
     air_unknown_sub: "영공 상태 정보를 잠시 불러오지 못했어요. 아래 출처 링크에서 직접 확인해 주세요.",
     air_closed_title: "🔴 카타르 영공 폐쇄 (확정) — 운항 차질",
-    air_closed_sub: "카타르(도하 하마드) 영공이 폐쇄된 것으로 확인됩니다. 인천 노선의 결항·회항·지연 가능성이 높으니, 예약하신 편은 카타르항공 공식 채널에서 꼭 확인해 주세요.",
+    air_closed_sub: "카타르(도하 하마드) 영공이 폐쇄된 것으로 확인됩니다. 서울 노선의 결항·회항·지연 가능성이 높으니, 예약하신 편은 카타르항공 공식 채널에서 꼭 확인해 주세요.",
     air_src: function(){ return "근거: <a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace 영공 권고(EASA·NOTAM 종합)</a> · 공식 확인: " +
       "<a href='" + QR_ALERTS_URL + "' target='_blank' rel='noopener'>카타르항공 여행경보</a> · " +
       "<a href='" + HAMAD_URL + "' target='_blank' rel='noopener'>하마드국제공항</a>"; },
     banner_degraded_title: "운항 상태 실시간 확인 지연",
     banner_degraded_body: "현재 실시간 운항 데이터를 일시적으로 불러오지 못해 정기 스케줄을 표시하고 있습니다. 각 항공편의 <b>Flightradar24·카타르항공 공식</b> 링크에서 최신 상태를 확인해 주세요.",
-    banner_ok_title: "현재 도하↔인천 노선 정상 운항 중",
+    banner_ok_title: "현재 도하↔서울 노선 정상 운항 중",
     banner_ok_body: function(risk){ return "이란 관련 무력 충돌로 카타르 영공에 대한 국제 권고가 발효 중입니다" +
       (risk ? " (<a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace</a> 위험 등급: <b>" + risk + "</b>)" : "") +
       ". 영공 폐쇄·결항·지연이 감지되면 상단 표시줄과 이 배너가 자동으로 바뀝니다."; },
@@ -276,9 +276,9 @@ var I18N = {
       { type: "closed", t: "① 영공 폐쇄",
         d: "⚠️ 카타르(도하 하마드) 영공 폐쇄 감지\n· 감지 시각: 2026-07-18 14:00 (도하)\n· 근거 권고: EASA CZIB 2026-07 (유효 ~2026-07-29), 프랑스 NOTAM F1553/26 (유효 ~2026-07-22)\n· 영향 편·날짜: QR858 7/18·7/19 결항, QR859 7/19 회항 예상\n· 예약 확인은 카타르항공 공식 채널을 이용하세요." },
       { type: "delay", t: "② 출발 지연",
-        d: "⏱ QR858 (도하→인천, 7/18) 출발 약 45분 지연\n· 예정 02:20 → 예상 03:05 (도하 출발)\n· 도착 예정: 인천 7/18 17:50경\n· 상세는 대시보드에서 실시간 확인" },
+        d: "⏱ QR858 (도하→서울, 7/18) 출발 약 45분 지연\n· 예정 02:20 → 예상 03:05 (도하 출발)\n· 도착 예정: 서울 7/18 17:50경\n· 상세는 대시보드에서 실시간 확인" },
       { type: "cancel", t: "③ 결항",
-        d: "✕ QR859 (인천→도하, 7/19) 결항\n· 대상편: 7/19 인천 01:20 출발편\n· 재예약: 카타르항공 콜센터 또는 공식 사이트(fs.qatarairways.com)" }
+        d: "✕ QR859 (서울→도하, 7/19) 결항\n· 대상편: 7/19 서울 01:20 출발편\n· 재예약: 카타르항공 콜센터 또는 공식 사이트(fs.qatarairways.com)" }
     ],
     foot_sources: "※ 데이터 출처: <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a>(영공 폐쇄·권고) · <a href='https://dohahamadairport.com/airlines/flight-status' target='_blank' rel='noopener'>하마드공항</a>(공항 정보) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>Qatar Airways(카타르항공)</a>(운항 정보, 여행 경보) · <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a>(운항 상태) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a>(실시간 위치)",
     foot_legend: "※ 상태: 운항 예정 / 비행 중 / ⚠ 지연 / ✕ 결항 / 확인 중(실시간 조회 일시 불가)",
@@ -290,36 +290,36 @@ var I18N = {
     sb_flightalerts: "항공편 차질: ",
     sb_seetable: " (아래 표에서 확인)",
     air_status: function(level, risk){
-      if (level === "closed") return "카타르 영공: <b>폐쇄 확인됨</b>. 도하↔인천 노선의 결항·회항·지연 가능성이 높습니다.";
+      if (level === "closed") return "카타르 영공: <b>폐쇄 확인됨</b>. 도하↔서울 노선의 결항·회항·지연 가능성이 높습니다.";
       if (level === "caution") return "카타르 영공 폐쇄 여부: <b>현재 폐쇄되지 않음</b> · 카타르 영공 국제 회피 권고 발효 중" + (risk ? " (권고 등급 " + risk + ")" : "");
       if (level === "unknown") return "카타르 영공: 상태를 일시적으로 확인하지 못했습니다. 아래 공식 링크에서 확인해 주세요.";
-      return "카타르 영공 폐쇄 여부: <b>폐쇄되지 않음(정상 운영)</b>. 도하↔인천 노선 정상 운항 중입니다" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
+      return "카타르 영공 폐쇄 여부: <b>폐쇄되지 않음(정상 운영)</b>. 도하↔서울 노선 정상 운항 중입니다" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
     },
     visitors: "누적 방문:"
   },
   en: {
-    title: "Qatar Airways Doha ↔ Incheon Flight Monitoring Dashboard",
-    subtitle: "A dashboard that automatically pulls and displays, every 15 minutes, the on-time / delay / cancellation status of Qatar Airways' Doha–Incheon flights and Qatar airspace conditions. The tables show only flights currently in the air or scheduled over roughly the next week; scheduled flights match Qatar Airways' official timetable.",
+    title: "Qatar Airways Doha ↔ Seoul Flight Monitoring Dashboard",
+    subtitle: "A dashboard that automatically pulls and displays, every 15 minutes, the on-time / delay / cancellation status of Qatar Airways' Doha–Seoul flights and Qatar airspace conditions. The tables show only flights currently in the air or scheduled over roughly the next week; scheduled flights match Qatar Airways' official timetable.",
     updated: function(d){ return "Last checked: " + d.generated_at_doha + " (Qatar) / " + d.generated_at_seoul + " (Korea)"; },
     stale_note: "⚠ Live flight data is delayed. The statuses below are based on the regular schedule; for the latest status use each flight's Flightradar24 / FlightStats / Qatar Airways links.",
     load_error: "Failed to load data. Please refresh in a moment.",
     air_open_title: "🟢 Qatar airspace · Open / operating normally",
-    air_open_sub: function(risk){ return "Right now Qatari (Doha Hamad) airspace is open and the Incheon route is running as usual" +
+    air_open_sub: function(risk){ return "Right now Qatari (Doha Hamad) airspace is open and the Seoul route is running as usual" +
       (risk ? ". For reference, the international advisory level is " + risk + ", but the airspace is not closed" : "") + "."; },
     air_caution_title: "🟠 Qatar airspace · Possible closure (expected)",
     air_caution_sub: function(risk){ return "Advisories to avoid Qatari airspace are in effect, so the airspace could close in the coming period (expected). " +
-      "For now the Incheon route is operating normally; if it actually closes, this box turns red" +
+      "For now the Seoul route is operating normally; if it actually closes, this box turns red" +
       (risk ? " (advisory level " + risk + ")" : "") + "."; },
     air_unknown_title: "⚪ Qatar airspace · Status unavailable",
     air_unknown_sub: "Airspace status could not be loaded just now. Please check the source links below directly.",
     air_closed_title: "🔴 Qatar airspace CLOSED — disruptions",
-    air_closed_sub: "Qatari (Doha Hamad) airspace appears to be closed. Cancellations, diversions or delays on the Incheon route are likely — please confirm your booking via official Qatar Airways channels.",
+    air_closed_sub: "Qatari (Doha Hamad) airspace appears to be closed. Cancellations, diversions or delays on the Seoul route are likely — please confirm your booking via official Qatar Airways channels.",
     air_src: function(){ return "Basis: <a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace advisory (EASA/NOTAM aggregate)</a> · Verify: " +
       "<a href='" + QR_ALERTS_URL + "' target='_blank' rel='noopener'>Qatar Airways travel alerts</a> · " +
       "<a href='" + HAMAD_URL + "' target='_blank' rel='noopener'>Hamad Intl Airport</a>"; },
     banner_degraded_title: "Live status temporarily unavailable",
     banner_degraded_body: "Live flight data could not be loaded right now, so the regular schedule is shown. Please check the latest status via each flight's <b>Flightradar24 / Qatar Airways official</b> links.",
-    banner_ok_title: "Doha↔Incheon flights currently operating normally",
+    banner_ok_title: "Doha↔Seoul flights currently operating normally",
     banner_ok_body: function(risk){ return "International advisories are in effect for Qatari airspace due to the Iran-related conflict" +
       (risk ? " (<a href='" + SAFE_URL + "' target='_blank' rel='noopener'>SafeAirspace</a> risk level: <b>" + risk + "</b>)" : "") +
       ". The top bar and this banner change automatically if a closure, cancellation, or delay is detected."; },
@@ -341,9 +341,9 @@ var I18N = {
       { type: "closed", t: "① Airspace closure",
         d: "⚠️ Closure of Qatari (Doha Hamad) airspace detected\n· Detected: 2026-07-18 14:00 (Doha)\n· Advisories: EASA CZIB 2026-07 (valid until 2026-07-29), France NOTAM F1553/26 (valid until 2026-07-22)\n· Affected flights: QR858 Jul 18·19 cancelled, QR859 Jul 19 diverted (expected)\n· Verify via official Qatar Airways channels." },
       { type: "delay", t: "② Departure delay",
-        d: "⏱ QR858 (DOH→ICN, Jul 18) departure delayed ~45 min\n· Scheduled 02:20 → estimated 03:05 (departing Doha)\n· Estimated arrival: Incheon Jul 18 ~17:50\n· See the dashboard for live details" },
+        d: "⏱ QR858 (DOH→ICN, Jul 18) departure delayed ~45 min\n· Scheduled 02:20 → estimated 03:05 (departing Doha)\n· Estimated arrival: Seoul Jul 18 ~17:50\n· See the dashboard for live details" },
       { type: "cancel", t: "③ Cancellation",
-        d: "✕ QR859 (ICN→DOH, Jul 19) cancelled\n· Flight: Jul 19 Incheon 01:20 departure\n· Rebook via the Qatar Airways call center or official site (fs.qatarairways.com)" }
+        d: "✕ QR859 (ICN→DOH, Jul 19) cancelled\n· Flight: Jul 19 Seoul 01:20 departure\n· Rebook via the Qatar Airways call center or official site (fs.qatarairways.com)" }
     ],
     foot_sources: "※ Sources: <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a> (airspace closures & advisories) · <a href='https://dohahamadairport.com/airlines/flight-status' target='_blank' rel='noopener'>Hamad Airport</a> (airport flight info) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>Qatar Airways</a> (airline info, travel alerts) · <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a> (flight status) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a> (live position)",
     foot_legend: "※ Status: Scheduled / In flight / ⚠ delayed / ✕ cancelled / checking (live lookup temporarily unavailable)",
@@ -355,36 +355,36 @@ var I18N = {
     sb_flightalerts: "Flights affected: ",
     sb_seetable: " (see tables below)",
     air_status: function(level, risk){
-      if (level === "closed") return "Qatar airspace: <b>closure confirmed</b>. Cancellations, diversions or delays on the Doha↔Incheon route are likely.";
+      if (level === "closed") return "Qatar airspace: <b>closure confirmed</b>. Cancellations, diversions or delays on the Doha↔Seoul route are likely.";
       if (level === "caution") return "Qatar airspace closure status: <b>not currently closed</b>. However, international advisories to avoid Qatari airspace are in effect" + (risk ? " (advisory level " + risk + ")" : "") + ".";
       if (level === "unknown") return "Qatar airspace: status temporarily unavailable. Please check the official links below.";
-      return "Qatar airspace closure status: <b>not closed (operating normally)</b>. The Doha↔Incheon route is operating normally" + (risk ? " (advisory level " + risk + ")" : "") + ".";
+      return "Qatar airspace closure status: <b>not closed (operating normally)</b>. The Doha↔Seoul route is operating normally" + (risk ? " (advisory level " + risk + ")" : "") + ".";
     },
     visitors: "Total visits:"
   },
   ar: {
-    title: "لوحة متابعة رحلات الخطوط الجوية القطرية بين الدوحة وإنتشون",
-    subtitle: "لوحة تعرض تلقائيًا كل 15 دقيقة حالة رحلات الخطوط الجوية القطرية بين الدوحة وإنتشون (في الموعد/التأخير/الإلغاء) وأوضاع المجال الجوي القطري. وتعرض الجداول فقط الرحلات الجارية حاليًا أو المجدولة خلال نحو أسبوع قادم؛ والرحلات المجدولة تطابق الجدول الرسمي للخطوط القطرية.",
+    title: "لوحة متابعة رحلات الخطوط الجوية القطرية بين الدوحة وسيول",
+    subtitle: "لوحة تعرض تلقائيًا كل 15 دقيقة حالة رحلات الخطوط الجوية القطرية بين الدوحة وسيول (في الموعد/التأخير/الإلغاء) وأوضاع المجال الجوي القطري. وتعرض الجداول فقط الرحلات الجارية حاليًا أو المجدولة خلال نحو أسبوع قادم؛ والرحلات المجدولة تطابق الجدول الرسمي للخطوط القطرية.",
     updated: function(d){ return "آخر تحديث: " + d.generated_at_doha + " (قطر) / " + d.generated_at_seoul + " (كوريا)"; },
     stale_note: "⚠ تحديث بيانات الرحلات المباشرة متأخر حاليًا. الحالات أدناه مبنية على الجدول المعتاد؛ لأحدث حالة استخدم روابط Flightradar24 / FlightStats / الخطوط القطرية لكل رحلة.",
     load_error: "تعذّر تحميل البيانات. يرجى تحديث الصفحة بعد قليل.",
     air_open_title: "🟢 المجال الجوي القطري · مفتوح ويعمل بشكل طبيعي",
-    air_open_sub: function(risk){ return "المجال الجوي القطري (الدوحة – حمد) مفتوح حاليًا، ورحلات إنتشون تعمل كالمعتاد" +
+    air_open_sub: function(risk){ return "المجال الجوي القطري (الدوحة – حمد) مفتوح حاليًا، ورحلات سيول تعمل كالمعتاد" +
       (risk ? ". للعلم، مستوى التحذير الدولي هو " + risk + "، لكن المجال الجوي ليس مغلقًا" : "") + "."; },
     air_caution_title: "🟠 المجال الجوي القطري · احتمال إغلاق (متوقع)",
     air_caution_sub: function(risk){ return "توجد تحذيرات بتجنّب المجال الجوي القطري، لذا قد يُغلق المجال في الفترة القادمة (متوقع). " +
-      "حاليًا رحلات إنتشون تعمل بشكل طبيعي؛ وإذا أُغلق فعليًا سيتحوّل هذا المربّع إلى الأحمر" +
+      "حاليًا رحلات سيول تعمل بشكل طبيعي؛ وإذا أُغلق فعليًا سيتحوّل هذا المربّع إلى الأحمر" +
       (risk ? " (مستوى التحذير " + risk + ")" : "") + "."; },
     air_unknown_title: "⚪ المجال الجوي القطري · جارٍ التحقق",
     air_unknown_sub: "تعذّر تحميل حالة المجال الجوي الآن. يرجى التحقق مباشرة عبر روابط المصادر أدناه.",
     air_closed_title: "🔴 إغلاق المجال الجوي القطري (مؤكد) — اضطرابات",
-    air_closed_sub: "يبدو أن المجال الجوي القطري (الدوحة – حمد) مغلق. من المرجّح حدوث إلغاءات أو تحويلات أو تأخيرات على خط إنتشون — يرجى تأكيد حجزك عبر القنوات الرسمية للخطوط القطرية.",
+    air_closed_sub: "يبدو أن المجال الجوي القطري (الدوحة – حمد) مغلق. من المرجّح حدوث إلغاءات أو تحويلات أو تأخيرات على خط سيول — يرجى تأكيد حجزك عبر القنوات الرسمية للخطوط القطرية.",
     air_src: function(){ return "المصدر: <a href='" + SAFE_URL + "' target='_blank' rel='noopener'>تحذيرات SafeAirspace (EASA·NOTAM)</a> · التحقق الرسمي: " +
       "<a href='" + QR_ALERTS_URL + "' target='_blank' rel='noopener'>تنبيهات سفر الخطوط القطرية</a> · " +
       "<a href='" + HAMAD_URL + "' target='_blank' rel='noopener'>مطار حمد الدولي</a>"; },
     banner_degraded_title: "الحالة المباشرة غير متاحة مؤقتًا",
     banner_degraded_body: "تعذّر تحميل بيانات الرحلات المباشرة الآن، لذا يُعرض الجدول المعتاد. يرجى التحقق من أحدث حالة عبر روابط <b>Flightradar24 / الخطوط القطرية</b> لكل رحلة.",
-    banner_ok_title: "رحلات الدوحة↔إنتشون تعمل بشكل طبيعي",
+    banner_ok_title: "رحلات الدوحة↔سيول تعمل بشكل طبيعي",
     banner_ok_body: function(risk){ return "توجد تحذيرات دولية بشأن المجال الجوي القطري" +
       (risk ? " (مستوى خطر SafeAirspace: <b>" + risk + "</b>)" : "") + "."; },
     banner_alert_title: "تم رصد اضطراب",
@@ -409,10 +409,10 @@ var I18N = {
     sb_flightalerts: "رحلات متأثرة: ",
     sb_seetable: " (انظر الجداول أدناه)",
     air_status: function(level, risk){
-      if (level === "closed") return "المجال الجوي القطري: <b>تأكّد الإغلاق</b>. من المرجّح حدوث إلغاءات أو تحويلات أو تأخيرات على خط الدوحة↔إنتشون.";
+      if (level === "closed") return "المجال الجوي القطري: <b>تأكّد الإغلاق</b>. من المرجّح حدوث إلغاءات أو تحويلات أو تأخيرات على خط الدوحة↔سيول.";
       if (level === "caution") return "حالة إغلاق المجال الجوي القطري: <b>غير مغلق حاليًا</b>. لكن توجد تحذيرات دولية بتجنّب المجال الجوي القطري" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
       if (level === "unknown") return "المجال الجوي القطري: الحالة غير متاحة مؤقتًا. يرجى التحقق عبر الروابط الرسمية أدناه.";
-      return "حالة إغلاق المجال الجوي القطري: <b>غير مغلق (يعمل بشكل طبيعي)</b>. خط الدوحة↔إنتشون يعمل بشكل طبيعي" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
+      return "حالة إغلاق المجال الجوي القطري: <b>غير مغلق (يعمل بشكل طبيعي)</b>. خط الدوحة↔سيول يعمل بشكل طبيعي" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
     },
     visitors: "إجمالي الزيارات:"
   }

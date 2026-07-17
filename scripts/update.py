@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-카타르항공 도하<->인천 운항 모니터 - 데이터 수집 스크립트
+카타르항공 도하<->서울 운항 모니터 - 데이터 수집 스크립트
 GitHub Actions에서 매시간 실행되어 docs/data.json 을 갱신한다.
 
 설계 원칙:
@@ -41,36 +41,36 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 # 감시 대상 핵심 편. arr_tz를 명시해 문자열 파싱 의존을 제거한다.
 FLIGHTS = {
     "QR858": {
-        "route": "도하 (DOH) → 인천 (ICN)", "route_en": "Doha (DOH) → Incheon (ICN)",
+        "route": "도하 (DOH) → 서울 (ICN)", "route_en": "Doha (DOH) → Seoul (ICN)",
         "origin_tz": "doha", "arr_tz": "seoul",
         "sched_dep": "02:20", "sched_arr": "17:05",
-        "labels": {"dep": "출발 (도하)", "arr": "도착 (인천)"},
-        "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Incheon)"},
+        "labels": {"dep": "출발 (도하)", "arr": "도착 (서울)"},
+        "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"},
         "daily": True,
         "note": "매일 운항 · A350-1000", "note_en": "Daily · A350-1000",
     },
     "QR859": {
-        "route": "인천 (ICN) → 도하 (DOH)", "route_en": "Incheon (ICN) → Doha (DOH)",
+        "route": "서울 (ICN) → 도하 (DOH)", "route_en": "Seoul (ICN) → Doha (DOH)",
         "origin_tz": "seoul", "arr_tz": "doha",
         "sched_dep": "01:20", "sched_arr": "05:20",
-        "labels": {"dep": "출발 (인천)", "arr": "도착 (도하)"},
-        "labels_en": {"dep": "Departure (Incheon)", "arr": "Arrival (Doha)"},
+        "labels": {"dep": "출발 (서울)", "arr": "도착 (도하)"},
+        "labels_en": {"dep": "Departure (Seoul)", "arr": "Arrival (Doha)"},
         "daily": True,
         "note": "매일 운항 · A350-1000", "note_en": "Daily · A350-1000",
     },
     "QR862": {
-        "route": "도하 (DOH) → 인천 (ICN)", "route_en": "Doha (DOH) → Incheon (ICN)",
+        "route": "도하 (DOH) → 서울 (ICN)", "route_en": "Doha (DOH) → Seoul (ICN)",
         "origin_tz": "doha", "arr_tz": "seoul",
         "sched_dep": "19:45", "sched_arr": "익일 10:30",
-        "labels": {"dep": "출발 (도하)", "arr": "도착 (인천)"},
-        "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Incheon)"},
+        "labels": {"dep": "출발 (도하)", "arr": "도착 (서울)"},
+        "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"},
         "daily": False,
         "note": "매주 목요일 운항 · A350-1000",
         "note_en": "Weekly on Thursdays · A350-1000",
     },
 }
 
-# 핵심편 외 도하<->인천 임시·추가편 스캔 후보. 실제 편성 확인 시 자동 추가된다.
+# 핵심편 외 도하<->서울 임시·추가편 스캔 후보. 실제 편성 확인 시 자동 추가된다.
 EXTRA_CANDIDATES = ["860", "864", "866", "868", "870", "888"]
 ROUTE_APS = {"DOH", "ICN"}
 
@@ -216,6 +216,13 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
                     confirmed_any = True
                     worst = max(fs["delay_dep"], fs["delay_arr"])
                     entry["delay"] = worst
+                    # ±3일 이내: 실제(예상→예정) 시각을 반영 → 스케줄 변경/지연(예: 17:05→17:15)까지 표시
+                    dep_t = to_local(fs["dep_est_utc"], tz) or to_local(fs["dep_sched_utc"], tz)
+                    arr_t = to_local(fs["arr_est_utc"], arr_tz) or to_local(fs["arr_sched_utc"], arr_tz)
+                    if dep_t:
+                        entry["dep"] = dep_t
+                    if arr_t:
+                        entry["arr"] = arr_t
                     if code == "C":
                         entry["kind"], entry["cls"] = "cancelled", "crit"
                         alerts.append({"flight": fno, "date": d.isoformat(), "type": "cancelled"})
@@ -274,7 +281,7 @@ def safe_position(callsign):
 
 
 def discover_extra_flights(now_utc, alerts, health):
-    """핵심편 외 도하<->인천 QR 임시·추가편을 스캔. 실패해도 전체에 영향 없음."""
+    """핵심편 외 도하<->서울 QR 임시·추가편을 스캔. 실패해도 전체에 영향 없음."""
     core = {f[2:] for f in FLIGHTS}
     doha_today = now_utc.astimezone(TZ_DOHA).date()
     found = {}
@@ -320,13 +327,13 @@ def discover_extra_flights(now_utc, alerts, health):
                 continue
             arr_ap = direction[1]
             if arr_ap == "ICN":
-                route, route_en = "도하 (DOH) → 인천 (ICN)", "Doha (DOH) → Incheon (ICN)"
-                labels = {"dep": "출발 (도하)", "arr": "도착 (인천)"}
-                labels_en = {"dep": "Departure (Doha)", "arr": "Arrival (Incheon)"}
+                route, route_en = "도하 (DOH) → 서울 (ICN)", "Doha (DOH) → Seoul (ICN)"
+                labels = {"dep": "출발 (도하)", "arr": "도착 (서울)"}
+                labels_en = {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"}
             else:
-                route, route_en = "인천 (ICN) → 도하 (DOH)", "Incheon (ICN) → Doha (DOH)"
-                labels = {"dep": "출발 (인천)", "arr": "도착 (도하)"}
-                labels_en = {"dep": "Departure (Incheon)", "arr": "Arrival (Doha)"}
+                route, route_en = "서울 (ICN) → 도하 (DOH)", "Seoul (ICN) → Doha (DOH)"
+                labels = {"dep": "출발 (서울)", "arr": "도착 (도하)"}
+                labels_en = {"dep": "Departure (Seoul)", "arr": "Arrival (Doha)"}
             found["QR" + num] = {
                 "route": route, "route_en": route_en, "labels": labels, "labels_en": labels_en,
                 "daily": False, "temp": True,
