@@ -187,7 +187,7 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
     #  - 현재 진행 중(비행 중)과 미래 예정편만 남긴다.
     #  - 오늘 ±3일 안은 FlightStats로 실시간 상태(비행중/지연/결항)를 확인,
     #    ±3일 밖은 발행 스케줄(운항 예정)로 채워 카타르항공 검색 결과와 동일 범위로 맞춘다.
-    horizon = 7 if cfg["daily"] else 14
+    horizon = 14 if cfg["daily"] else 35   # 매일편 2주, 비정기편은 향후 5주 내 운항 요일
     for offset in range(0, horizon + 1):
         d = today_local + timedelta(days=offset)
         if not cfg["daily"] and d.weekday() != 3:   # 비정기편은 운항 요일(목)만
