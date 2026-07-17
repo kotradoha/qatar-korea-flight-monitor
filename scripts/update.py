@@ -193,11 +193,37 @@ def fetch_qa_alerts():
         return {"ok": False}
 
 
+def parse_advisories(text):
+    """SafeAirspace 본문에서 권고 코드(CZIB/NOTAM 등)와 유효기간(valid until/through)을 추출."""
+    advisories = []
+    # 권고 코드: 'EASA CZIB 2026-07', 'France NOTAM LFFF F1553/26', 'NOTAM A1234/26' 등
+    code_re = re.compile(
+        r"((?:EASA\s+CZIB\s*[0-9\-]+)|(?:[A-Za-z ]{0,20}?NOTAM\s+[A-Z]{0,4}\s?[A-Z]?[0-9]{2,4}/[0-9]{2}))",
+        re.IGNORECASE)
+    date_re = re.compile(
+        r"valid\s+(?:through|until|to)\s+([A-Za-z]+\s+\d{1,2},?\s*\d{4}|\d{1,2}\s+[A-Za-z]+\s+\d{4})",
+        re.IGNORECASE)
+    seen = set()
+    for m in code_re.finditer(text):
+        code = re.sub(r"\s+", " ", m.group(1)).strip(" .,")
+        if code.lower() in seen or len(code) < 5:
+            continue
+        seen.add(code.lower())
+        # 코드 근처(뒤쪽 200자)에서 유효기간 탐색
+        tail = text[m.end():m.end() + 220]
+        dm = date_re.search(tail)
+        advisories.append({"code": code, "valid_until": dm.group(1).strip() if dm else None})
+        if len(advisories) >= 6:
+            break
+    return advisories
+
+
 def fetch_airspace(prev):
-    """SafeAirspace 카타르 페이지에서 위험 등급 및 폐쇄 여부 추출. 실패 시 이전 값 유지."""
+    """SafeAirspace 카타르 페이지에서 위험 등급·폐쇄 여부·권고 유효기간 추출. 실패 시 이전 값 유지."""
     try:
         html = http_get("https://safeairspace.net/qatar/")
         text = re.sub(r"<[^>]+>", " ", html)
+        text = re.sub(r"\s+", " ", text)
         low = text.lower()
         m = re.search(r"(?:Risk\s*)?Level[:\s]*([A-Za-z]+)", text)
         # 영공 '폐쇄'로 판단하는 보수적 키워드 (단순 권고/주의는 폐쇄 아님)
@@ -209,6 +235,7 @@ def fetch_airspace(prev):
             "risk_level": m.group(1).strip() if m else None,
             "closed": closed,
             "status": "closed" if closed else "open",
+            "advisories": parse_advisories(text),
             "source": "https://safeairspace.net/qatar/",
             "checked_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "ok": True,

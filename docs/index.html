@@ -186,25 +186,14 @@
       </div>
       <h2 id="subHeading"></h2>
       <p id="subDescP"></p>
-      <form id="subForm" action="https://formsubmit.co/ggamjjic@gmail.com" method="POST">
+      <form id="subForm" action="https://formsubmit.co/qatarandkorea@gmail.com" method="POST">
         <input type="hidden" name="_subject" id="subjectField" value="">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="mode" id="modeField" value="subscribe">
-        <input type="hidden" name="subscription_no" id="subNoField" value="">
+        <input type="hidden" name="type" value="email">
         <input type="hidden" name="contact_final" id="contactFinal" value="">
-        <input type="hidden" name="country_code_final" id="ccodeFinal" value="">
         <div class="form-row">
-          <select name="type" id="subType">
-            <option value="email" data-i18n="opt_email"></option>
-            <option value="phone" data-i18n="opt_phone"></option>
-          </select>
-          <select name="country_code" id="ccode" style="display:none">
-            <option value="+82">+82 (Korea)</option>
-            <option value="+974">+974 (Qatar)</option>
-            <option value="__other" data-i18n="opt_other"></option>
-          </select>
-          <input type="text" id="ccodeManual" style="display:none" placeholder="+___">
-          <input type="text" name="contact" id="contact" class="contact" required>
+          <input type="email" name="contact" id="contact" class="contact" required>
           <button type="submit" id="submitBtn" class="submit" data-i18n="btn_submit"></button>
         </div>
       </form>
@@ -235,6 +224,9 @@ function ls_get(k){ try { return window.localStorage ? localStorage.getItem(k) :
 function ls_set(k,v){ try { if (window.localStorage) localStorage.setItem(k,v); } catch(e){} }
 var LANG = ls_get("qrmon_lang") || (navigator.language && navigator.language.indexOf("ko") === 0 ? "ko" : "en");
 var MODE = "sub";
+// 자동 발송용 Google 앱스스크립트 웹앱 URL. 배포 후 여기에 /exec 주소를 붙여넣으면
+// 구독/취소가 시트에 저장되고 자동 이메일 발송이 활성화됩니다. 비워두면 이메일 수집만 됩니다.
+var APPS_SCRIPT_URL = "";
 var SAFE_URL = "https://safeairspace.net/qatar/";
 var HAMAD_URL = "https://dohahamadairport.com/";
 var QR_ALERTS_URL = "https://www.qatarairways.com/en/travel-alerts.html";
@@ -270,27 +262,25 @@ var I18N = {
     badge_delayed: function(m){ return "⚠ 지연 " + m + "분"; },
     links: ["실시간 위치 (Flightradar24)", "FlightStats", "카타르항공 공식 조회"],
     tab_sub: "구독 신청", tab_unsub: "구독 취소",
-    sub_title: "영공폐쇄·지연·결항 알림 구독",
-    sub_desc: "이메일 또는 전화번호(국가번호 포함)를 입력하고 구독하시면, 별도 승인 절차 없이 바로 등록됩니다. 이후 영공 폐쇄나 지연·결항이 발생하면 등록하신 연락처로 곧바로 알림을 보내드립니다.",
+    sub_title: "영공폐쇄·지연·결항 알림 구독 (이메일)",
+    sub_desc: "이메일 주소를 입력하고 구독하시면, 별도 승인 절차 없이 바로 등록됩니다. 이후 영공 폐쇄나 지연·결항이 발생하면 등록하신 이메일로 곧바로 알림을 보내드립니다.",
     unsub_title: "구독 취소",
-    unsub_desc: "구독하실 때 사용한 이메일 또는 전화번호를 입력하시면, 별도 승인 없이 바로 구독이 취소됩니다.",
-    opt_email: "이메일", opt_phone: "전화번호", opt_other: "기타 (직접 입력)",
+    unsub_desc: "구독하실 때 사용한 이메일 주소를 입력하시면, 별도 승인 없이 바로 구독이 취소됩니다.",
     btn_submit: "구독하기", btn_unsub: "구독 취소하기",
-    ph_email: "예: name@example.com", ph_phone: "예: 33123456 (숫자만)",
-    ph_phone_kr: "예: 01012345678", ph_phone_qa: "예: 33123456",
+    ph_email: "이메일 주소 (예: name@example.com)",
     sub_done: function(no, c){ return "구독이 완료되었습니다. 등록하신 연락처(<b>" + c +
       "</b>)로 영공 폐쇄·지연·결항이 발생하면 바로 알림을 보내드립니다. 감사합니다."; },
     unsub_done: function(c){ return "구독이 취소되었습니다.<br>연락처(" + c +
       ")가 알림 명단에서 제외됩니다. 그동안 이용해 주셔서 감사합니다."; },
     ex_title: "알림 예시 — 이런 상황이 발생하면 이렇게 발송됩니다",
-    ex_desc: "실제 영공폐쇄·지연·결항이 감지되면 구독하신 연락처(이메일/문자/푸시)로 아래와 같은 형태의 메시지가 발송됩니다.",
+    ex_desc: "실제 영공폐쇄·지연·결항이 감지되면 구독하신 이메일로 아래와 같은 형태의 메시지가 발송됩니다.",
     examples: [
       { type: "closed", t: "① 영공 폐쇄",
-        d: "[카타르항공 운항 알림] ⚠️ 카타르(도하 하마드) 영공 폐쇄가 확인되었습니다. 인천 노선(QR858·QR859·QR862) 결항·회항이 예상됩니다. 최신 상황: kotradoha.github.io/qr-flight-monitor · 예약 확인은 카타르항공 공식 채널을 이용하세요. (2026-07-18 14:00 도하)" },
+        d: "[카타르항공 운항 알림] ⚠️ 카타르(도하 하마드) 영공 폐쇄 감지\n· 감지 시각: 2026-07-18 14:00 (도하)\n· 근거 권고: EASA CZIB 2026-07 (유효 ~2026-07-29), 프랑스 NOTAM F1553/26 (유효 ~2026-07-22)\n· 영향 편·날짜: QR858 7/18·7/19 결항, QR859 7/19 회항 예상\n· 최신 상황: kotradoha.github.io/qatar-korea-flight-monitor · 예약 확인은 카타르항공 공식 채널" },
       { type: "delay", t: "② 출발 지연",
-        d: "[카타르항공 운항 알림] ⏱ QR858 (도하→인천, 7/18) 출발이 약 45분 지연되었습니다. 예정 02:20 → 예상 03:05. 상세: 대시보드 링크 확인. (2026-07-18 01:30 도하)" },
+        d: "[카타르항공 운항 알림] ⏱ QR858 (도하→인천, 7/18) 출발 약 45분 지연\n· 예정 02:20 → 예상 03:05 (도하 출발)\n· 도착 예정: 인천 7/18 17:50경\n· 상세: 대시보드에서 실시간 확인 · (알림 시각 2026-07-18 01:30 도하)" },
       { type: "cancel", t: "③ 결항",
-        d: "[카타르항공 운항 알림] ✕ QR859 (인천→도하, 7/19)가 결항되었습니다. 재예약은 카타르항공 콜센터 또는 공식 사이트(fs.qatarairways.com)에서 진행해 주세요. (2026-07-18 20:00 도하)" }
+        d: "[카타르항공 운항 알림] ✕ QR859 (인천→도하, 7/19) 결항\n· 대상편: 7/19 인천 01:20 출발편\n· 재예약: 카타르항공 콜센터 또는 공식 사이트(fs.qatarairways.com)\n· (알림 시각 2026-07-18 20:00 도하)" }
     ],
     foot_sources: "데이터 출처: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a>(운항 상태) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>카타르항공 공식 여행 경보</a> · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a>(영공 폐쇄·권고) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a>(실시간 위치) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a>(위치 추적)",
     foot_legend: "상태 표기: ✓ 확인됨 / 스케줄 예정 / ⚠ 지연 / ✕ 결항 — \"확인됨\"은 개별 편 데이터가 확인된 날짜(약 ±3일), \"스케줄 예정\"은 정기 스케줄 기준입니다.",
@@ -327,27 +317,25 @@ var I18N = {
     badge_delayed: function(m){ return "⚠ Delayed " + m + " min"; },
     links: ["Live position (Flightradar24)", "FlightStats", "Qatar Airways official"],
     tab_sub: "Subscribe", tab_unsub: "Unsubscribe",
-    sub_title: "Subscribe to airspace closure · delay · cancellation alerts",
-    sub_desc: "Enter your email or phone number (with country code) and subscribe — there's no approval step, so you're registered right away. Whenever an airspace closure, delay, or cancellation occurs, we'll send an alert straight to your contact.",
+    sub_title: "Subscribe to airspace closure · delay · cancellation alerts (email)",
+    sub_desc: "Enter your email address and subscribe — there's no approval step, so you're registered right away. Whenever an airspace closure, delay, or cancellation occurs, we'll send an alert straight to your email.",
     unsub_title: "Unsubscribe",
-    unsub_desc: "Enter the same email or phone number you used to subscribe, and you'll be unsubscribed right away — no approval needed.",
-    opt_email: "Email", opt_phone: "Phone", opt_other: "Other (type it)",
+    unsub_desc: "Enter the same email address you used to subscribe, and you'll be unsubscribed right away — no approval needed.",
     btn_submit: "Subscribe", btn_unsub: "Unsubscribe",
-    ph_email: "e.g. name@example.com", ph_phone: "e.g. 33123456 (digits only)",
-    ph_phone_kr: "e.g. 01012345678", ph_phone_qa: "e.g. 33123456",
+    ph_email: "Email address (e.g. name@example.com)",
     sub_done: function(no, c){ return "You're subscribed. Whenever an airspace closure, delay, or cancellation occurs, we'll send an alert to your contact (<b>" + c +
       "</b>). Thank you."; },
     unsub_done: function(c){ return "You've been unsubscribed.<br>Your contact (" + c +
       ") will be removed from the alert list. Thank you for using the service."; },
     ex_title: "Alert examples — how a notification is sent when this happens",
-    ex_desc: "When an actual airspace closure, delay or cancellation is detected, a message like the ones below is sent to your subscribed contact (email / SMS / push).",
+    ex_desc: "When an actual airspace closure, delay or cancellation is detected, an email like the ones below is sent to your subscribed address.",
     examples: [
       { type: "closed", t: "① Airspace closure",
-        d: "[Qatar Airways Flight Alert] ⚠️ Closure of Qatari (Doha Hamad) airspace confirmed. Cancellations/diversions expected on Incheon flights (QR858·QR859·QR862). Latest: kotradoha.github.io/qr-flight-monitor · Verify bookings via official Qatar Airways channels. (2026-07-18 14:00 Doha)" },
+        d: "[Qatar Airways Flight Alert] ⚠️ Closure of Qatari (Doha Hamad) airspace detected\n· Detected: 2026-07-18 14:00 (Doha)\n· Advisories: EASA CZIB 2026-07 (valid until 2026-07-29), France NOTAM F1553/26 (valid until 2026-07-22)\n· Affected flights: QR858 Jul 18·19 cancelled, QR859 Jul 19 diverted (expected)\n· Latest: kotradoha.github.io/qatar-korea-flight-monitor · Verify via official Qatar Airways channels" },
       { type: "delay", t: "② Departure delay",
-        d: "[Qatar Airways Flight Alert] ⏱ QR858 (DOH→ICN, Jul 18) departure delayed ~45 min. Sched 02:20 → est. 03:05. Details: dashboard link. (2026-07-18 01:30 Doha)" },
+        d: "[Qatar Airways Flight Alert] ⏱ QR858 (DOH→ICN, Jul 18) departure delayed ~45 min\n· Scheduled 02:20 → estimated 03:05 (departing Doha)\n· Estimated arrival: Incheon Jul 18 ~17:50\n· Details on the dashboard · (alert sent 2026-07-18 01:30 Doha)" },
       { type: "cancel", t: "③ Cancellation",
-        d: "[Qatar Airways Flight Alert] ✕ QR859 (ICN→DOH, Jul 19) has been cancelled. Please rebook via the Qatar Airways call center or official site (fs.qatarairways.com). (2026-07-18 20:00 Doha)" }
+        d: "[Qatar Airways Flight Alert] ✕ QR859 (ICN→DOH, Jul 19) cancelled\n· Flight: Jul 19 Incheon 01:20 departure\n· Rebook via the Qatar Airways call center or official site (fs.qatarairways.com)\n· (alert sent 2026-07-18 20:00 Doha)" }
     ],
     foot_sources: "Sources: <a href='https://www.flightstats.com/' target='_blank' rel='noopener'>Cirium/FlightStats</a> (flight status) · <a href='https://www.qatarairways.com/en/travel-alerts.html' target='_blank' rel='noopener'>Qatar Airways official travel alerts</a> · <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a> (airspace closures & advisories) · <a href='https://adsb.lol/' target='_blank' rel='noopener'>adsb.lol</a> (live positions) · <a href='https://www.flightradar24.com/' target='_blank' rel='noopener'>Flightradar24</a> (tracking)",
     foot_legend: "Legend: ✓ confirmed / per schedule / ⚠ delayed / ✕ cancelled — \"confirmed\" means per-flight data exists (about ±3 days); \"per schedule\" is based on the regular timetable.",
@@ -374,19 +362,11 @@ function applyStatic() {
   document.getElementById("langEn").className = LANG === "en" ? "on" : "";
   document.getElementById("exampleList").innerHTML = t().examples.map(function(e){
     return "<div class='bubble " + e.type + "'><div class='bt'>" + esc(e.t) +
-      "</div><div class='bd'>" + esc(e.d) + "</div></div>";
+      "</div><div class='bd'>" + esc(e.d).replace(/\n/g, "<br>") + "</div></div>";
   }).join("");
   setMode(MODE);
-  updatePhonePlaceholder();
+  document.getElementById("contact").placeholder = t().ph_email;
 }
-
-function phonePlaceholder() {
-  if (subTypeEl.value !== "phone") return t().ph_email;
-  if (ccode.value === "+82") return t().ph_phone_kr;
-  if (ccode.value === "+974") return t().ph_phone_qa;
-  return t().ph_phone;
-}
-function updatePhonePlaceholder() { contact.placeholder = phonePlaceholder(); }
 
 function setMode(m) {
   MODE = m;
@@ -411,18 +391,45 @@ function badgeLabel(b) {
   return t().badge[b.kind] || t().badge.normal;
 }
 
+function affectedSummary(alerts) {
+  var list = (alerts || []).filter(function(a){ return a.type !== "airspace_closed"; });
+  if (!list.length) return "";
+  return list.map(function(a){
+    var d = esc((a.date || "").slice(5).replace("-", "/"));
+    var fl = esc(a.flight || "");
+    if (a.type === "cancelled") return fl + " " + d + (LANG === "ko" ? " 결항" : " cancelled");
+    if (a.type === "diverted")  return fl + " " + d + (LANG === "ko" ? " 회항" : " diverted");
+    if (a.type === "delay")     return fl + " " + d + (LANG === "ko" ? " " + esc(a.minutes) + "분 지연" : " +" + esc(a.minutes) + "min");
+    return fl + " " + d;
+  }).join(", ");
+}
+
+function closureDetailLines(d) {
+  var a = d.airspace || {};
+  var lines = [];
+  lines.push((LANG === "ko" ? "감지 시각: " : "Detected: ") + esc(d.generated_at_doha || "-") + (LANG === "ko" ? " (도하)" : " (Doha)"));
+  var adv = (a.advisories || []).map(function(x){
+    return esc(x.code) + (x.valid_until ? (LANG === "ko" ? " (유효 ~" + esc(x.valid_until) + ")" : " (valid until " + esc(x.valid_until) + ")") : "");
+  });
+  if (adv.length) lines.push((LANG === "ko" ? "근거 권고: " : "Advisories: ") + adv.join(", "));
+  var aff = affectedSummary(d.alerts);
+  if (aff) lines.push((LANG === "ko" ? "영향 편·날짜: " : "Affected flights: ") + aff);
+  return lines;
+}
+
 function renderAirstrip() {
   var strip = document.getElementById("airstrip");
   var closed = DATA && DATA.airspace && DATA.airspace.closed;
   var risk = (DATA && DATA.airspace && DATA.airspace.risk_level) || null;
+  var sub = document.getElementById("airSub");
   if (closed) {
     strip.className = "airstrip closed";
     document.getElementById("airTitle").textContent = t().air_closed_title;
-    document.getElementById("airSub").textContent = t().air_closed_sub;
+    sub.innerHTML = t().air_closed_sub + "<br>" + closureDetailLines(DATA).join("<br>");
   } else {
     strip.className = "airstrip open";
     document.getElementById("airTitle").textContent = t().air_open_title;
-    document.getElementById("airSub").textContent = t().air_open_sub(risk ? esc(risk) : "");
+    sub.textContent = t().air_open_sub(risk ? esc(risk) : "");
   }
   document.getElementById("airSrc").innerHTML = t().air_src();
 }
@@ -447,7 +454,9 @@ function render() {
     });
     if (closed) msgs.unshift(LANG === "ko" ? "카타르 영공 폐쇄" : "Qatar airspace closed");
     document.getElementById("bannerTitle").textContent = t().banner_alert_title + " — " + msgs.join(" · ");
-    document.getElementById("bannerBody").innerHTML = t().banner_alert_body;
+    var bodyHtml = t().banner_alert_body;
+    if (closed) bodyHtml += "<br><br>" + closureDetailLines(data).join("<br>");
+    document.getElementById("bannerBody").innerHTML = bodyHtml;
   } else {
     banner.className = "banner";
     document.getElementById("bannerTitle").textContent = t().banner_ok_title;
@@ -531,70 +540,39 @@ function pollPositions() {
 document.getElementById("hitsBadge").src =
   "https://hits.sh/" + location.hostname + location.pathname.replace(/index\.html$/, "") + ".svg?label=visits&color=2a78d6";
 
-var subTypeEl = document.getElementById("subType"),
-    ccode = document.getElementById("ccode"),
-    ccodeManual = document.getElementById("ccodeManual"),
-    contact = document.getElementById("contact");
-
-function syncCcodeManual() {
-  ccodeManual.style.display = (subTypeEl.value === "phone" && ccode.value === "__other") ? "" : "none";
-}
-subTypeEl.addEventListener("change", function() {
-  var phone = subTypeEl.value === "phone";
-  ccode.style.display = phone ? "" : "none";
-  syncCcodeManual();
-  contact.type = phone ? "tel" : "text";
-  updatePhonePlaceholder();
-});
-ccode.addEventListener("change", function(){ syncCcodeManual(); updatePhonePlaceholder(); });
-
-function genSubNo() {
-  var d = new Date();
-  var y = String(d.getFullYear()).slice(2);
-  var mm = ("0" + (d.getMonth() + 1)).slice(-2);
-  var dd = ("0" + d.getDate()).slice(-2);
-  var rand = Math.random().toString(36).slice(2, 6).toUpperCase();
-  return "QRDOH-" + y + mm + dd + "-" + rand;
-}
-
-// 국가번호 결합 시 국내 통화용 앞자리 0 제거 (예: +82 + 01012345678 → +82-1012345678)
-function buildContact() {
-  var isPhone = subTypeEl.value === "phone";
-  if (!isPhone) return { cc: "", full: contact.value.trim() };
-  var cc = (ccode.value === "__other") ? (ccodeManual.value || "").trim() : ccode.value;
-  var local = contact.value.replace(/[^0-9]/g, "");
-  if (cc) local = local.replace(/^0+/, "");   // 국가번호 붙일 때 트렁크 0 제거
-  var full = cc ? (cc + "-" + local) : contact.value.trim();
-  return { cc: cc, full: full };
-}
+var contact = document.getElementById("contact");
 
 document.getElementById("subForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  var built = buildContact();
+  var email = contact.value.trim();
   var msg = document.getElementById("formMsg");
-
-  document.getElementById("contactFinal").value = built.full;
-  document.getElementById("ccodeFinal").value = built.cc;
+  document.getElementById("contactFinal").value = email;
 
   if (MODE === "sub") {
-    var no = genSubNo();
-    document.getElementById("subNoField").value = no;
-    document.getElementById("subjectField").value = "[QR Flight Monitor] Subscribe " + no;
+    document.getElementById("subjectField").value = "[QR Flight Monitor] Subscribe";
     msg.className = "form-msg";
-    msg.innerHTML = t().sub_done(no, esc(built.full));
+    msg.innerHTML = t().sub_done("", esc(email));
   } else {
     document.getElementById("subjectField").value = "[QR Flight Monitor] UNSUBSCRIBE";
     msg.className = "form-msg cancel";
-    msg.innerHTML = t().unsub_done(esc(built.full));
+    msg.innerHTML = t().unsub_done(esc(email));
   }
 
-  var data = new FormData(this);
-  fetch(this.action, { method: "POST", body: data, headers: { "Accept": "application/json" } })
-    .catch(function(){});
+  if (APPS_SCRIPT_URL) {
+    // 앱스스크립트: 시트 저장 + 자동 발송 파이프라인
+    var params = new URLSearchParams();
+    params.set("action", MODE === "sub" ? "subscribe" : "unsubscribe");
+    params.set("type", "email");
+    params.set("contact", email);
+    fetch(APPS_SCRIPT_URL, { method: "POST", body: params }).catch(function(){});
+  } else {
+    // 폴백: FormSubmit으로 운영자 이메일에 수집
+    fetch(this.action, { method: "POST", body: new FormData(this), headers: { "Accept": "application/json" } })
+      .catch(function(){});
+  }
 
   msg.style.display = "block";
   this.reset();
-  ccode.style.display = "none"; ccodeManual.style.display = "none";
   setMode(MODE);
 });
 
