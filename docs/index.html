@@ -299,10 +299,10 @@ var I18N = {
     sb_flightnotes: "✈ 항공 운항 특기사항:",
     sb_seetable: " (아래 표에서 확인)",
     air_status: function(level, risk, manual){
-      if (level === "closed") return "카타르(하마드) 영공·공항: <b>폐쇄 확인됨</b>" + (manual ? " (공식 공지 확인됨)" : " (공역 당국 집계 기준)") + ". 예약하신 편은 카타르항공 공식 채널에서 반드시 확인해 주세요.";
-      if (level === "caution") return "카타르(하마드) 영공·공항 폐쇄 여부: <b>폐쇄 공지 없음</b> · 국제 회피 권고 발효 중" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
-      if (level === "unknown") return "카타르(하마드) 영공·공항 폐쇄 여부: 상태를 일시적으로 확인하지 못했습니다. 아래 공식 링크에서 확인해 주세요.";
-      return "카타르(하마드) 영공·공항 폐쇄 여부: <b>폐쇄 공지 없음 (정상 운영)</b>" + (risk ? " (참고: 국제 권고 등급 " + risk + ")" : "") + ".";
+      if (level === "closed") return "카타르 영공: <b>폐쇄 확인됨</b>" + (manual ? " (공식 공지 확인됨)" : " (공역 당국 집계 기준)") + ". 예약하신 편은 카타르항공 공식 채널에서 반드시 확인해 주세요.";
+      if (level === "caution") return "카타르 영공 폐쇄 여부: <b>폐쇄 공지 없음</b> · 국제 회피 권고 발효 중" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
+      if (level === "unknown") return "카타르 영공 폐쇄 여부: 상태를 일시적으로 확인하지 못했습니다. 아래 공식 링크에서 확인해 주세요.";
+      return "카타르 영공 폐쇄 여부: <b>폐쇄 공지 없음 (정상 운영)</b>" + (risk ? " (참고: 국제 권고 등급 " + risk + ")" : "") + ".";
     },
     visitors: "누적 방문:"
   },
@@ -365,10 +365,10 @@ var I18N = {
     sb_flightnotes: "✈ Flight operations notice:",
     sb_seetable: " (see tables below)",
     air_status: function(level, risk, manual){
-      if (level === "closed") return "Qatar (Doha Hamad) airspace/airport: <b>closure confirmed</b>" + (manual ? " (official notice verified)" : " (per airspace-authority aggregation)") + ". Please confirm your booking via official Qatar Airways channels.";
-      if (level === "caution") return "Qatar (Doha Hamad) airspace/airport closure: <b>no closure notice</b> · international avoidance advisories in effect" + (risk ? " (advisory level " + risk + ")" : "") + ".";
-      if (level === "unknown") return "Qatar (Doha Hamad) airspace/airport closure: status temporarily unavailable. Please check the official links below.";
-      return "Qatar (Doha Hamad) airspace/airport closure: <b>no closure notice (operating normally)</b>" + (risk ? " (for reference, advisory level " + risk + ")" : "") + ".";
+      if (level === "closed") return "Qatar airspace: <b>closure confirmed</b>" + (manual ? " (official notice verified)" : " (per airspace-authority aggregation)") + ". Please confirm your booking via official Qatar Airways channels.";
+      if (level === "caution") return "Qatar airspace closure: <b>no closure notice</b> · international avoidance advisories in effect" + (risk ? " (advisory level " + risk + ")" : "") + ".";
+      if (level === "unknown") return "Qatar airspace closure: status temporarily unavailable. Please check the official links below.";
+      return "Qatar airspace closure: <b>no closure notice (operating normally)</b>" + (risk ? " (for reference, advisory level " + risk + ")" : "") + ".";
     },
     visitors: "Total visits:"
   },
@@ -420,10 +420,10 @@ var I18N = {
     sb_flightnotes: "✈ ملاحظات تشغيل الرحلات:",
     sb_seetable: " (انظر الجداول أدناه)",
     air_status: function(level, risk, manual){
-      if (level === "closed") return "المجال الجوي/مطار قطر (الدوحة – حمد): <b>تأكّد الإغلاق</b>" + (manual ? " (تحقّق رسمي)" : " (حسب تجميع هيئات المجال الجوي)") + ". يرجى تأكيد حجزك عبر القنوات الرسمية للخطوط القطرية.";
-      if (level === "caution") return "إغلاق المجال الجوي/مطار قطر (الدوحة – حمد): <b>لا يوجد إشعار إغلاق</b> · توجد تحذيرات دولية بتجنّب المجال الجوي" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
-      if (level === "unknown") return "إغلاق المجال الجوي/مطار قطر: الحالة غير متاحة مؤقتًا. يرجى التحقق عبر الروابط الرسمية أدناه.";
-      return "إغلاق المجال الجوي/مطار قطر (الدوحة – حمد): <b>لا يوجد إشعار إغلاق (يعمل بشكل طبيعي)</b>" + (risk ? " (للعلم، مستوى التحذير " + risk + ")" : "") + ".";
+      if (level === "closed") return "المجال الجوي القطري: <b>تأكّد الإغلاق</b>" + (manual ? " (تحقّق رسمي)" : " (حسب تجميع هيئات المجال الجوي)") + ". يرجى تأكيد حجزك عبر القنوات الرسمية للخطوط القطرية.";
+      if (level === "caution") return "إغلاق المجال الجوي القطري: <b>لا يوجد إشعار إغلاق</b> · توجد تحذيرات دولية بتجنّب المجال الجوي" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
+      if (level === "unknown") return "إغلاق المجال الجوي القطري: الحالة غير متاحة مؤقتًا. يرجى التحقق عبر الروابط الرسمية أدناه.";
+      return "إغلاق المجال الجوي القطري: <b>لا يوجد إشعار إغلاق (يعمل بشكل طبيعي)</b>" + (risk ? " (للعلم، مستوى التحذير " + risk + ")" : "") + ".";
     },
     visitors: "إجمالي الزيارات:"
   }
@@ -503,7 +503,7 @@ function renderStatusBox() {
   document.getElementById("sbTitle").textContent = t().sb_title;
 
   var lines = [];
-  // 1) 카타르(하마드) 영공·공항 폐쇄 여부 — 결항·지연 정황과 분리, 공식 공지/자동감지에만 근거
+  // 1) 카타르 영공 폐쇄 여부 — 결항·지연 정황과 분리, 공식 공지/자동감지에만 근거
   lines.push(t().air_status(level, a.risk_level ? esc(a.risk_level) : "", !!a.override));
   // 2) 근거 권고(유효기간)
   if (level === "caution" || level === "closed") {

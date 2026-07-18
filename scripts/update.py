@@ -519,12 +519,12 @@ def main():
     if mn_path.exists():
         try:
             _mn = json.loads(mn_path.read_text(encoding="utf-8"))
-            _ov = str(_mn.get("airport_status") or "").strip().lower()
+            _ov = str(_mn.get("airspace_status") or "").strip().lower()
             if _ov in ("closed", "open"):
                 override = _ov
-                override_source = _mn.get("airport_status_source") or None
+                override_source = _mn.get("airspace_status_source") or None
         except Exception as e:  # noqa: BLE001
-            print(f"[warn] manual airport_status parse: {e}", file=sys.stderr)
+            print(f"[warn] manual airspace_status parse: {e}", file=sys.stderr)
 
     if override in ("closed", "open"):
         level = override                     # 운영자 공식확인(최우선)
