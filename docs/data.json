@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-18T09:01:59+00:00",
- "generated_at_doha": "2026-07-18 12:01",
- "generated_at_seoul": "2026-07-18 18:01",
+ "generated_at_utc": "2026-07-18T09:02:57+00:00",
+ "generated_at_doha": "2026-07-18 12:02",
+ "generated_at_seoul": "2026-07-18 18:02",
  "degraded": false,
  "fetch_health": {
   "ok": 32,
@@ -19,7 +19,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-18T09:02:03+00:00",
+  "checked_at_utc": "2026-07-18T09:03:09+00:00",
   "ok": true,
   "level": "caution",
   "closed": false,
@@ -48,8 +48,8 @@
     "arr": "Arrival (Seoul)"
    },
    "daily": true,
-   "note": "매일 운항 · A350-1000",
-   "note_en": "Daily · A350-1000",
+   "note": "매일 운항",
+   "note_en": "Daily",
    "badge": {
     "state": "good",
     "kind": "normal"
@@ -161,8 +161,8 @@
     "arr": "Arrival (Doha)"
    },
    "daily": true,
-   "note": "매일 운항 · A350-1000",
-   "note_en": "Daily · A350-1000",
+   "note": "매일 운항",
+   "note_en": "Daily",
    "badge": {
     "state": "good",
     "kind": "normal"
@@ -274,8 +274,8 @@
     "arr": "Arrival (Seoul)"
    },
    "daily": false,
-   "note": "매주 목요일 운항 · A350-1000",
-   "note_en": "Weekly on Thursdays · A350-1000",
+   "note": "매주 목요일 운항",
+   "note_en": "Weekly on Thursdays",
    "badge": {
     "state": "good",
     "kind": "normal"
