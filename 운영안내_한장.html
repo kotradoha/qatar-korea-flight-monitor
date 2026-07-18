@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카타르–한국 항공편 모니터 · 운영 안내 (한 장)</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: "Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif; color:#1a1a1a;
+         background:#f4f4f2; line-height:1.5; padding:22px; }
+  .page { max-width:820px; margin:0 auto; background:#fff; border:1px solid #e0ded7;
+          border-radius:12px; padding:26px 30px 30px; }
+  h1 { font-size:20px; letter-spacing:-0.02em; }
+  .lead { font-size:12.5px; color:#555; margin-top:4px; }
+  .lead a { color:#2a6fd6; text-decoration:none; }
+  h2 { font-size:14.5px; margin:18px 0 7px; padding-left:9px; border-left:4px solid #2a6fd6;
+       letter-spacing:-0.01em; }
+  p, li { font-size:12.6px; color:#26251f; }
+  ul, ol { margin:4px 0 0 20px; }
+  li { margin:2px 0; }
+  .light { display:flex; gap:7px; flex-wrap:wrap; margin-top:5px; }
+  .chip { font-size:11.8px; border:1px solid #e0ded7; border-radius:7px; padding:5px 9px; background:#fbfbf9; }
+  .chip b { font-weight:800; }
+  .g{ color:#0a8f0a;} .o{ color:#c98407;} .r{ color:#cf3030;} .u{ color:#888;}
+  .box { border:1px solid #e0ded7; border-radius:10px; padding:12px 14px; margin-top:8px; background:#fbfbf9; }
+  .box.key { background:#fff7ec; border-color:#f2ce8f; }
+  .box.key h2 { border-left-color:#e0920f; margin-top:0; }
+  code { font-family:"Consolas",monospace; font-size:12px; background:#eef0f3; padding:1px 5px; border-radius:4px; }
+  .code { font-family:"Consolas",monospace; font-size:12px; background:#1f2430; color:#e6e6e6;
+          border-radius:8px; padding:10px 12px; margin:6px 0; white-space:pre; overflow-x:auto; }
+  .code .k { color:#8fd3ff; } .code .v { color:#ffd479; } .code .c { color:#7fe08a; }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .small { font-size:11.5px; color:#666; margin-top:3px; }
+  .tag { display:inline-block; font-size:10.5px; font-weight:800; color:#fff; background:#2a6fd6;
+         border-radius:5px; padding:1px 6px; vertical-align:middle; }
+  .foot { margin-top:16px; padding-top:11px; border-top:1px solid #eee; font-size:11.3px; color:#777; }
+  @media print { body{ background:#fff; padding:0; } .page{ border:none; border-radius:0; } }
+  @media (max-width:640px){ .two{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>카타르 ↔ 한국 항공편 모니터 · 운영 안내</h1>
+  <div class="lead">KOTRA 도하무역관 운영용 한 장 요약 · 공개 페이지:
+    <a href="https://kotradoha.github.io/qatar-korea-flight-monitor/">kotradoha.github.io/qatar-korea-flight-monitor</a></div>
+
+  <h2>① 이 페이지는 무엇인가요</h2>
+  <p>카타르항공 한국 노선(QR858·QR859·QR862)의 <b>운항 상태</b>와 <b>카타르 영공 폐쇄 여부</b>를
+     <b>15분마다 자동으로</b> 불러와 교민에게 보여주는 대시보드입니다. 한국어·영어·아랍어를 지원합니다.
+     평상시에는 무역관이 <b>손댈 필요가 전혀 없고</b>, 아래 ③④는 실제로 상황이 생겼을 때만 쓰는 기능입니다.</p>
+
+  <h2>② 화면 읽는 법</h2>
+  <p><b>위쪽 박스 — 카타르 영공 폐쇄 여부</b> (신호등처럼 색으로 표시)</p>
+  <div class="light">
+    <span class="chip"><b class="g">🟢 초록</b> · 폐쇄 공지 없음(정상)</span>
+    <span class="chip"><b class="o">🟠 주황</b> · 국제 회피 권고 발효(아직 안 막힘)</span>
+    <span class="chip"><b class="r">🔴 빨강</b> · 공식 폐쇄 확인</span>
+    <span class="chip"><b class="u">⚪ 회색</b> · 일시적으로 확인 중</span>
+  </div>
+  <p style="margin-top:8px"><b>그 아래 — 항공 운항 특기사항</b>: 특정 편의 <b>결항·지연</b>이 실제로 생겼을 때만
+     별도로 뜹니다. <b>영공 색깔과는 무관</b>합니다. 즉 하늘길은 정상(초록)이어도 어떤 편만 결항하면,
+     위는 초록 그대로이고 이 칸에만 그 결항이 표시됩니다.</p>
+  <p class="small">※ 표에는 현재 비행 중이거나 앞으로 약 1주일간 예정된 편만 나오며, 예정 시각은 카타르항공 공식 스케줄과 같습니다.</p>
+
+  <div class="box key">
+    <h2>③ 카타르 영공 “폐쇄(빨강)”을 직접 켜고 끄기 <span class="tag">가장 중요</span></h2>
+    <p>빨강은 <b>결항이 아무리 많아도 저절로 켜지지 않습니다.</b> 카타르 정부·항공당국·공신력 있는 뉴스가
+       <b>공식적으로 폐쇄를 발표</b>한 것을 확인하시면, 아래 방법으로 <b>직접 빨강을 켜 주세요.</b>
+       (자동 감지도 있지만, 가장 확실한 것은 이 수동 스위치입니다.)</p>
+
+    <p style="margin-top:8px"><b>방법 (브라우저에서 클릭만 하면 됩니다)</b></p>
+    <ol>
+      <li>저장소 열기 → <a href="https://github.com/kotradoha/qatar-korea-flight-monitor/blob/main/docs/manual_notice.json">github.com/kotradoha/qatar-korea-flight-monitor</a> 의 <code>docs</code> 폴더 → <code>manual_notice.json</code> 클릭</li>
+      <li>오른쪽 위 <b>연필(✏️ Edit) 아이콘</b> 클릭</li>
+      <li>아래 <b>두 줄</b>을 목적에 맞게 고칩니다 (아래 예시 참고)</li>
+      <li>오른쪽 위 초록색 <b>Commit changes</b> → 다시 <b>Commit changes</b> 클릭</li>
+      <li><b>1~2분</b> 뒤 공개 페이지에 자동 반영됩니다</li>
+    </ol>
+
+    <div class="two">
+      <div>
+        <p style="margin-top:6px"><b class="r">폐쇄 켜기 (빨강으로)</b></p>
+        <div class="code"><span class="k">"airspace_status"</span>: <span class="v">"closed"</span>,
+<span class="k">"airspace_status_source"</span>: <span class="v">"공식 공지 링크"</span></div>
+        <p class="small">출처 링크(뉴스·공항·정부 공지 주소)를 꼭 함께 넣어 주세요.</p>
+      </div>
+      <div>
+        <p style="margin-top:6px"><b class="g">정상으로 되돌리기 (평상시)</b></p>
+        <div class="code"><span class="k">"airspace_status"</span>: <span class="v">null</span>,
+<span class="k">"airspace_status_source"</span>: <span class="v">""</span></div>
+        <p class="small"><code>null</code> 은 <b>따옴표 없이</b> 그대로 씁니다. 평소엔 항상 이 상태로 둡니다.</p>
+      </div>
+    </div>
+    <p class="small" style="margin-top:7px">※ 만약 자동 감지가 <b>실수로 빨강</b>을 띄웠다면(실제로는 정상인데), <code>"airspace_status"</code>를
+       <span class="g"><b>"open"</b></span> 으로 두면 강제로 초록(정상) 처리됩니다. 상황이 끝나면 다시 <code>null</code> 로 되돌려 주세요.</p>
+  </div>
+
+  <h2>④ 긴급 공지 한 줄 띄우기 (선택)</h2>
+  <p>“7/20 도하–서울편 결항 안내” 같은 <b>안내 문구를 표 위에 띄우고 싶을 때</b>는 같은
+     <code>manual_notice.json</code> 파일의 <code>items</code> 에 한 줄 추가합니다. 비워두면 아무것도 안 뜹니다.</p>
+  <div class="code"><span class="k">"items"</span>: [
+  { <span class="k">"title"</span>: <span class="v">"[카타르항공] 도하–서울 7/20 결항 안내"</span>,
+    <span class="k">"url"</span>: <span class="v">"https://www.qatarairways.com/en/travel-alerts.html"</span> }
+]</div>
+  <p class="small">문구가 끝나면 <code>"items": []</code> (빈 대괄호)로 되돌리면 사라집니다.</p>
+
+  <h2>⑤ 갱신이 멈춘 것 같을 때</h2>
+  <p>페이지 상단의 “마지막 확인” 시각이 <b>한참 전(수십 분 이상)</b>에서 안 바뀌면, 저장소의
+     <b>Actions</b> 탭을 열어 <b>Update flight data</b> 워크플로가 초록색으로 돌고 있는지 확인하세요.
+     빨간 X(실패)가 보이면 클릭해 내용을 확인하시고, 필요하면 저에게 알려 주시면 점검해 드리겠습니다.</p>
+
+  <div class="foot">
+    이 페이지는 참고용 모니터링 정보입니다. 항공권 예약·변경 등 <b>최종 확인은 반드시 카타르항공 공식 채널</b>
+    (<a href="https://fs.qatarairways.com/">fs.qatarairways.com</a>)을 이용하세요. &nbsp;·&nbsp; 작성: KOTRA 도하무역관
+  </div>
+
+</div>
+</body>
+</html>
