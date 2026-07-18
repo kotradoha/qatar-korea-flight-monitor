@@ -560,7 +560,7 @@ function render() {
   if (ageMin != null && ageMin >= STALE_MIN) {
     stale.innerHTML = t().stale_age(ageMin);
     stale.className = "stale active";
-    stale.style.display = "";
+    stale.style.display = "block";
   } else {
     stale.style.display = "none";
   }
