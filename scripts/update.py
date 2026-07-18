@@ -379,14 +379,15 @@ def discover_extra_flights(now_utc, alerts, health):
     return found
 
 
-def _find_valid_until(text, pos):
-    """pos 이후 220자 창에서 유효기간 문구를 찾는다."""
-    win = text[pos:pos + 220]
+def _find_valid_until(text, start, end):
+    """코드 매치 주변(뒤 380자·앞 160자)에서 유효기간 문구를 찾는다. 다양한 날짜 형식 지원."""
+    win = text[end:end + 380] + "  " + text[max(0, start - 160):start]
     m = re.search(
-        r"valid\s+(?:through|until|to)\s+"
-        r"([A-Za-z]+\s+\d{1,2},?\s*\d{4}|\d{1,2}\s+[A-Za-z]+\s+\d{4}|\d{4}-\d{2}-\d{2})",
+        r"valid\s+(?:through|until|till|to)\s+"
+        r"([A-Za-z]{3,}\.?\s+\d{1,2},?\s*\d{4}|\d{1,2}\s+[A-Za-z]{3,}\.?\s+\d{4}|"
+        r"\d{4}-\d{2}-\d{2}|\d{1,2}/\d{1,2}/\d{2,4})",
         win, re.IGNORECASE)
-    return m.group(1).strip() if m else None
+    return m.group(1).strip(" .,") if m else None
 
 
 def parse_advisories(text):
@@ -394,17 +395,17 @@ def parse_advisories(text):
     서술문 오매칭을 막기 위해 접두 기관명은 단일 대문자 단어로 제한한다."""
     advisories = []
     seen = set()
-    # EASA CZIB
+    # EASA CZIB (예: "EASA CZIB 2026-07")
     for m in re.finditer(r"EASA\s+CZIB\s*([0-9]{4}-[0-9]{1,3}|[0-9]{2,}[0-9\-/]*)", text, re.IGNORECASE):
         code = re.sub(r"\s+", " ", m.group(0)).strip(" .,")
         key = code.lower()
         if key in seen:
             continue
         seen.add(key)
-        advisories.append({"code": code, "valid_until": _find_valid_until(text, m.end())})
-    # NOTAM: (선택) 단일 기관 대문자 단어 + NOTAM + 식별자
+        advisories.append({"code": code, "valid_until": _find_valid_until(text, m.start(), m.end())})
+    # NOTAM: (선택) 기관명 + NOTAM + 식별자. 예: "France NOTAM LFFF F1553/26", "NOTAM A1234/26"
     for m in re.finditer(
-            r"(?:([A-Z][A-Za-z]{1,15})\s+)?NOTAM\s+([A-Z]{0,4}\s?[A-Z]?[0-9]{2,4}/[0-9]{2})", text):
+            r"(?:([A-Z][A-Za-z]{1,15})\s+)?NOTAM\s+((?:[A-Z]{1,4}\s+)?[A-Z]?[0-9]{2,4}/[0-9]{2})", text):
         num = re.sub(r"\s+", " ", m.group(2)).strip()
         key = "notam:" + num.lower()
         if key in seen:
@@ -412,10 +413,10 @@ def parse_advisories(text):
         seen.add(key)
         auth = (m.group(1) + " ") if m.group(1) else ""
         advisories.append({"code": (auth + "NOTAM " + num).strip(),
-                           "valid_until": _find_valid_until(text, m.end())})
-        if len(advisories) >= 6:
+                           "valid_until": _find_valid_until(text, m.start(), m.end())})
+        if len(advisories) >= 8:
             break
-    return advisories[:6]
+    return advisories[:8]
 
 
 def _airspace_open_stated(low):
@@ -440,6 +441,27 @@ def _airspace_closure_stated(low):
     return any(re.search(p, low) for p in pats)
 
 
+def _airspace_warning_stated(low):
+    """항공당국의 '현재 회피/위험' 강한 권고 문구. 권고 코드 파싱이 실패하더라도 최소 '주의(caution)'를
+    유지해 '거짓 정상(green)'을 방지하는 안전망."""
+    return bool(re.search(
+        r"do not operate|not to operate|not operate (?:within|in|at|there)|"
+        r"should not (?:enter|operate|fly|use)|advis\w* (?:operators?\s+)?(?:to\s+)?(?:not|against)|"
+        r"avoid(?:ing)?\s+(?:the\s+|all\s+|overflying\s+)?(?:airspace|overflight|region|country|qatar)|"
+        r"high[- ]risk|extreme(?:ly)?\s+(?:high\s+)?risk|unsafe|dangerous",
+        low))
+
+
+def _risk_elevated(risk_desc, risk_level):
+    """SafeAirspace 위험등급이 '주의' 이상인지. (등급 줄 텍스트에만 적용 — 본문 서술 오탐 방지)"""
+    txt = f"{risk_desc or ''} {risk_level or ''}".lower()
+    if re.search(r"caution|danger|do not|high|avoid|warning|no\s*fly", txt):
+        return True
+    if re.search(r"\b(two|three|four|five|2|3|4|5)\b", txt):  # 등급 숫자 상승
+        return True
+    return False
+
+
 def fetch_airspace(prev):
     """SafeAirspace 카타르 페이지에서 위험 등급·(현재형)폐쇄 진술·권고 유효기간 추출. 실패 시 이전 값 유지.
 
@@ -450,15 +472,20 @@ def fetch_airspace(prev):
         html = http_get("https://safeairspace.net/qatar/")
         text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
         low = text.lower()
-        m = re.search(r"(?:Risk\s*)?Level[:\s]*([A-Za-z]+)", text)
+        m = re.search(r"(?:Risk\s*)?Level[:\s]*([A-Za-z]+)(?:\s*[-–—:]\s*([A-Za-z][A-Za-z ]{0,20}))?", text)
+        risk_level = m.group(1).strip() if m else None
+        risk_desc = (m.group(2).strip() if (m and m.group(2)) else None)
         open_stated = _airspace_open_stated(low)
         closure_stated = _airspace_closure_stated(low)
+        warning_stated = _airspace_warning_stated(low)
         closed = closure_stated and not open_stated   # 현재 폐쇄 진술 + 열림 진술 없음일 때만
         return {
-            "risk_level": m.group(1).strip() if m else None,
+            "risk_level": risk_level,
+            "risk_desc": risk_desc,            # 등급 서술(예: "Caution")
             "keyword_closed": closed,          # 현재형 폐쇄 진술 확인(자동 감지)
             "open_stated": open_stated,        # 현재 '정상/열림' 명시 여부(투명성용)
             "closure_stated": closure_stated,  # 현재형 폐쇄 문구 매칭 여부(투명성용)
+            "warning_stated": warning_stated,  # 회피/고위험 강한 권고 문구(거짓 정상 방지)
             "advisories": parse_advisories(text),
             "source": "https://safeairspace.net/qatar/",
             "checked_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -532,7 +559,10 @@ def main():
         level = "unknown"
     elif airspace.get("keyword_closed"):     # SafeAirspace 현재형 폐쇄 진술(자동 감지)
         level = "closed"
-    elif airspace.get("advisories"):         # 회피 권고만 존재 → 가능성(주황)
+    elif (airspace.get("advisories") or airspace.get("warning_stated")
+          or _risk_elevated(airspace.get("risk_desc"), airspace.get("risk_level"))):
+        # 회피 권고 코드 · 강한 회피/위험 문구 · 상승된 위험등급 중 하나라도 있으면 '주의'.
+        # → 권고 코드 파싱이 실패해도 '거짓 정상(green)'으로 떨어지지 않게 하는 안전망.
         level = "caution"
     else:
         level = "open"                       # 특이 신호 없음 → 정상
