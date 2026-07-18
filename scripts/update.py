@@ -553,20 +553,38 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"[warn] manual airspace_status parse: {e}", file=sys.stderr)
 
+    # 실제 운항 데이터 교차검증: 오늘·내일 한국 노선의 확정 결항/회항 수.
+    #   운영자 상시 개입이 어려운 현황판이므로, 영공 소스가 애매해도 '실제 다수 결항'을 자동 반영한다.
+    doha_today = now_utc.astimezone(TZ_DOHA).date()
+    today_iso = doha_today.isoformat()
+    tom_iso = (doha_today + timedelta(days=1)).isoformat()
+    cancel_recent = 0
+    for fno in FLIGHTS:
+        for day in (flights_out.get(fno) or {}).get("days", []):
+            if day.get("confirmed") and day.get("kind") in ("cancelled", "diverted") \
+                    and day.get("date") in (today_iso, tom_iso):
+                cancel_recent += 1
+
+    # 영공 경보 신호(폐쇄 진술·회피/고위험 문구·권고 코드·상승 위험등급) 존재 여부
+    concern = bool(airspace.get("keyword_closed") or airspace.get("warning_stated")
+                   or airspace.get("advisories")
+                   or _risk_elevated(airspace.get("risk_desc"), airspace.get("risk_level")))
+
     if override in ("closed", "open"):
         level = override                     # 운영자 공식확인(최우선)
-    elif not airspace.get("ok"):
-        level = "unknown"
     elif airspace.get("keyword_closed"):     # SafeAirspace 현재형 폐쇄 진술(자동 감지)
         level = "closed"
-    elif (airspace.get("advisories") or airspace.get("warning_stated")
-          or _risk_elevated(airspace.get("risk_desc"), airspace.get("risk_level"))):
-        # 회피 권고 코드 · 강한 회피/위험 문구 · 상승된 위험등급 중 하나라도 있으면 '주의'.
-        # → 권고 코드 파싱이 실패해도 '거짓 정상(green)'으로 떨어지지 않게 하는 안전망.
+    elif cancel_recent >= 2 and concern:
+        level = "closed"                     # 교차검증: 영공 경보 발효 중 한국 노선 다수 결항 → 사실상 폐쇄
+    elif not airspace.get("ok"):
+        level = "caution" if cancel_recent >= 2 else "unknown"
+    elif concern or cancel_recent >= 2:
+        # 권고/회피·고위험 문구/상승등급, 또는 다수 결항 → '주의'(거짓 정상 방지)
         level = "caution"
     else:
         level = "open"                       # 특이 신호 없음 → 정상
     airspace["level"] = level
+    airspace["cancel_recent"] = cancel_recent   # 교차검증 근거(투명성)
     airspace["closed"] = (level == "closed")
     airspace["status"] = level
     airspace["override"] = override          # 자동/운영자 구분 투명성
