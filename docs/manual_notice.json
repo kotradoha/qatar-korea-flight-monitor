@@ -1,4 +1,7 @@
 {
   "_help": "긴급 Travel Update를 표 위에 띄우려면 아래 items 에 항목을 추가하세요. 비워두면 표시되지 않습니다(영공 주의/폐쇄 시에는 공식 링크 안내가 자동 표시됨). 예시: {\"title\":\"[카타르항공] 도하-서울 7/20 결항 안내\",\"title_en\":\"[Qatar Airways] DOH-ICN Jul 20 cancelled\",\"title_ar\":\"...\",\"url\":\"https://www.qatarairways.com/en/travel-alerts.html\"}",
+  "_help_airport_status": "공항·영공 폐쇄 강제 지정(자동 감지 정정용). 하마드공항/카타르 정부/공신력 있는 뉴스가 공식 폐쇄를 공지했을 때만 airport_status 를 \"closed\" 로 설정하고 airport_status_source 에 출처 링크를 넣으세요(→ 즉시 빨강). 자동 감지가 거짓 폐쇄를 띄우면 \"open\" 으로 강제 정상 처리. 평상시에는 반드시 null 로 두어 자동 판정에 맡깁니다.",
+  "airport_status": null,
+  "airport_status_source": "",
   "items": []
 }

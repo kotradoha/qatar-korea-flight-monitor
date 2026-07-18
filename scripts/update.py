@@ -418,19 +418,47 @@ def parse_advisories(text):
     return advisories[:6]
 
 
+def _airspace_open_stated(low):
+    """현재 '정상/열림' 진술 감지. 과거 폐쇄 서술과 구분하는 핵심."""
+    return bool(
+        re.search(r"(?:remains?|currently|now|still)\s+open", low)
+        or re.search(r"operating\s+(?:largely\s+)?normally", low)
+        or re.search(r"open\s+and\s+(?:is\s+)?operating", low)
+    )
+
+
+def _airspace_closure_stated(low):
+    """'현재형' 폐쇄 진술만 감지. 과거형('FIR closed and reopened')·명사형('closures')은
+    링크동사(is/are/remains/currently/now) 요구로 배제해 오탐을 막는다."""
+    pats = [
+        r"(?:airspace|fir|otdf|airport)[a-z /()]{0,40}\b(?:is|are|remains?|currently|now)\b[a-z /]{0,15}clos",
+        r"clos(?:ed|ure)[a-z /]{0,15}until\s+\d",              # closed until <미래 일자>
+        r"all\s+flights?\s+(?:are\s+)?(?:currently\s+)?suspend",
+        r"complete(?:ly)?\s+closure",
+        r"closed\s+to\s+all\s+(?:traffic|flights)",
+    ]
+    return any(re.search(p, low) for p in pats)
+
+
 def fetch_airspace(prev):
-    """SafeAirspace 카타르 페이지에서 위험 등급·폐쇄 여부·권고 유효기간 추출. 실패 시 이전 값 유지."""
+    """SafeAirspace 카타르 페이지에서 위험 등급·(현재형)폐쇄 진술·권고 유효기간 추출. 실패 시 이전 값 유지.
+
+    폐쇄(red) 판정은 '결항 정황'이 아니라 공역 당국 집계(SafeAirspace)의 **현재형 폐쇄 진술**에만
+    근거한다(자동 감지). 과거/재개 서술 오탐을 막기 위해 현재 '열림' 진술이 있으면 폐쇄로 보지 않는다.
+    자동 감지가 틀릴 경우를 대비해 운영자가 manual_notice.json 으로 강제 지정할 수 있다(main 참조)."""
     try:
         html = http_get("https://safeairspace.net/qatar/")
         text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
         low = text.lower()
         m = re.search(r"(?:Risk\s*)?Level[:\s]*([A-Za-z]+)", text)
-        closed = bool(re.search(
-            r"airspace\s+clos|fully\s+clos|closed\s+to\s+all|complete\s+clos|"
-            r"suspend(ed)?\s+all\s+flight|no\s+overflight", low))
+        open_stated = _airspace_open_stated(low)
+        closure_stated = _airspace_closure_stated(low)
+        closed = closure_stated and not open_stated   # 현재 폐쇄 진술 + 열림 진술 없음일 때만
         return {
             "risk_level": m.group(1).strip() if m else None,
-            "keyword_closed": closed,      # 폐쇄 '가능성' 신호 (레벨 판정은 main에서 운항현실과 종합)
+            "keyword_closed": closed,          # 현재형 폐쇄 진술 확인(자동 감지)
+            "open_stated": open_stated,        # 현재 '정상/열림' 명시 여부(투명성용)
+            "closure_stated": closure_stated,  # 현재형 폐쇄 문구 매칭 여부(투명성용)
             "advisories": parse_advisories(text),
             "source": "https://safeairspace.net/qatar/",
             "checked_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -479,28 +507,41 @@ def main():
 
     airspace = fetch_airspace(prev)
 
-    # 영공 상태 레벨 판정: open(정상·초록) / caution(폐쇄 가능·예상·주황) / closed(폐쇄 확정·빨강)
-    # 판정 근거는 '운항 현실'을 최우선으로 삼아 서술문 키워드 오탐을 방지한다.
-    doha_today = now_utc.astimezone(TZ_DOHA).date()
-    today_iso, tom_iso = doha_today.isoformat(), (doha_today + timedelta(days=1)).isoformat()
-    cancel_recent = 0
-    for fno in FLIGHTS:
-        for day in (flights_out.get(fno) or {}).get("days", []):
-            if day.get("confirmed") and day.get("kind") in ("cancelled", "diverted") \
-                    and day.get("date") in (today_iso, tom_iso):
-                cancel_recent += 1
+    # 영공·공항 폐쇄 레벨 판정: open(정상·초록) / caution(회피권고·주황) / closed(폐쇄 확정·빨강)
+    #
+    # ★ 핵심 원칙: 폐쇄(빨강)는 '결항·지연 정황'으로 추정하지 않는다. 오직
+    #    (1) 운영자 공식확인(manual_notice.json 의 airport_status="closed"), 또는
+    #    (2) 공역 당국 집계(SafeAirspace)의 '현재형' 폐쇄 진술(자동 감지)
+    #    에만 근거한다. 결항·지연은 폐쇄와 분리해 '항공 운항 특기사항'(alerts)으로 별도 표기.
+    override = None
+    override_source = None
+    mn_path = ROOT / "docs" / "manual_notice.json"
+    if mn_path.exists():
+        try:
+            _mn = json.loads(mn_path.read_text(encoding="utf-8"))
+            _ov = str(_mn.get("airport_status") or "").strip().lower()
+            if _ov in ("closed", "open"):
+                override = _ov
+                override_source = _mn.get("airport_status_source") or None
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] manual airport_status parse: {e}", file=sys.stderr)
 
-    if not airspace.get("ok"):
+    if override in ("closed", "open"):
+        level = override                     # 운영자 공식확인(최우선)
+    elif not airspace.get("ok"):
         level = "unknown"
-    elif cancel_recent >= 2:
-        level = "closed"    # 오늘·내일 다수 결항/회항 → 사실상 폐쇄 확정
-    elif airspace.get("keyword_closed") or airspace.get("advisories") or cancel_recent >= 1:
-        level = "caution"   # 회피 권고 발효 또는 일부 차질 → 폐쇄 가능성(예상)
+    elif airspace.get("keyword_closed"):     # SafeAirspace 현재형 폐쇄 진술(자동 감지)
+        level = "closed"
+    elif airspace.get("advisories"):         # 회피 권고만 존재 → 가능성(주황)
+        level = "caution"
     else:
-        level = "open"      # 특이 신호 없음 → 정상
+        level = "open"                       # 특이 신호 없음 → 정상
     airspace["level"] = level
     airspace["closed"] = (level == "closed")
     airspace["status"] = level
+    airspace["override"] = override          # 자동/운영자 구분 투명성
+    if override_source:
+        airspace["override_source"] = override_source
 
     # 열화 판정: 실시간 확인이 하나도 안 됐고 조회 오류가 있었으면 degraded
     degraded = (confirmed_total == 0 and health["err"] > 0)

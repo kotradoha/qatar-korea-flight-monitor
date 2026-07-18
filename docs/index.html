@@ -120,6 +120,13 @@
   .statusbox.closed .sb-title { color: var(--crit-text); }
   .sb-body { font-size: 12.5px; color: var(--text-secondary); margin-top: 7px; line-height: 1.6; }
   .sb-body b { color: var(--text-primary); }
+  /* '항공 운항 특기사항' — 폐쇄 여부와 분리된 결항·지연 알림. 박스 색과 무관하게 눈에 띄게. */
+  .sb-notes { margin-top: 9px; padding: 9px 11px; border-radius: 8px; background: var(--warn-bg);
+    border: 1px solid rgba(250,178,25,0.45); border-left: 3px solid var(--warning);
+    font-size: 12.5px; line-height: 1.55; color: var(--text-primary); }
+  .sb-notes .sn-label { font-weight: 800; color: var(--warn-text); }
+  .sb-notes.crit { background: var(--crit-bg); border-color: rgba(208,59,59,0.45); border-left-color: var(--critical); }
+  .sb-notes.crit .sn-label { color: var(--crit-text); }
   .sb-links { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 9px 16px; }
   .sb-links a { font-size: 12.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
   .sb-links a:hover { text-decoration: underline; }
@@ -200,6 +207,7 @@
     <div class="statusbox open" id="statusBox">
       <div class="sb-title" id="sbTitle"></div>
       <div class="sb-body" id="sbBody"></div>
+      <div class="sb-notes" id="sbNotes" style="display:none"></div>
     </div>
 
     <div class="cards" id="cards"></div>
@@ -288,12 +296,13 @@ var I18N = {
     sb_title: "🔔 운항·영공 안내 (Travel Update)",
     lbl_advisories: "※ 근거 권고 (<a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a> 집계): ",
     sb_flightalerts: "항공편 차질: ",
+    sb_flightnotes: "✈ 항공 운항 특기사항:",
     sb_seetable: " (아래 표에서 확인)",
-    air_status: function(level, risk){
-      if (level === "closed") return "카타르 영공: <b>폐쇄 확인됨</b>. 도하↔서울 노선의 결항·회항·지연 가능성이 높습니다.";
-      if (level === "caution") return "카타르 영공 폐쇄 여부: <b>현재 폐쇄되지 않음</b> · 카타르 영공 국제 회피 권고 발효 중" + (risk ? " (권고 등급 " + risk + ")" : "");
-      if (level === "unknown") return "카타르 영공: 상태를 일시적으로 확인하지 못했습니다. 아래 공식 링크에서 확인해 주세요.";
-      return "카타르 영공 폐쇄 여부: <b>폐쇄되지 않음(정상 운영)</b>. 도하↔서울 노선 정상 운항 중입니다" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
+    air_status: function(level, risk, manual){
+      if (level === "closed") return "카타르(하마드) 영공·공항: <b>폐쇄 확인됨</b>" + (manual ? " (공식 공지 확인됨)" : " (공역 당국 집계 기준)") + ". 예약하신 편은 카타르항공 공식 채널에서 반드시 확인해 주세요.";
+      if (level === "caution") return "카타르(하마드) 영공·공항 폐쇄 여부: <b>폐쇄 공지 없음</b> · 국제 회피 권고 발효 중" + (risk ? " (권고 등급 " + risk + ")" : "") + ".";
+      if (level === "unknown") return "카타르(하마드) 영공·공항 폐쇄 여부: 상태를 일시적으로 확인하지 못했습니다. 아래 공식 링크에서 확인해 주세요.";
+      return "카타르(하마드) 영공·공항 폐쇄 여부: <b>폐쇄 공지 없음 (정상 운영)</b>" + (risk ? " (참고: 국제 권고 등급 " + risk + ")" : "") + ".";
     },
     visitors: "누적 방문:"
   },
@@ -353,12 +362,13 @@ var I18N = {
     sb_title: "🔔 Flight & Airspace Update",
     lbl_advisories: "※ Advisories (via <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a>): ",
     sb_flightalerts: "Flights affected: ",
+    sb_flightnotes: "✈ Flight operations notice:",
     sb_seetable: " (see tables below)",
-    air_status: function(level, risk){
-      if (level === "closed") return "Qatar airspace: <b>closure confirmed</b>. Cancellations, diversions or delays on the Doha↔Seoul route are likely.";
-      if (level === "caution") return "Qatar airspace closure status: <b>not currently closed</b>. However, international advisories to avoid Qatari airspace are in effect" + (risk ? " (advisory level " + risk + ")" : "") + ".";
-      if (level === "unknown") return "Qatar airspace: status temporarily unavailable. Please check the official links below.";
-      return "Qatar airspace closure status: <b>not closed (operating normally)</b>. The Doha↔Seoul route is operating normally" + (risk ? " (advisory level " + risk + ")" : "") + ".";
+    air_status: function(level, risk, manual){
+      if (level === "closed") return "Qatar (Doha Hamad) airspace/airport: <b>closure confirmed</b>" + (manual ? " (official notice verified)" : " (per airspace-authority aggregation)") + ". Please confirm your booking via official Qatar Airways channels.";
+      if (level === "caution") return "Qatar (Doha Hamad) airspace/airport closure: <b>no closure notice</b> · international avoidance advisories in effect" + (risk ? " (advisory level " + risk + ")" : "") + ".";
+      if (level === "unknown") return "Qatar (Doha Hamad) airspace/airport closure: status temporarily unavailable. Please check the official links below.";
+      return "Qatar (Doha Hamad) airspace/airport closure: <b>no closure notice (operating normally)</b>" + (risk ? " (for reference, advisory level " + risk + ")" : "") + ".";
     },
     visitors: "Total visits:"
   },
@@ -407,12 +417,13 @@ var I18N = {
     sb_title: "🔔 تحديث الرحلات والمجال الجوي",
     lbl_advisories: "※ التحذيرات (عبر <a href='https://safeairspace.net/qatar/' target='_blank' rel='noopener'>SafeAirspace</a>): ",
     sb_flightalerts: "رحلات متأثرة: ",
+    sb_flightnotes: "✈ ملاحظات تشغيل الرحلات:",
     sb_seetable: " (انظر الجداول أدناه)",
-    air_status: function(level, risk){
-      if (level === "closed") return "المجال الجوي القطري: <b>تأكّد الإغلاق</b>. من المرجّح حدوث إلغاءات أو تحويلات أو تأخيرات على خط الدوحة↔سيول.";
-      if (level === "caution") return "حالة إغلاق المجال الجوي القطري: <b>غير مغلق حاليًا</b>. لكن توجد تحذيرات دولية بتجنّب المجال الجوي القطري" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
-      if (level === "unknown") return "المجال الجوي القطري: الحالة غير متاحة مؤقتًا. يرجى التحقق عبر الروابط الرسمية أدناه.";
-      return "حالة إغلاق المجال الجوي القطري: <b>غير مغلق (يعمل بشكل طبيعي)</b>. خط الدوحة↔سيول يعمل بشكل طبيعي" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
+    air_status: function(level, risk, manual){
+      if (level === "closed") return "المجال الجوي/مطار قطر (الدوحة – حمد): <b>تأكّد الإغلاق</b>" + (manual ? " (تحقّق رسمي)" : " (حسب تجميع هيئات المجال الجوي)") + ". يرجى تأكيد حجزك عبر القنوات الرسمية للخطوط القطرية.";
+      if (level === "caution") return "إغلاق المجال الجوي/مطار قطر (الدوحة – حمد): <b>لا يوجد إشعار إغلاق</b> · توجد تحذيرات دولية بتجنّب المجال الجوي" + (risk ? " (مستوى التحذير " + risk + ")" : "") + ".";
+      if (level === "unknown") return "إغلاق المجال الجوي/مطار قطر: الحالة غير متاحة مؤقتًا. يرجى التحقق عبر الروابط الرسمية أدناه.";
+      return "إغلاق المجال الجوي/مطار قطر (الدوحة – حمد): <b>لا يوجد إشعار إغلاق (يعمل بشكل طبيعي)</b>" + (risk ? " (للعلم، مستوى التحذير " + risk + ")" : "") + ".";
     },
     visitors: "إجمالي الزيارات:"
   }
@@ -492,25 +503,36 @@ function renderStatusBox() {
   document.getElementById("sbTitle").textContent = t().sb_title;
 
   var lines = [];
-  // 1) 카타르 영공 폐쇄 여부 (객관적)
-  lines.push(t().air_status(level, a.risk_level ? esc(a.risk_level) : ""));
+  // 1) 카타르(하마드) 영공·공항 폐쇄 여부 — 결항·지연 정황과 분리, 공식 공지/자동감지에만 근거
+  lines.push(t().air_status(level, a.risk_level ? esc(a.risk_level) : "", !!a.override));
   // 2) 근거 권고(유효기간)
   if (level === "caution" || level === "closed") {
     var adv = advisoryLines(d);
     if (adv.length) lines.push(t().lbl_advisories + adv.join(", "));
   }
-  // 3) 항공편 차질 요약
-  var alerts = (d.alerts || []).filter(function(x){ return x.date; });
-  if (alerts.length) lines.push(t().sb_flightalerts + affectedSummary(alerts) + t().sb_seetable);
-  // 4) 실시간 조회 지연
+  // 3) 실시간 조회 지연
   if (d.degraded) lines.push(t().stale_note);
-  // 5) 운영자 긴급 공지(Travel Update)
+  // 4) 운영자 긴급 공지(Travel Update)
   (d.travel_updates || []).forEach(function(it){
     var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
     if (title) lines.push("📌 <a href=\"" + esc(safeUrl(it.url)) +
       "\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline\">" + esc(title) + "</a>");
   });
   document.getElementById("sbBody").innerHTML = lines.join("<br>");
+
+  // ── 항공 운항 특기사항 (결항·지연) : 폐쇄 여부와 별도 표기 ──
+  var notes = document.getElementById("sbNotes");
+  var alerts = (d.alerts || []).filter(function(x){ return x.date; });
+  if (alerts.length) {
+    var hasCrit = alerts.some(function(x){ return x.type === "cancelled" || x.type === "diverted"; });
+    notes.className = "sb-notes" + (hasCrit ? " crit" : "");
+    notes.innerHTML = "<span class='sn-label'>" + t().sb_flightnotes + "</span> " +
+      affectedSummary(alerts) + t().sb_seetable;
+    notes.style.display = "";
+  } else {
+    notes.style.display = "none";
+    notes.innerHTML = "";
+  }
 }
 
 function render() {
