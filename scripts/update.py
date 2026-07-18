@@ -47,7 +47,7 @@ FLIGHTS = {
         "labels": {"dep": "출발 (도하)", "arr": "도착 (서울)"},
         "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"},
         "daily": True,
-        "note": "매일 운항 · A350-1000", "note_en": "Daily · A350-1000",
+        "note": "매일 운항", "note_en": "Daily",
     },
     "QR859": {
         "route": "서울 (ICN) → 도하 (DOH)", "route_en": "Seoul (ICN) → Doha (DOH)",
@@ -56,7 +56,7 @@ FLIGHTS = {
         "labels": {"dep": "출발 (서울)", "arr": "도착 (도하)"},
         "labels_en": {"dep": "Departure (Seoul)", "arr": "Arrival (Doha)"},
         "daily": True,
-        "note": "매일 운항 · A350-1000", "note_en": "Daily · A350-1000",
+        "note": "매일 운항", "note_en": "Daily",
     },
     "QR862": {
         "route": "도하 (DOH) → 서울 (ICN)", "route_en": "Doha (DOH) → Seoul (ICN)",
@@ -65,8 +65,8 @@ FLIGHTS = {
         "labels": {"dep": "출발 (도하)", "arr": "도착 (서울)"},
         "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"},
         "daily": False,
-        "note": "매주 목요일 운항 · A350-1000",
-        "note_en": "Weekly on Thursdays · A350-1000",
+        "note": "매주 목요일 운항",
+        "note_en": "Weekly on Thursdays",
     },
 }
 
