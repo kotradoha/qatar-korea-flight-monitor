@@ -64,14 +64,26 @@ FLIGHTS = {
         "sched_dep": "19:45", "sched_arr": "익일 10:30",
         "labels": {"dep": "출발 (도하)", "arr": "도착 (서울)"},
         "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"},
-        "daily": False,
+        "daily": False, "dow": 3,   # 목요일(Mon=0)
         "note": "매주 목요일 운항",
         "note_en": "Weekly on Thursdays",
+    },
+    "QR863": {
+        "route": "서울 (ICN) → 도하 (DOH)", "route_en": "Seoul (ICN) → Doha (DOH)",
+        "origin_tz": "seoul", "arr_tz": "doha",
+        "sched_dep": "18:30", "sched_arr": "22:30",
+        "labels": {"dep": "출발 (서울)", "arr": "도착 (도하)"},
+        "labels_en": {"dep": "Departure (Seoul)", "arr": "Arrival (Doha)"},
+        "daily": False, "dow": 4,   # 금요일
+        "note": "매주 금요일 운항",
+        "note_en": "Weekly on Fridays",
     },
 }
 
 # 핵심편 외 도하<->서울 임시·추가편 스캔 후보. 실제 편성 확인 시 자동 추가된다.
-EXTRA_CANDIDATES = ["860", "864", "866", "868", "870", "888"]
+# 짝수(DOH→ICN)·홀수(ICN→DOH) 양방향을 모두 포함해 향후 신규편을 어느 방향이든 감지한다.
+EXTRA_CANDIDATES = ["860", "861", "864", "865", "866", "867",
+                    "868", "869", "870", "871", "872", "873", "888", "889"]
 ROUTE_APS = {"DOH", "ICN"}
 
 DOW_KR = ["월", "화", "수", "목", "금", "토", "일"]
@@ -200,6 +212,21 @@ def classify(fs, entry, fno, offset, d, alerts):
     return None
 
 
+def _mark_suspended(fdict, note, note_en, until, source):
+    """정기편을 '임시 미운영'으로 표시한다. 카드(표)는 그대로 두고, 미확정(plan)·확인중 예정일을
+    'suspended'로 바꾼다. 확정 결항/지연 등 실데이터가 있는 날은 건드리지 않는다."""
+    fdict["suspended"] = True
+    fdict["suspended_source"] = source          # "operator"(운영자 지정) | "auto"(자동 감지)
+    if note:
+        fdict["suspended_note"] = note
+        fdict["suspended_note_en"] = note_en or note
+    if until:
+        fdict["suspended_until"] = until
+    for day in fdict.get("days", []):
+        if not day.get("confirmed") and day.get("kind") in ("plan", "checking"):
+            day["kind"], day["cls"] = "suspended", "susp"
+
+
 def build_core_flight(fno, cfg, now_utc, alerts, health):
     num = fno[2:]
     tz = tz_of(cfg["origin_tz"])
@@ -209,6 +236,8 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
     badge = None                # 확정 상태가 있으면 여기에 설정
     confirmed_any = False
     net_error = False
+    sched_checked = 0           # 근접(±3일) 예정일 중 조회 '성공' 건수
+    sched_absent = 0            # 그 중 해당 편이 아예 없던(None) 건수 → 운휴 신호
 
     # 표시 정책:
     #  - 카타르항공 발행 스케줄 기준으로 '오늘 이후'만 표시(도착 완료편은 제외).
@@ -218,7 +247,7 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
     horizon = 7 if cfg["daily"] else 14   # 매일편 1주, 비정기편은 향후 2주 내 운항 요일
     for offset in range(0, horizon + 1):
         d = today_local + timedelta(days=offset)
-        if not cfg["daily"] and d.weekday() != 3:   # 비정기편은 운항 요일(목)만
+        if not cfg["daily"] and d.weekday() != cfg.get("dow", 3):   # 비정기편은 지정 운항 요일만
             continue
         entry = {
             "date": d.isoformat(),
@@ -237,6 +266,7 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
                 net_error = True
                 entry["kind"], entry["cls"] = "checking", "plan"
             else:
+                sched_checked += 1   # 조회 자체는 성공(네트워크 정상)
                 if fs:
                     code = fs["code"]
                     confirmed_any = True
@@ -274,6 +304,8 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
                         entry["kind"], entry["cls"] = "sched", "good"
                     else:                      # 알 수 없는/새 상태 코드 → '정상'으로 오인하지 않고 '확인 중'
                         entry["kind"], entry["cls"] = "checking", "plan"
+                else:
+                    sched_absent += 1          # 조회는 됐으나 해당일 편 없음(운휴 후보)
                 # fs None(±3 내 데이터 없음) → '예매 가능'(plan) 유지
         # offset > 3 → 발행 스케줄(운항 예정) 그대로 표시
         days.append(entry)
@@ -287,9 +319,15 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
         else:
             badge = {"state": "good", "kind": "normal"}
 
+    # 임시 운휴(미운영) 자동 신호: 근접 예정일을 2일 이상 조회 성공했는데 '모두' 편이 없으면
+    #   해당 정기편이 그 기간 운항하지 않는 것으로 본다(단발 데이터 누락 오탐 방지 위해 2건 이상 요구).
+    #   최종 확정은 main()에서 파이프라인이 열화(degraded)가 아닐 때만 반영한다.
+    susp_auto = (sched_checked >= 2 and sched_absent == sched_checked)
+
     # 실시간 위치(adsb.lol)는 화면에 표시하지 않으므로 수집하지 않는다(불필요한 외부요청 제거).
     out_cfg = {k: v for k, v in cfg.items() if k not in ("origin_tz", "arr_tz")}
     return {**out_cfg, "badge": badge, "days": days, "position": None,
+            "_susp_auto": susp_auto,
             "fr24": f"https://www.flightradar24.com/data/flights/qr{num}"}, confirmed_any
 
 
@@ -533,6 +571,44 @@ def main():
         extra = {}
     flights_out.update(extra)
     order = core_order + sorted(extra.keys())
+
+    # ── 임시 운휴(미운영) 반영 ─────────────────────────────────────────────
+    # 정기편이 한동안 사라져도 표(카드)를 지우지 않고 '임시 미운영'으로 보여준다.
+    #   (1) 운영자 지정: manual_notice.json 의 suspended_flights (주간편·원거리 등 확실할 때).
+    #   (2) 자동 감지: 근접 예정일이 모두 '편 없음'(_susp_auto) 이고 파이프라인이 정상일 때만.
+    #       (전체 조회 실패로 인한 착시를 막기 위해 degraded 상태에서는 자동 반영하지 않는다.)
+    susp_manual = {}
+    _mn_path = ROOT / "docs" / "manual_notice.json"
+    if _mn_path.exists():
+        try:
+            _sf = (json.loads(_mn_path.read_text(encoding="utf-8")).get("suspended_flights")) or {}
+            if isinstance(_sf, list):
+                _sf = {k: True for k in _sf}
+            if isinstance(_sf, dict):
+                for k, v in _sf.items():
+                    susp_manual[str(k).upper()] = v
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] suspended_flights parse: {e}", file=sys.stderr)
+
+    pipeline_ok = (confirmed_total > 0)
+    for fno in core_order:
+        fdict = flights_out.get(fno)
+        if not fdict:
+            continue
+        auto = bool(fdict.pop("_susp_auto", False))
+        mv = susp_manual.get(fno)
+        if mv not in (None, False):
+            note = note_en = until = None
+            if isinstance(mv, dict):
+                note = mv.get("note") or None
+                note_en = mv.get("note_en") or note
+                until = mv.get("until") or None
+            _mark_suspended(fdict, note, note_en, until, "operator")
+        elif auto and pipeline_ok:
+            _mark_suspended(fdict, None, None, None, "auto")
+    for fdict in flights_out.values():   # 예외 경로 대비 임시키 정리
+        if isinstance(fdict, dict):
+            fdict.pop("_susp_auto", None)
 
     airspace = fetch_airspace(prev)
 
