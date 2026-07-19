@@ -212,7 +212,7 @@ def classify(fs, entry, fno, offset, d, alerts):
     return None
 
 
-def _mark_suspended(fdict, note, note_en, until, source):
+def _mark_suspended(fdict, note, note_en, until, source, url=None):
     """정기편을 '임시 미운영'으로 표시한다. 카드(표)는 그대로 두고, 미확정(plan)·확인중 예정일을
     'suspended'로 바꾼다. 확정 결항/지연 등 실데이터가 있는 날은 건드리지 않는다."""
     fdict["suspended"] = True
@@ -222,6 +222,8 @@ def _mark_suspended(fdict, note, note_en, until, source):
         fdict["suspended_note_en"] = note_en or note
     if until:
         fdict["suspended_until"] = until
+    if url and str(url).startswith(("http://", "https://")):
+        fdict["suspended_url"] = url            # 공식 운휴/변경 공지 링크(있으면 배너에 표시)
     for day in fdict.get("days", []):
         if not day.get("confirmed") and day.get("kind") in ("plan", "checking"):
             day["kind"], day["cls"] = "suspended", "susp"
@@ -598,12 +600,13 @@ def main():
         auto = bool(fdict.pop("_susp_auto", False))
         mv = susp_manual.get(fno)
         if mv not in (None, False):
-            note = note_en = until = None
+            note = note_en = until = url = None
             if isinstance(mv, dict):
                 note = mv.get("note") or None
                 note_en = mv.get("note_en") or note
                 until = mv.get("until") or None
-            _mark_suspended(fdict, note, note_en, until, "operator")
+                url = mv.get("url") or None
+            _mark_suspended(fdict, note, note_en, until, "operator", url)
         elif auto and pipeline_ok:
             _mark_suspended(fdict, None, None, None, "auto")
     for fdict in flights_out.values():   # 예외 경로 대비 임시키 정리

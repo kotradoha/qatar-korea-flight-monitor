@@ -111,9 +111,10 @@
      <b>자동으로</b> 잡히지만, <b>주간편이나 장기 운휴</b>는 아래처럼 직접 지정하는 것이 확실합니다.
      같은 <code>manual_notice.json</code> 의 <code>suspended_flights</code> 를 고칩니다.</p>
   <div class="code"><span class="k">"suspended_flights"</span>: {
-  <span class="k">"QR863"</span>: { <span class="k">"until"</span>: <span class="v">"2026-08-31"</span>, <span class="k">"note"</span>: <span class="v">"임시 운휴 안내"</span>, <span class="k">"note_en"</span>: <span class="v">"Temporarily suspended"</span> }
+  <span class="k">"QR863"</span>: { <span class="k">"until"</span>: <span class="v">"2026-08-31"</span>, <span class="k">"note"</span>: <span class="v">"임시 운휴 안내"</span>, <span class="k">"url"</span>: <span class="v">"공식 공지 링크"</span> }
 }</div>
-  <p class="small"><code>until</code>(재개 예정일)·<code>note</code>(안내 문구)는 <b>생략 가능</b>합니다. 간단히 <code>"suspended_flights": ["QR863"]</code> 처럼 편명만 적어도 됩니다.
+  <p class="small"><code>until</code>(재개 예정일)·<code>note</code>(안내 문구)·<code>url</code>(공식 공지 주소)은 <b>모두 생략 가능</b>합니다.
+     <code>url</code> 을 넣으면 카드 배너에 <b>‘공지 보기 ↗’ 링크</b>가 함께 뜹니다. 간단히 <code>"suspended_flights": ["QR863"]</code> 처럼 편명만 적어도 됩니다.
      운항이 재개되면 <code>"suspended_flights": {}</code> (빈 중괄호)로 되돌려 주세요.</p>
 
   <h2>⑥ 갱신이 멈춘 것 같을 때</h2>
