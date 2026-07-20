@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-20T20:45:34+00:00",
- "generated_at_doha": "2026-07-20 23:45",
- "generated_at_seoul": "2026-07-21 05:45",
+ "generated_at_utc": "2026-07-20T21:00:41+00:00",
+ "generated_at_doha": "2026-07-21 00:00",
+ "generated_at_seoul": "2026-07-21 06:00",
  "degraded": false,
  "fetch_health": {
   "ok": 66,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-20T20:45:55+00:00",
+  "checked_at_utc": "2026-07-20T21:01:03+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -59,17 +59,6 @@
     "kind": "normal"
    },
    "days": [
-    {
-     "date": "2026-07-20",
-     "label": "7/20 (월)",
-     "label_en": "Mon 7/20",
-     "dep": "02:21",
-     "arr": "17:20",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 15,
-     "confirmed": true
-    },
     {
      "date": "2026-07-21",
      "label": "7/21 (화)",
@@ -140,6 +129,17 @@
      "date": "2026-07-27",
      "label": "7/27 (월)",
      "label_en": "Mon 7/27",
+     "dep": "02:20",
+     "arr": "17:05",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
+    },
+    {
+     "date": "2026-07-28",
+     "label": "7/28 (화)",
+     "label_en": "Tue 7/28",
      "dep": "02:20",
      "arr": "17:05",
      "kind": "plan",
