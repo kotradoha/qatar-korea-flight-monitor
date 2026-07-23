@@ -203,14 +203,23 @@ def classify(fs, entry, fno, offset, d, alerts):
         entry["kind"], entry["cls"] = "diverted", "crit"
         alerts.append({"flight": fno, "date": d.isoformat(), "type": "diverted"})
         return "diverted"
-    if (fs["delay_dep"] >= DELAY_ALERT_MIN or fs["delay_arr"] >= DELAY_ALERT_MIN) and code in ("S", "A"):
+    delayed_now = fs["delay_dep"] >= DELAY_ALERT_MIN or fs["delay_arr"] >= DELAY_ALERT_MIN
+    if delayed_now and code == "S":            # 아직 출발 전 → '지연' 상태
         entry["kind"], entry["cls"] = "delayed", "warn"
         entry["delay_dep"], entry["delay_arr"] = fs["delay_dep"], fs["delay_arr"]  # 출발·도착 각각
         alerts.append({"flight": fno, "date": d.isoformat(), "type": "delay",
                        "minutes": worst, "dep": fs["delay_dep"], "arr": fs["delay_arr"]})
         return ("delayed", worst) if offset >= 0 else None
+    # 비행 중(A)·도착 완료(L): 기본 상태는 유지하되, 지연이 크면 함께 표기
     entry["kind"] = {"S": "sched", "A": "inflight", "L": "landed"}.get(code, "sched")
     entry["cls"] = "good"
+    if delayed_now and code in ("A", "L"):
+        entry["delay_dep"], entry["delay_arr"] = fs["delay_dep"], fs["delay_arr"]
+        if code == "A":
+            entry["cls"] = "warn"
+            alerts.append({"flight": fno, "date": d.isoformat(), "type": "delay",
+                           "minutes": worst, "dep": fs["delay_dep"], "arr": fs["delay_arr"]})
+            return ("delayed", worst)
     return None
 
 
@@ -300,10 +309,19 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
                         entry["kind"], entry["cls"] = "diverted", "crit"
                         alerts.append({"flight": fno, "date": d.isoformat(), "type": "diverted"})
                         badge = {"state": "crit", "kind": "diverted"}
-                    elif code == "A":          # 현재 비행 중
+                    elif code == "A":          # 현재 비행 중 — 도착/출발 지연이 크면 함께 표기(예상)
                         entry["kind"], entry["cls"] = "inflight", "good"
-                    elif code == "L":          # 도착 완료 — 당일 편은 숨기지 않고 '착륙'으로 표시
+                        if fs["delay_dep"] >= DELAY_ALERT_MIN or fs["delay_arr"] >= DELAY_ALERT_MIN:
+                            entry["delay_dep"], entry["delay_arr"] = fs["delay_dep"], fs["delay_arr"]
+                            entry["cls"] = "warn"
+                            alerts.append({"flight": fno, "date": d.isoformat(), "type": "delay",
+                                           "minutes": worst, "dep": fs["delay_dep"], "arr": fs["delay_arr"]})
+                            if badge is None or badge.get("state") == "good":
+                                badge = {"state": "warn", "kind": "delayed", "delay": worst}
+                    elif code == "L":          # 도착 완료 — 당일 편은 숨기지 않고 '착륙'으로 표시(지연 도착이면 함께)
                         entry["kind"], entry["cls"] = "landed", "good"
+                        if fs["delay_dep"] >= DELAY_ALERT_MIN or fs["delay_arr"] >= DELAY_ALERT_MIN:
+                            entry["delay_dep"], entry["delay_arr"] = fs["delay_dep"], fs["delay_arr"]
                     elif (fs["delay_dep"] >= DELAY_ALERT_MIN or fs["delay_arr"] >= DELAY_ALERT_MIN) and code == "S":
                         entry["kind"], entry["cls"] = "delayed", "warn"
                         entry["delay_dep"], entry["delay_arr"] = fs["delay_dep"], fs["delay_arr"]  # 출발·도착 각각
