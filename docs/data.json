@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-23T09:00:45+00:00",
- "generated_at_doha": "2026-07-23 12:00",
- "generated_at_seoul": "2026-07-23 18:00",
+ "generated_at_utc": "2026-07-23T09:14:39+00:00",
+ "generated_at_doha": "2026-07-23 12:14",
+ "generated_at_seoul": "2026-07-23 18:14",
  "degraded": false,
  "fetch_health": {
   "ok": 66,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-23T09:00:59+00:00",
+  "checked_at_utc": "2026-07-23T09:14:57+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -29,16 +29,7 @@
   "status": "caution",
   "override": null
  },
- "alerts": [
-  {
-   "flight": "QR858",
-   "date": "2026-07-23",
-   "type": "delay",
-   "minutes": 59,
-   "dep": 12,
-   "arr": 59
-  }
- ],
+ "alerts": [],
  "travel_updates": [],
  "order": [
   "QR858",
@@ -64,9 +55,8 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "warn",
-    "kind": "delayed",
-    "delay": 59
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
     {
@@ -74,13 +64,13 @@
      "label": "7/23 (목)",
      "label_en": "Thu 7/23",
      "dep": "02:32",
-     "arr": "18:04",
-     "kind": "inflight",
+     "arr": "18:07",
+     "kind": "landed",
      "cls": "good",
-     "delay": 59,
+     "delay": 62,
      "confirmed": true,
      "delay_dep": 12,
-     "delay_arr": 59
+     "delay_arr": 62
     },
     {
      "date": "2026-07-24",
