@@ -20,11 +20,13 @@ status kind (프론트에서 한/영 라벨로 변환):
   plan(정기 스케줄 예정) / no_service(스케줄상 미운항) / checking(확인 실패·대기)
 """
 import json
+import os
 import re
 import sys
 import time
 import urllib.request
 import urllib.error
+import urllib.parse
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from pathlib import Path
@@ -578,6 +580,62 @@ def fetch_airspace(prev):
         return _airspace_unavailable()
 
 
+ICN_BASE = "http://apis.data.go.kr/B551177/StatusOfPassengerFlightsOdp"
+
+
+def fetch_icn_board(key, arrivals=True, timeout=12):
+    """인천공항 공식 '여객편 운항현황(다국어)' API에서 카타르항공(QR) 편 상태를 가져온다(한국 쪽 전광판).
+    arrivals=True: 인천 '도착'(QR858·QR862 확인), False: 인천 '출발'(QR859·QR863 확인).
+    반환: {flightId: {status(remark), sched, est, airport}} / 실패·미검증 시 {} (화면 무영향).
+    ※ 키가 없거나 접속 실패/한도초과여도 조용히 빈 dict — 대시보드 표시는 절대 깨지지 않는다."""
+    if not key:
+        return {}
+    op = "getPassengerArrivalsOdp" if arrivals else "getPassengerDeparturesOdp"
+    qs = urllib.parse.urlencode({
+        "serviceKey": key, "airline": "QR", "lang": "E", "type": "json",
+        "from_time": "0000", "to_time": "2400", "numOfRows": "300", "pageNo": "1",
+    })
+    url = f"{ICN_BASE}/{op}?{qs}"
+    try:
+        body = http_get(url, timeout=timeout, retries=1)   # 파이프라인 지연 방지: 짧게, 재시도 최소
+    except FetchError as e:
+        print(f"[warn] ICN board fetch ({op}) failed: {e}", file=sys.stderr)
+        return {}
+    try:
+        raw = json.loads(body)
+    except ValueError as e:
+        print(f"[warn] ICN board ({op}) non-JSON: {e}", file=sys.stderr)
+        return {}
+    resp = raw.get("response") or {}
+    hdr = resp.get("header") or {}
+    if str(hdr.get("resultCode") or "").strip() not in ("", "00", "0"):
+        print(f"[warn] ICN board ({op}) resultCode={hdr.get('resultCode')} msg={hdr.get('resultMsg')}",
+              file=sys.stderr)
+        return {}
+    out = {}
+    try:
+        body_obj = resp.get("body") or {}
+        items = body_obj.get("items") or {}
+        item = items.get("item") if isinstance(items, dict) else items
+        if isinstance(item, dict):
+            item = [item]
+        for it in (item or []):
+            if not isinstance(it, dict):
+                continue
+            fid = str(it.get("flightId") or "").replace(" ", "").upper()
+            if not fid.startswith("QR"):
+                continue
+            out[fid] = {
+                "status": str(it.get("remark") or "").strip(),
+                "sched": str(it.get("scheduleDateTime") or "").strip(),
+                "est": str(it.get("estimatedDateTime") or "").strip(),
+                "airport": str(it.get("airportCode") or it.get("airport") or "").strip(),
+            }
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] ICN board ({op}) parse: {e}", file=sys.stderr)
+    return out
+
+
 def fetch_qr_alerts():
     """카타르항공 Travel Updates(travel-alerts.html)에서 '운항 중단·재개' 관련 공지만 자동 감지(보조).
     일반 안내(파워뱅크·비자·수하물·네트워크 확장 등)는 제외한다.
@@ -905,6 +963,28 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"[warn] qr_alerts scan: {e}", file=sys.stderr)
 
+    # ── 한국 쪽 전광판(인천공항 공식 API) 대조 데이터 ─────────────────────────
+    #   QR858·QR862 인천 '도착', QR859·QR863 인천 '출발' 상태를 공식 소스로 확인해 기록한다.
+    #   1단계: 값을 '표시'로 바꾸지 않고 data.json 에 기록만 한다(접속·구조 검증 + 모니터가 읽어 대조).
+    #   키(ICN_API_KEY)가 없거나 실패해도 화면은 전혀 영향받지 않는다.
+    boards = {"checked_at_utc": now_utc.isoformat(timespec="seconds"), "icn": {"ok": False}}
+    icn_key = (os.environ.get("ICN_API_KEY") or "").strip()
+    if icn_key:
+        try:
+            icn_arr = fetch_icn_board(icn_key, arrivals=True)    # QR858·QR862 (인천 도착)
+            icn_dep = fetch_icn_board(icn_key, arrivals=False)   # QR859·QR863 (인천 출발)
+            if icn_arr or icn_dep:
+                boards["icn"] = {"ok": True, "arrivals": icn_arr, "departures": icn_dep}
+                by_flight = {}
+                by_flight.update(icn_arr)
+                by_flight.update(icn_dep)
+                for fno in KOREA_FLIGHTS:
+                    b = by_flight.get(fno)
+                    if b and isinstance(flights_out.get(fno), dict):
+                        flights_out[fno]["board"] = {**b, "source": "ICN"}
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] ICN board stage: {e}", file=sys.stderr)
+
     out = {
         "generated_at_utc": now_utc.isoformat(timespec="seconds"),
         "generated_at_doha": now_utc.astimezone(TZ_DOHA).strftime("%Y-%m-%d %H:%M"),
@@ -918,6 +998,7 @@ def main():
         "order": order,
         "flights": flights_out,
         "maintenance": maintenance,
+        "boards": boards,
     }
     # 빅시그널 자가감사(영공 폐쇄·한국 노선 결항 표시의 신뢰도). 기존 값은 안 바꾸고 별도 기록만 한다.
     out["integrity"] = compute_integrity(out, prev, today_iso, tom_iso)
