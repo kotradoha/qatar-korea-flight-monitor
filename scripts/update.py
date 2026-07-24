@@ -624,6 +624,83 @@ def fetch_qr_alerts():
     return out
 
 
+KOREA_FLIGHTS = ("QR858", "QR859", "QR862", "QR863")
+
+
+def compute_integrity(out, prev, today_iso, tom_iso):
+    """빅시그널(영공 폐쇄·한국 노선 결항) 표시의 신뢰도 자가감사.
+    기존 판정 로직·값은 전혀 바꾸지 않고, '조치 필요(material)' 여부와 근거만 별도 기록한다.
+    시간 몇 분 어긋남 같은 사소한 건 다루지 않는다 — 크게 잘못 표시될 수 있는 신호만 잡는다.
+    스케줄 모니터(시간별)가 이 값을 힌트로 읽어 즉시 알림 여부를 판단한다. 실패해도 파이프라인 무영향."""
+    flags = []
+    try:
+        air = out.get("airspace") or {}
+        level = air.get("level")
+        flights = out.get("flights") or {}
+
+        def cancels(d):
+            s = set()
+            fl = (d or {}).get("flights") or {}
+            for fno in KOREA_FLIGHTS:
+                for day in (fl.get(fno) or {}).get("days", []):
+                    if day.get("confirmed") and day.get("kind") in ("cancelled", "diverted") \
+                            and day.get("date") in (today_iso, tom_iso):
+                        s.add(fno + "@" + str(day.get("date")))
+            return s
+
+        # 1) 영공 레벨 변화(이전 대비): closed 진입/이탈은 high, 그 외 전이는 info
+        prev_level = ((prev or {}).get("airspace") or {}).get("level")
+        if prev_level and prev_level != level:
+            sev = "high" if (level == "closed" or prev_level == "closed") else "info"
+            flags.append({"code": "airspace_level_change", "severity": sev,
+                          "detail": f"{prev_level} → {level}"})
+
+        # 2) 한국 노선 신규 결항/회항(오늘·내일) — 이전 대비 새로 생긴 것만
+        new_c = cancels(out) - cancels(prev)
+        if new_c:
+            flags.append({"code": "new_cancellation", "severity": "high",
+                          "detail": ", ".join(sorted(new_c))})
+
+        # 3) 거짓 정상(false green) 위험: 영공이 open인데 회피/폐쇄 경보 신호가 잡힘
+        if level == "open" and (air.get("warning_stated") or air.get("keyword_closed")):
+            flags.append({"code": "false_green_risk", "severity": "high",
+                          "detail": "영공 open 표시 중 회피/폐쇄 경보 신호 감지 — 확인 필요"})
+
+        # 4) 빅시그널 신뢰 저하(열화): 실시간 확인된 편이 하나도 없음
+        if out.get("degraded"):
+            flags.append({"code": "degraded", "severity": "warn",
+                          "detail": "실시간 확인된 편이 없어 표시가 스케줄 기준일 수 있음"})
+
+        # 5) 표시 시각 타당성: 도착이 출발보다 빠르거나 소요시간이 비정상(FlightStats 이상치 가능)
+        for fno in KOREA_FLIGHTS:
+            for day in (flights.get(fno) or {}).get("days", []):
+                if not day.get("confirmed"):
+                    continue
+                dep, arr = str(day.get("dep") or ""), str(day.get("arr") or "")
+                mdep, marr = re.search(r"(\d{1,2}):(\d{2})", dep), re.search(r"(\d{1,2}):(\d{2})", arr)
+                if not (mdep and marr):
+                    continue
+                dmin = int(mdep.group(1)) * 60 + int(mdep.group(2))
+                amin = int(marr.group(1)) * 60 + int(marr.group(2))
+                if "익일" in arr or "+" in arr:
+                    amin += 24 * 60
+                dur = amin - dmin
+                # 도하-서울 편도는 대략 8~11시간(입국 방향 시차 포함). 크게 벗어나면 이상치.
+                if dur <= 0 or dur > 20 * 60:
+                    flags.append({"code": "time_sanity", "severity": "warn",
+                                  "detail": f"{fno} {day.get('date')} 출/도착 시각 비정상({dep}→{arr})"})
+                    break
+
+        material = any(f["severity"] == "high" for f in flags)
+    except Exception as e:  # noqa: BLE001
+        return {"error": str(e)[:160], "flags": [], "material": False}
+    return {
+        "checked_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "flags": flags,
+        "material": material,
+    }
+
+
 def main():
     prev = None
     if DATA_PATH.exists():
@@ -842,6 +919,8 @@ def main():
         "flights": flights_out,
         "maintenance": maintenance,
     }
+    # 빅시그널 자가감사(영공 폐쇄·한국 노선 결항 표시의 신뢰도). 기존 값은 안 바꾸고 별도 기록만 한다.
+    out["integrity"] = compute_integrity(out, prev, today_iso, tom_iso)
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
     DATA_PATH.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {DATA_PATH} — confirmed_flights={confirmed_total} "
