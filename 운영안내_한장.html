@@ -105,7 +105,21 @@
 ]</div>
   <p class="small">문구가 끝나면 <code>"items": []</code> (빈 대괄호)로 되돌리면 사라집니다.</p>
 
-  <h2>⑤ 정기편이 한동안 안 뜰 때 (임시 미운영)</h2>
+  <h2>⑤ 카타르항공 Travel Updates 공지 띄우기 (운항 중단·재개 등)</h2>
+  <p>카타르항공이 <b>특정 지역 운항을 중단·재개</b>하는 등 공지를 내면(예: 바레인·쿠웨이트·에르빌 7/31까지 중단),
+     상단 안내 박스에 <b>‘✈ 카타르항공 Travel Updates’</b> 줄로 표시됩니다. <b>한국 노선이 아니어도</b> 항공 운항 관련이면 표기합니다.
+     같은 <code>manual_notice.json</code> 의 <code>qr_notices</code> 에 한 줄 추가합니다.</p>
+  <div class="code"><span class="k">"qr_notices"</span>: [
+  { <span class="k">"title"</span>: <span class="v">"바레인·쿠웨이트·에르빌 여객편 7월 31일까지 운항 일시 중단"</span>,
+    <span class="k">"title_en"</span>: <span class="v">"...(영문)"</span>, <span class="k">"title_ar"</span>: <span class="v">"...(아랍어)"</span>,
+    <span class="k">"date"</span>: <span class="v">"2026-07-23"</span>, <span class="k">"until"</span>: <span class="v">"2026-07-31"</span>,
+    <span class="k">"url"</span>: <span class="v">"https://www.qatarairways.com/en/travel-alerts.html"</span> }
+]</div>
+  <p class="small"><code>date</code>(공지일 → 화면에 ‘(7/23 공지)’로 표기)·<code>until</code>(<b>이 날짜가 지나면 자동으로 사라짐</b>)·<code>url</code>(공식 링크).
+     <b>객관적 사실만</b> 적고 해석·추정 문구는 넣지 않습니다. 카타르항공 Travel Updates 페이지에서 운항 중단·재개 공지가 감지되면
+     <b>자동으로도 보조 표기</b>되지만, 확실한 방법은 여기에 직접 넣는 것입니다. 평상시에는 <code>"qr_notices": []</code> (빈 대괄호)로 둡니다.</p>
+
+  <h2>⑥ 정기편이 한동안 안 뜰 때 (임시 미운영)</h2>
   <p>카타르항공이 특정 정기편을 <b>한동안 운휴</b>(예: 주간편 QR862·QR863 일시 중단)하면, 표를 지우지 않고
      그 카드에 <b class="o">⏸ 임시 미운영</b>으로 표시됩니다. <b>매일편</b>은 근접 며칠간 편이 계속 안 잡히면
      <b>자동으로</b> 잡히지만, <b>주간편이나 장기 운휴</b>는 아래처럼 직접 지정하는 것이 확실합니다.
@@ -117,7 +131,7 @@
      <code>url</code> 을 넣으면 카드 배너에 <b>‘공지 보기 ↗’ 링크</b>가 함께 뜹니다. 간단히 <code>"suspended_flights": ["QR863"]</code> 처럼 편명만 적어도 됩니다.
      운항이 재개되면 <code>"suspended_flights": {}</code> (빈 중괄호)로 되돌려 주세요.</p>
 
-  <h2>⑥ 갱신이 멈춘 것 같을 때</h2>
+  <h2>⑦ 갱신이 멈춘 것 같을 때</h2>
   <p>페이지 상단의 “마지막 확인” 시각이 <b>한참 전(수십 분 이상)</b>에서 안 바뀌면, 저장소의
      <b>Actions</b> 탭을 열어 <b>Update flight data</b> 워크플로가 초록색으로 돌고 있는지 확인하세요.
      빨간 X(실패)가 보이면 클릭해 내용을 확인하시고, 필요하면 저에게 알려 주시면 점검해 드리겠습니다.</p>

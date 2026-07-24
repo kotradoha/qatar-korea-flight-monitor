@@ -578,6 +578,52 @@ def fetch_airspace(prev):
         return _airspace_unavailable()
 
 
+def fetch_qr_alerts():
+    """카타르항공 Travel Updates(travel-alerts.html)에서 '운항 중단·재개' 관련 공지만 자동 감지(보조).
+    일반 안내(파워뱅크·비자·수하물·네트워크 확장 등)는 제외한다.
+    반환: [{title,title_en,title_ar,date,until,url,source}] (제목은 페이지 영문 그대로). 실패/미검증 시 빈 목록.
+    ※ 신뢰 채널은 운영자 지정(manual_notice.json 의 qr_notices)이며, 이 자동 감지는 어디까지나 보조 수단이다.
+       페이지가 JS 렌더/구조 변경 등으로 읽히지 않으면 조용히 빈 목록을 반환한다(거짓 표기 방지)."""
+    OP = re.compile(
+        r"suspend|cancel|resume|disrupt|divert|halt|grounded|"
+        r"not\s+operat|will\s+not\s+fly|temporar\w{0,3}\s+(?:stop|hold)",
+        re.IGNORECASE)
+    GEN = re.compile(
+        r"power\s*bank|visa|baggage|check[- ]?in|network|expansion|expand|"
+        r"loyalty|privilege|wi-?fi|lounge|meal|menu|entertainment",
+        re.IGNORECASE)
+    try:
+        html = http_get("https://www.qatarairways.com/en/travel-alerts.html")
+    except FetchError:
+        return []
+    low = html.lower()
+    # 콘텐츠 검증(sentinel): 실제 Travel Alerts 페이지인지 확인. 아니면 신뢰 불가 → 빈 목록.
+    if not ("qatar" in low and ("alert" in low or "travel" in low)):
+        return []
+    out = []
+    seen = set()
+    for m in re.finditer(r"<h[1-4][^>]*>(.*?)</h[1-4]>", html, re.IGNORECASE | re.DOTALL):
+        txt = re.sub(r"<[^>]+>", " ", m.group(1))
+        txt = re.sub(r"\s+", " ", txt).strip()
+        if not txt or len(txt) > 140:
+            continue
+        if not OP.search(txt) or GEN.search(txt):   # 운항 관련만, 일반 안내는 제외
+            continue
+        key = txt.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append({
+            "title": txt, "title_en": txt, "title_ar": txt,
+            "date": "", "until": "",
+            "url": "https://www.qatarairways.com/en/travel-alerts.html",
+            "source": "auto",
+        })
+        if len(out) >= 6:
+            break
+    return out
+
+
 def main():
     prev = None
     if DATA_PATH.exists():
@@ -731,6 +777,9 @@ def main():
     # (카타르항공/하마드공항 공식 공지를 붙여넣는 용도. 자동 스크랩은 JS 렌더 페이지라 신뢰도가 낮아
     #  공식 링크는 프론트에서 항상 제공하고, 구체 문구는 이 파일로 운영자가 관리한다.)
     travel_updates = []
+    qr_notices = []
+    _qn_seen = set()
+    today_doha_date = now_utc.astimezone(TZ_DOHA).date()
     mn = ROOT / "docs" / "manual_notice.json"
     if mn.exists():
         try:
@@ -743,8 +792,41 @@ def main():
                         "title_ar": it.get("title_ar", ""),
                         "url": it.get("url", "https://www.qatarairways.com/en/travel-alerts.html"),
                     })
+            # 카타르항공 Travel Updates 공지(운항 관련) — 운영자 지정분(신뢰 채널).
+            #   until(안내 종료일)이 지난 항목은 자동으로 제외한다(안내된 시점까지만 표시).
+            for it in (md.get("qr_notices") or []):
+                title = (it.get("title") or it.get("title_en") or "").strip()
+                if not title:
+                    continue
+                until = str(it.get("until") or "").strip()
+                if until:
+                    try:
+                        if datetime.strptime(until[:10], "%Y-%m-%d").date() < today_doha_date:
+                            continue   # 안내 종료일이 지남 → 표시하지 않음
+                    except ValueError:
+                        pass           # 형식 오류 시 만료 처리하지 않고 그대로 표시
+                qr_notices.append({
+                    "title": it.get("title", ""), "title_en": it.get("title_en", ""),
+                    "title_ar": it.get("title_ar", ""), "date": str(it.get("date") or ""),
+                    "until": until,
+                    "url": it.get("url") or "https://www.qatarairways.com/en/travel-alerts.html",
+                    "source": "operator",
+                })
+                _qn_seen.add(re.sub(r"\s+", "", (it.get("title_en") or title)).lower())
         except Exception as e:  # noqa: BLE001
             print(f"[warn] manual_notice parse: {e}", file=sys.stderr)
+
+    # 자동 감지(보조): 카타르항공 Travel Updates 페이지에서 '운항 중단·재개' 공지가 감지되면 추가.
+    #   운영자 지정분과 중복(제목 유사)이면 건너뛴다. 실패/미검증 시 조용히 넘어간다(보조 채널).
+    try:
+        for a in fetch_qr_alerts():
+            k = re.sub(r"\s+", "", a.get("title_en") or "").lower()
+            if not k or any(k in s or s in k for s in _qn_seen):
+                continue
+            _qn_seen.add(k)
+            qr_notices.append(a)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] qr_alerts scan: {e}", file=sys.stderr)
 
     out = {
         "generated_at_utc": now_utc.isoformat(timespec="seconds"),
@@ -755,6 +837,7 @@ def main():
         "airspace": airspace,
         "alerts": alerts,
         "travel_updates": travel_updates,
+        "qr_notices": qr_notices,
         "order": order,
         "flights": flights_out,
         "maintenance": maintenance,
