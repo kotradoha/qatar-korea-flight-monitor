@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-26T03:31:50+00:00",
- "generated_at_doha": "2026-07-26 06:31",
- "generated_at_seoul": "2026-07-26 12:31",
+ "generated_at_utc": "2026-07-26T03:45:23+00:00",
+ "generated_at_doha": "2026-07-26 06:45",
+ "generated_at_seoul": "2026-07-26 12:45",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-26T03:32:10+00:00",
+  "checked_at_utc": "2026-07-26T03:45:29+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -74,12 +74,12 @@
      "date": "2026-07-25",
      "label": "7/25 (토)",
      "label_en": "Sat 7/25",
-     "dep": "02:20",
+     "dep": "02:22",
      "arr": "17:10",
      "kind": "landed",
      "cls": "good",
      "delay": 5,
-     "delay_dep": 0,
+     "delay_dep": 2,
      "delay_arr": 5,
      "confirmed": true
     },
@@ -94,6 +94,14 @@
      "delay": 30,
      "confirmed": true,
      "board": {
+      "doha": {
+       "status": "Departed",
+       "statusCode": "DP",
+       "sched": "02:20",
+       "est": "02:25",
+       "other": "ICN",
+       "source": "HIA"
+      },
       "korea": {
        "status": "Delayed",
        "sched": "1705",
@@ -102,6 +110,7 @@
        "source": "ICN"
       }
      },
+     "delay_dep": 5,
      "delay_arr": 30,
      "board_ok": true
     },
@@ -114,7 +123,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "02:20",
+       "est": "02:20",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-07-28",
@@ -185,6 +206,14 @@
    ],
    "position": null,
    "board": {
+    "doha": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:20",
+     "est": "02:25",
+     "other": "ICN",
+     "source": "HIA"
+    },
     "korea": {
      "status": "Delayed",
      "sched": "1705",
@@ -197,12 +226,12 @@
     "date": "2026-07-25",
     "label": "7/25 (토)",
     "label_en": "Sat 7/25",
-    "dep": "02:20",
+    "dep": "02:22",
     "arr": "17:10",
     "kind": "landed",
     "cls": "good",
     "delay": 5,
-    "delay_dep": 0,
+    "delay_dep": 2,
     "delay_arr": 5,
     "confirmed": true
    }
@@ -233,12 +262,20 @@
      "label": "7/26 (일)",
      "label_en": "Sun 7/26",
      "dep": "01:19",
-     "arr": "05:11",
+     "arr": "05:06",
      "kind": "landed",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
      "board": {
+      "doha": {
+       "status": "Last Bag",
+       "statusCode": "LB",
+       "sched": "05:20",
+       "est": "05:06",
+       "other": "ICN",
+       "source": "HIA"
+      },
       "korea": {
        "status": "Departure",
        "sched": "0120",
@@ -248,6 +285,7 @@
       }
      },
      "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -259,7 +297,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "05:20",
+       "est": "05:20",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-07-28",
@@ -330,6 +380,14 @@
    ],
    "position": null,
    "board": {
+    "doha": {
+     "status": "Last Bag",
+     "statusCode": "LB",
+     "sched": "05:20",
+     "est": "05:06",
+     "other": "ICN",
+     "source": "HIA"
+    },
     "korea": {
      "status": "Departure",
      "sched": "0120",
@@ -343,11 +401,12 @@
     "label": "7/26 (일)",
     "label_en": "Sun 7/26",
     "dep": "01:19",
-    "arr": "05:11",
+    "arr": "05:06",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
     "delay_dep": 0,
+    "delay_arr": 0,
     "confirmed": true
    }
   },
@@ -503,9 +562,97 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-26T03:31:50+00:00",
+  "checked_at_utc": "2026-07-26T03:45:23+00:00",
   "hamad": {
-   "ok": false
+   "ok": true,
+   "departures": {
+    "QR858@2026-07-23": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:20",
+     "est": "02:32",
+     "other": "ICN"
+    },
+    "QR862@2026-07-23": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "19:45",
+     "est": "19:53",
+     "other": "ICN"
+    },
+    "QR858@2026-07-24": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:20",
+     "est": "02:49",
+     "other": "ICN"
+    },
+    "QR858@2026-07-25": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:20",
+     "est": "02:22",
+     "other": "ICN"
+    },
+    "QR858@2026-07-26": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:20",
+     "est": "02:25",
+     "other": "ICN"
+    },
+    "QR858@2026-07-27": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "02:20",
+     "est": "02:20",
+     "other": "ICN"
+    }
+   },
+   "arrivals": {
+    "QR859@2026-07-23": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:43",
+     "other": "ICN"
+    },
+    "QR859@2026-07-24": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:37",
+     "other": "ICN"
+    },
+    "QR863@2026-07-24": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "22:30",
+     "est": "22:02",
+     "other": "ICN"
+    },
+    "QR859@2026-07-25": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:45",
+     "other": "ICN"
+    },
+    "QR859@2026-07-26": {
+     "status": "Last Bag",
+     "statusCode": "LB",
+     "sched": "05:20",
+     "est": "05:06",
+     "other": "ICN"
+    },
+    "QR859@2026-07-27": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "05:20",
+     "est": "05:20",
+     "other": "ICN"
+    }
+   }
   },
   "icn": {
    "ok": true,
@@ -540,7 +687,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-26T03:34:13+00:00",
+  "checked_at_utc": "2026-07-26T03:47:22+00:00",
   "flags": [],
   "material": false
  }
