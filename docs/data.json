@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-26T07:45:26+00:00",
- "generated_at_doha": "2026-07-26 10:45",
- "generated_at_seoul": "2026-07-26 16:45",
+ "generated_at_utc": "2026-07-26T08:00:37+00:00",
+ "generated_at_doha": "2026-07-26 11:00",
+ "generated_at_seoul": "2026-07-26 17:00",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-26T07:45:48+00:00",
+  "checked_at_utc": "2026-07-26T08:01:04+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -34,9 +34,9 @@
    "flight": "QR858",
    "date": "2026-07-26",
    "type": "delay",
-   "minutes": 30,
+   "minutes": 37,
    "dep": 5,
-   "arr": 30
+   "arr": 37
   }
  ],
  "travel_updates": [],
@@ -77,7 +77,7 @@
    "badge": {
     "state": "warn",
     "kind": "delayed",
-    "delay": 30
+    "delay": 37
    },
    "days": [
     {
@@ -98,13 +98,13 @@
      "label": "7/26 (일)",
      "label_en": "Sun 7/26",
      "dep": "02:25",
-     "arr": "17:35",
+     "arr": "17:42",
      "kind": "inflight",
      "cls": "good",
-     "delay": 30,
+     "delay": 37,
      "confirmed": true,
      "delay_dep": 5,
-     "delay_arr": 30,
+     "delay_arr": 37,
      "board": {
       "doha": {
        "status": "Departed",
@@ -117,7 +117,7 @@
       "korea": {
        "status": "Delayed",
        "sched": "1705",
-       "est": "1735",
+       "est": "1742",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -227,7 +227,7 @@
     "korea": {
      "status": "Delayed",
      "sched": "1705",
-     "est": "1735",
+     "est": "1742",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -572,7 +572,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-26T07:45:26+00:00",
+  "checked_at_utc": "2026-07-26T08:00:37+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -670,7 +670,7 @@
     "QR858@2026-07-26": {
      "status": "Delayed",
      "sched": "1705",
-     "est": "1735",
+     "est": "1742",
      "airport": "DOH"
     },
     "QR858@2026-07-25": {
@@ -697,7 +697,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-26T07:47:41+00:00",
+  "checked_at_utc": "2026-07-26T08:02:58+00:00",
   "flags": [],
   "material": false
  }
