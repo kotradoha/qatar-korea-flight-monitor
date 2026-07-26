@@ -1,27 +1,32 @@
 {
- "generated_at_utc": "2026-07-26T20:15:24+00:00",
- "generated_at_doha": "2026-07-26 23:15",
- "generated_at_seoul": "2026-07-27 05:15",
+ "generated_at_utc": "2026-07-26T20:32:09+00:00",
+ "generated_at_doha": "2026-07-26 23:32",
+ "generated_at_seoul": "2026-07-27 05:32",
  "degraded": false,
  "fetch_health": {
   "ok": 79,
   "err": 0
  },
  "airspace": {
-  "risk_level": null,
-  "risk_desc": null,
+  "risk_level": "Three",
+  "risk_desc": "Caution",
   "keyword_closed": false,
-  "open_stated": false,
-  "closure_stated": false,
-  "warning_stated": false,
-  "advisories": [],
+  "open_stated": true,
+  "closure_stated": true,
+  "warning_stated": true,
+  "advisories": [
+   {
+    "code": "EASA CZIB 2026-07",
+    "valid_until": null
+   }
+  ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-26T20:15:52+00:00",
-  "ok": false,
-  "level": "unknown",
+  "checked_at_utc": "2026-07-26T20:32:21+00:00",
+  "ok": true,
+  "level": "caution",
   "cancel_recent": 0,
   "closed": false,
-  "status": "unknown",
+  "status": "caution",
   "override": null
  },
  "alerts": [],
@@ -101,7 +106,7 @@
      "label": "7/27 (월)",
      "label_en": "Mon 7/27",
      "dep": "02:20",
-     "arr": "17:05",
+     "arr": "16:32",
      "kind": "sched",
      "cls": "good",
      "delay": 0,
@@ -118,7 +123,7 @@
       "korea": {
        "status": "",
        "sched": "1705",
-       "est": "1705",
+       "est": "1632",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -571,7 +576,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-26T20:15:24+00:00",
+  "checked_at_utc": "2026-07-26T20:32:09+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -669,7 +674,7 @@
     "QR858@2026-07-27": {
      "status": "",
      "sched": "1705",
-     "est": "1705",
+     "est": "1632",
      "airport": "DOH"
     },
     "QR858@2026-07-26": {
@@ -696,12 +701,12 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-26T20:17:46+00:00",
+  "checked_at_utc": "2026-07-26T20:34:14+00:00",
   "flags": [
    {
     "code": "airspace_level_change",
     "severity": "info",
-    "detail": "caution → unknown"
+    "detail": "unknown → caution"
    }
   ],
   "material": false
