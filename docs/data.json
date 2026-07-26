@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-26T01:46:41+00:00",
- "generated_at_doha": "2026-07-26 04:46",
- "generated_at_seoul": "2026-07-26 10:46",
+ "generated_at_utc": "2026-07-26T02:00:36+00:00",
+ "generated_at_doha": "2026-07-26 05:00",
+ "generated_at_seoul": "2026-07-26 11:00",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-26T01:47:08+00:00",
+  "checked_at_utc": "2026-07-26T02:00:46+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -275,17 +275,17 @@
      "label": "7/26 (일)",
      "label_en": "Sun 7/26",
      "dep": "01:19",
-     "arr": "05:00",
+     "arr": "05:08",
      "kind": "inflight",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Early",
-       "statusCode": "EA",
+       "status": "On Time",
+       "statusCode": "OT",
        "sched": "05:20",
-       "est": "05:00",
+       "est": "05:08",
        "other": "ICN",
        "source": "HIA"
       },
@@ -394,10 +394,10 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Early",
-     "statusCode": "EA",
+     "status": "On Time",
+     "statusCode": "OT",
      "sched": "05:20",
-     "est": "05:00",
+     "est": "05:08",
      "other": "ICN",
      "source": "HIA"
     },
@@ -575,7 +575,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-26T01:46:41+00:00",
+  "checked_at_utc": "2026-07-26T02:00:36+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -652,10 +652,10 @@
      "other": "ICN"
     },
     "QR859@2026-07-26": {
-     "status": "Early",
-     "statusCode": "EA",
+     "status": "On Time",
+     "statusCode": "OT",
      "sched": "05:20",
-     "est": "05:00",
+     "est": "05:08",
      "other": "ICN"
     },
     "QR859@2026-07-27": {
@@ -700,7 +700,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-26T01:49:04+00:00",
+  "checked_at_utc": "2026-07-26T02:02:53+00:00",
   "flags": [],
   "material": false
  }
