@@ -1121,6 +1121,45 @@ def ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, 
         f["days"] = sorted([_slim_done(best)] + days, key=lambda d: d.get("date") or "")
 
 
+def apply_time_overrides(flights_out, overrides):
+    """운영자 수동 시각 보정(manual_notice.json 의 time_overrides).
+    공항 전광판 API 조회범위(예: 인천 상세 API는 D-3까지)를 벗어나 자동 복구가 불가능한
+    '과거 완료편'의 출발/도착 시각을 '편명@날짜(YYYY-MM-DD)' 기준으로 강제 지정한다.
+    형식: {"QR863@2026-07-24": {"dep":"18:25","arr":"22:02"}}. 값이 있으면 표시 행과 last_done 모두에 반영.
+    평상시에는 {} 로 비워 둔다(자동 로직에 맡김)."""
+    if not isinstance(overrides, dict) or not overrides:
+        return
+    for fno in KOREA_FLIGHTS:
+        f = flights_out.get(fno)
+        if not isinstance(f, dict):
+            continue
+        cfg = FLIGHTS.get(fno) or {}
+        overnight = 1 if str(cfg.get("sched_arr", "")).strip().startswith("익일") else 0
+        sched_arr = str(cfg.get("sched_arr", "")).replace("익일", "").strip()
+
+        def _apply(row):
+            ov = overrides.get(f"{fno}@{row.get('date')}")
+            if not isinstance(ov, dict):
+                return
+            dv = _hhmm_norm(ov.get("dep"))
+            av = _hhmm_norm(ov.get("arr"))
+            if dv:
+                row["dep"] = dv
+                row["delay_dep"] = _delay_min(cfg.get("sched_dep"), dv) or 0
+            if av:
+                row["arr"] = ("익일 " + av) if overnight else av
+                row["delay_arr"] = _delay_min(sched_arr, av) or 0
+            if dv or av:
+                row["delay"] = max(int(row.get("delay_dep") or 0), int(row.get("delay_arr") or 0))
+
+        for day in f.get("days", []):
+            if day.get("date"):
+                _apply(day)
+        ld = f.get("last_done")
+        if isinstance(ld, dict) and ld.get("date"):
+            _apply(ld)
+
+
 def main():
     prev = None
     if DATA_PATH.exists():
@@ -1275,12 +1314,14 @@ def main():
     #  공식 링크는 프론트에서 항상 제공하고, 구체 문구는 이 파일로 운영자가 관리한다.)
     travel_updates = []
     qr_notices = []
+    time_overrides = {}
     _qn_seen = set()
     today_doha_date = now_utc.astimezone(TZ_DOHA).date()
     mn = ROOT / "docs" / "manual_notice.json"
     if mn.exists():
         try:
             md = json.loads(mn.read_text(encoding="utf-8"))
+            time_overrides = md.get("time_overrides") or {}   # 운영자 수동 시각 보정(과거 완료편)
             for it in (md.get("items") or []):
                 if it.get("title") or it.get("title_en") or it.get("title_ar"):
                     travel_updates.append({
@@ -1394,6 +1435,12 @@ def main():
         ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, icn_dep)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] ensure_recent_landed: {e}", file=sys.stderr)
+
+    # 운영자 수동 시각 보정: 전광판 API 범위를 벗어나 자동 복구 불가한 과거 완료편의 시각을 강제 지정.
+    try:
+        apply_time_overrides(flights_out, time_overrides)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] apply_time_overrides: {e}", file=sys.stderr)
 
     out = {
         "generated_at_utc": now_utc.isoformat(timespec="seconds"),
