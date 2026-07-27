@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-27T17:15:27+00:00",
- "generated_at_doha": "2026-07-27 20:15",
- "generated_at_seoul": "2026-07-28 02:15",
+ "generated_at_utc": "2026-07-27T17:18:56+00:00",
+ "generated_at_doha": "2026-07-27 20:18",
+ "generated_at_seoul": "2026-07-28 02:18",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-27T17:15:49+00:00",
+  "checked_at_utc": "2026-07-27T17:19:08+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -576,7 +576,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-27T17:15:27+00:00",
+  "checked_at_utc": "2026-07-27T17:18:56+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -693,8 +693,19 @@
    }
   }
  },
+ "_probe": {
+  "trk+2": "DATA code=S dep_sched=02:20",
+  "trk+3": "None",
+  "trk+5": "None",
+  "trk+7": "ERR FetchError",
+  "trk+10": "ERR FetchError",
+  "trk+14": "ERR FetchError",
+  "trk+21": "ERR FetchError",
+  "sched_route": "ERR FetchError: HTTP Error 404: Not Found",
+  "sched_flight": "ERR FetchError: HTTP Error 404: Not Found"
+ },
  "integrity": {
-  "checked_at_utc": "2026-07-27T17:17:48+00:00",
+  "checked_at_utc": "2026-07-27T17:21:30+00:00",
   "flags": [],
   "material": false
  }
