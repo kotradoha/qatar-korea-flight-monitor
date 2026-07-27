@@ -1619,7 +1619,9 @@ def main():
         try:
             _hs = _bd.strftime("%d-%m-%Y")
             _he = (_bd + timedelta(days=6)).strftime("%d-%m-%Y")
-            _u = f"{HIA_BASE}?type=departures&startTime={_hs} 00:00:00&endTime={_he} 23:59:59"
+            _qs = urllib.parse.urlencode({"type": "departures",
+                                          "startTime": f"{_hs} 00:00:00", "endTime": f"{_he} 23:59:59"})
+            _u = f"{HIA_BASE}?{_qs}"
             _raw = json.loads(http_get(_u, timeout=15, retries=1))
             _qr = [f for f in (_raw.get("flights") or [])
                    if str(f.get("flightNumber") or "").replace(" ", "").upper() in ("QR858", "QR862")]
