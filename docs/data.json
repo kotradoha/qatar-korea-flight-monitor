@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-27T17:45:32+00:00",
- "generated_at_doha": "2026-07-27 20:45",
- "generated_at_seoul": "2026-07-28 02:45",
+ "generated_at_utc": "2026-07-27T17:49:31+00:00",
+ "generated_at_doha": "2026-07-27 20:49",
+ "generated_at_seoul": "2026-07-28 02:49",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-27T17:45:51+00:00",
+  "checked_at_utc": "2026-07-27T17:49:35+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -288,7 +288,7 @@
      "label": "7/28 (화)",
      "label_en": "Tue 7/28",
      "dep": "01:13",
-     "arr": "05:13",
+     "arr": "04:55",
      "kind": "inflight",
      "cls": "good",
      "delay": 0,
@@ -298,7 +298,7 @@
        "status": "Scheduled",
        "statusCode": "SH",
        "sched": "05:20",
-       "est": "05:13",
+       "est": "04:55",
        "other": "ICN",
        "source": "HIA"
       },
@@ -398,7 +398,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "05:20",
-     "est": "05:13",
+     "est": "04:55",
      "other": "ICN",
      "source": "HIA"
     },
@@ -576,7 +576,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-27T17:45:32+00:00",
+  "checked_at_utc": "2026-07-27T17:49:31+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -656,7 +656,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "05:20",
-     "est": "05:13",
+     "est": "04:55",
      "other": "ICN"
     }
    }
@@ -693,20 +693,32 @@
    }
   }
  },
- "_probe": {
-  "hamad_dep(0~+6)": [
-   "QR858@2026-07-27 02:20",
-   "QR858@2026-07-28 02:20"
-  ],
-  "icn_dep(+5,20260801)": [
-   "QR859 202608010120"
-  ],
-  "icn_arr(+5,20260801)": [
-   "QR858 202608011705"
-  ]
+ "icn_future": {
+  "QR858": {
+   "2026-07-29": "17:05",
+   "2026-07-30": "17:05",
+   "2026-07-31": "17:05",
+   "2026-08-01": "17:05",
+   "2026-08-02": "17:05",
+   "2026-08-03": "17:05"
+  },
+  "QR862": {
+   "2026-07-31": "10:30"
+  },
+  "QR859": {
+   "2026-07-29": "01:20",
+   "2026-07-30": "01:20",
+   "2026-07-31": "01:20",
+   "2026-08-01": "01:20",
+   "2026-08-02": "01:20",
+   "2026-08-03": "01:20"
+  },
+  "QR863": {
+   "2026-07-31": "18:30"
+  }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-27T17:47:55+00:00",
+  "checked_at_utc": "2026-07-27T17:52:25+00:00",
   "flags": [],
   "material": false
  }
