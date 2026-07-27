@@ -1035,7 +1035,8 @@ def _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn
             arr_b = ham_arr.get(f"{fno}@{arr_iso}") if arr_iso else None
         if not arr_b or _map_board_status(arr_b.get("status")) != "landed":
             continue                             # 도착 확인된 편만
-        dep_t = _hhmm_norm((dep_b or {}).get("est") or (dep_b or {}).get("sched")) or cfg["sched_dep"]
+        dep_bv = _hhmm_norm((dep_b or {}).get("est") or (dep_b or {}).get("sched"))
+        dep_t = dep_bv or cfg["sched_dep"]       # 전광판 출발값 없으면 스케줄(추정)
         arr_v = _hhmm_norm(arr_b.get("est") or arr_b.get("sched"))
         arr_t = (("익일 " + arr_v) if overnight else arr_v) if arr_v else cfg["sched_arr"]
         dm = _delay_min((dep_b or {}).get("sched"), (dep_b or {}).get("est"))
@@ -1048,9 +1049,37 @@ def _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn
             "kind": "landed", "cls": "good", "confirmed": True,
             "delay_dep": dm or 0, "delay_arr": am or 0,
             "delay": max(dm or 0, am or 0),
+            # 출발/도착 시각이 실제 전광판에서 왔는지(이월 병합 시 스케줄 추정값이 전광판값을 덮어쓰지 않게)
+            "_dep_board": bool(dep_b and dep_bv),
+            "_arr_board": bool(arr_v),
         }
         return entry
     return None
+
+
+def _merge_done(rec, prev_done):
+    """직전 도착편 후보(rec: 이번 전광판 복원, prev_done: 이전 저장값)를 합쳐 '가장 정확한' 한 편을 만든다.
+    - 날짜가 다르면 더 최신 날짜를 그대로 채택(새 운항편 등장).
+    - 같은 날짜면 병합하되, 출발/도착 시각은 '전광판에서 온 값'만 덮어쓴다.
+      → 조회창을 벗어나 스케줄값으로 재구성된 rec가, 신선할 때 잡아둔 prev_done의 전광판값을 덮어쓰는 저하를 방지."""
+    cands = [c for c in (rec, prev_done) if c and c.get("date")]
+    if not cands:
+        return None
+    newest = max(c["date"] for c in cands)
+    r = rec if (rec and rec.get("date") == newest) else None
+    p = prev_done if (prev_done and prev_done.get("date") == newest) else None
+    if not (r and p):                             # 같은 날짜 후보가 하나뿐 → 그것 사용
+        return r or p
+    base = dict(p)                                # 이전 저장값을 바탕으로(과거 전광판값 보존)
+    if r.get("_dep_board"):                       # rec의 '전광판' 출발만 반영
+        base["dep"] = r.get("dep"); base["delay_dep"] = r.get("delay_dep", 0)
+    if r.get("_arr_board"):
+        base["arr"] = r.get("arr"); base["delay_arr"] = r.get("delay_arr", 0)
+    for k in ("label", "label_en", "kind", "cls", "confirmed"):
+        if r.get(k) is not None:
+            base[k] = r[k]
+    base["delay"] = max(int(base.get("delay_dep") or 0), int(base.get("delay_arr") or 0))
+    return base
 
 
 def ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, icn_dep):
@@ -1074,10 +1103,8 @@ def ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, 
             continue
         rec = _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn_dep)
         prev_done = (prev_fl.get(fno) or {}).get("last_done")
-        best = None
-        for c in (rec, prev_done):                # 더 최신 날짜 우선
-            if c and c.get("date") and (best is None or c["date"] > best["date"]):
-                best = c
+        # 같은 날짜면 전광판값을 우선 보존해 병합(스케줄 추정값의 덮어쓰기 방지), 다른 날짜면 최신 채택
+        best = _merge_done(rec, prev_done)
         if not best:
             continue
         f["last_done"] = _slim_done(best)
