@@ -1611,6 +1611,35 @@ def main():
         "maintenance": maintenance,
         "boards": boards,
     }
+    # ===== [임시 탐침] FlightStats 미래 스케줄 데이터 유무 조사 (조사 후 제거) =====
+    try:
+        _probe = {}
+        _bd = now_utc.astimezone(TZ_DOHA).date()
+        for _off in (2, 3, 5, 7, 10, 14, 21):
+            _dd = _bd + timedelta(days=_off)
+            try:
+                _r = fetch_flight("858", _dd)
+                if _r:
+                    _probe[f"trk+{_off}"] = f"DATA code={_r.get('code')} dep_sched={to_local(_r.get('dep_sched_utc'), TZ_DOHA)}"
+                else:
+                    _probe[f"trk+{_off}"] = "None"
+            except Exception as _e:  # noqa: BLE001
+                _probe[f"trk+{_off}"] = f"ERR {type(_e).__name__}"
+        # 스케줄 엔드포인트 후보(있으면 미래 발행 스케줄을 주는지)
+        _cands = {
+            "sched_route": f"https://www.flightstats.com/v2/api-next/scheduled-flight/route/QR/DOH/ICN/{_bd.year}/{_bd.month}/{(_bd + timedelta(days=10)).day}",
+            "sched_flight": f"https://www.flightstats.com/v2/api-next/flight-tracker/schedules/QR/858",
+        }
+        for _k, _u in _cands.items():
+            try:
+                _b = http_get(_u, timeout=10, retries=1)
+                _probe[_k] = f"HTTP OK len={len(_b)} head={_b[:80]!r}"
+            except Exception as _e:  # noqa: BLE001
+                _probe[_k] = f"ERR {type(_e).__name__}: {str(_e)[:60]}"
+        out["_probe"] = _probe
+    except Exception as _e:  # noqa: BLE001
+        out["_probe"] = f"probe fail: {_e}"
+    # ===== [임시 탐침 끝] =====
     # 빅시그널 자가감사(영공 폐쇄·한국 노선 결항 표시의 신뢰도). 기존 값은 안 바꾸고 별도 기록만 한다.
     out["integrity"] = compute_integrity(out, prev, today_iso, tom_iso)
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
