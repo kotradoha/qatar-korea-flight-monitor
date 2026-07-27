@@ -1344,12 +1344,16 @@ def apply_icn_future(flights_out, icn_future, sched_ovs):
             if day.get("confirmed") or day.get("kind") == "suspended":
                 continue                            # 실측/전광판 확정편·미운영편은 유지
             d = day.get("date")
-            hh = _hhmm_norm(fut.get(d))
-            if not hh:
-                continue
             try:
                 dd = date.fromisoformat(d)
             except (ValueError, TypeError):
+                continue
+            # icn_future 키는 '인천쪽 다리'의 서울 현지 날짜다. 출발편(QR859·863)은 서울 출발일(=행 날짜),
+            # 도하발 도착편(QR858·862)은 서울 도착일 — 야간편(QR862)은 출발일 다음 날이므로 +1일로 조회한다.
+            #   (행 날짜 d 는 출발지=도하 기준이라, 그대로 조회하면 야간편이 하루 어긋나 미반영된다.)
+            icn_date = (dd + timedelta(days=1)).isoformat() if (side == "arr" and overnight) else d
+            hh = _hhmm_norm(fut.get(icn_date))
+            if not hh:
                 continue
             # 이 날짜에 운영자 override가 '인천쪽 다리'를 지정했으면 override 우선(덮지 않음)
             manual_side = False
