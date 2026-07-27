@@ -322,7 +322,9 @@ def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
             "kind": "plan", "cls": "plan", "delay": 0, "confirmed": False,
         }
         near = offset <= 3   # 운휴 감지·확인 실패 판정은 근접일만(먼 미래는 데이터 없어도 '미운항' 아님)
-        if True:   # 실시간(FlightStats)을 향후편까지 최대한 조회 — 3일 넘어도 예약 가능 스케줄을 끌어온다
+        # FlightStats 실시간판은 실측상 '어제~내일(±1일)'만 데이터를 제공한다(그 밖은 None).
+        # 여유 있게 ±5일까지 조회해 값이 생기는 즉시 반영하고, 그 밖 향후편은 유효 스케줄(항공사 발행)로 채운다.
+        if offset <= 5:
             try:
                 fs = fetch_flight(num, d)
                 health["ok"] += 1
