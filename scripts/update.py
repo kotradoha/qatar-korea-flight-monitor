@@ -322,9 +322,10 @@ def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
             "kind": "plan", "cls": "plan", "delay": 0, "confirmed": False,
         }
         near = offset <= 3   # 운휴 감지·확인 실패 판정은 근접일만(먼 미래는 데이터 없어도 '미운항' 아님)
-        # FlightStats 실시간판은 실측상 '어제~내일(±1일)'만 데이터를 제공한다(그 밖은 None).
-        # 여유 있게 ±5일까지 조회해 값이 생기는 즉시 반영하고, 그 밖 향후편은 유효 스케줄(항공사 발행)로 채운다.
-        if offset <= 5:
+        # FlightStats flight-tracker는 실측상 '어제~내일(±1일)'만 데이터를 제공한다(그 밖은 None).
+        # 조회를 더 늘려도 실효 없이 오류(레이트리밋)만 늘어 ±3일까지만 조회(±1 실측+여유).
+        # 그 밖 향후편은 항공사 발행 스케줄(schedule_overrides/하드코딩)로 채운다.
+        if offset <= 3:
             try:
                 fs = fetch_flight(num, d)
                 health["ok"] += 1
