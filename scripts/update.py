@@ -1295,6 +1295,82 @@ def apply_time_overrides(flights_out, overrides):
             _apply(ld)
 
 
+def fetch_icn_future(key, now_utc, days=6, timeout=12):
+    """인천 상세 API로 향후 D+1~D+days(서울)의 '발행 스케줄'(인천쪽 시각)을 조회한다.
+    QR858·QR862는 인천 '도착' 시각, QR859·QR863은 인천 '출발' 시각(각 편의 인천쪽 다리).
+    반환: {편명: {'YYYY-MM-DD': 'HH:MM'}} / 실패·키없음 시 {}.
+    ※ 호출량이 크므로(방향×일수=최대 12콜) main에서 하루 몇 번만 호출하고 결과를 이월한다(개발 한도 500/일 관리)."""
+    if not key:
+        return {}
+    seoul_today = now_utc.astimezone(TZ_SEOUL).date()
+    out = {}
+    plans = (("getPassengerArrivalsDeOdp", ("QR858", "QR862")),
+             ("getPassengerDeparturesDeOdp", ("QR859", "QR863")))
+    for op, fns in plans:
+        keep = frozenset(fns)
+        for off in range(1, days + 1):
+            sd = (seoul_today + timedelta(days=off)).strftime("%Y%m%d")
+            try:
+                recs = _fetch_icn_day(key, op, sd, timeout, keep)
+            except Exception as e:  # noqa: BLE001
+                print(f"[warn] icn_future ({op} {sd}): {e}", file=sys.stderr)
+                continue
+            for k, v in recs.items():
+                fno, _, date_iso = k.partition("@")
+                hh = _hhmm_norm(v.get("sched"))
+                if fno in fns and date_iso and hh:
+                    out.setdefault(fno, {})[date_iso] = hh
+    return out
+
+
+def apply_icn_future(flights_out, icn_future, sched_ovs):
+    """향후 예정편(아직 근접 실측/전광판이 없는 plan/sched)의 '인천쪽 시각'을 인천 발행 스케줄로 설정한다.
+    QR858·QR862 → 도착(인천), QR859·QR863 → 출발(인천). 운영자 override가 그 다리를 지정했으면 그게 최우선.
+    confirmed(근접 실측·전광판)편은 그쪽이 더 정확하므로 건드리지 않는다."""
+    if not icn_future:
+        return
+    for fno in KOREA_FLIGHTS:
+        f = flights_out.get(fno)
+        if not isinstance(f, dict):
+            continue
+        cfg = FLIGHTS.get(fno) or {}
+        origin_doha = cfg.get("origin_tz") == "doha"
+        overnight = str(cfg.get("sched_arr", "")).strip().startswith("익일")
+        side = "arr" if origin_doha else "dep"     # 인천쪽 다리
+        ov_list = (sched_ovs or {}).get(fno)
+        ov_items = ov_list if isinstance(ov_list, list) else ([ov_list] if isinstance(ov_list, dict) else [])
+        fut = icn_future.get(fno) or {}
+        for day in f.get("days", []):
+            if day.get("confirmed") or day.get("kind") == "suspended":
+                continue                            # 실측/전광판 확정편·미운영편은 유지
+            d = day.get("date")
+            hh = _hhmm_norm(fut.get(d))
+            if not hh:
+                continue
+            try:
+                dd = date.fromisoformat(d)
+            except (ValueError, TypeError):
+                continue
+            # 이 날짜에 운영자 override가 '인천쪽 다리'를 지정했으면 override 우선(덮지 않음)
+            manual_side = False
+            for ov in ov_items:
+                if not isinstance(ov, dict):
+                    continue
+                frm = str(ov.get("from") or "").strip()[:10]
+                try:
+                    if frm and date.fromisoformat(frm) <= dd and ov.get(side):
+                        manual_side = True
+                        break
+                except ValueError:
+                    pass
+            if manual_side:
+                continue
+            if side == "arr":
+                day["arr"] = ("익일 " + hh) if overnight else hh
+            else:
+                day["dep"] = hh
+
+
 def main():
     prev = None
     if DATA_PATH.exists():
@@ -1537,6 +1613,23 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"[warn] ICN board stage: {e}", file=sys.stderr)
 
+    # 인천 향후 발행 스케줄(D+1~D+6, 인천쪽 시각): 향후편 시각을 미리 정확히 반영·감지한다.
+    #   호출량 관리를 위해 하루 몇 번(정시대 03·11·19시 UTC)만 갱신하고 나머지 실행은 직전 값을 이월한다.
+    icn_future = (prev or {}).get("icn_future") or {}
+    # 최초(이월값 없음)엔 바로 조회해 부트스트랩, 이후엔 정시대(UTC 3·11·19시)에만 갱신(호출량 관리).
+    if icn_key and (not icn_future or (now_utc.hour in (3, 11, 19) and now_utc.minute < 15)):
+        try:
+            _nf = fetch_icn_future(icn_key, now_utc)
+            if _nf:
+                icn_future = _nf
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] icn_future stage: {e}", file=sys.stderr)
+    # 지난 날짜는 정리(향후만 유지)
+    _seoul_today_iso = now_utc.astimezone(TZ_SEOUL).date().isoformat()
+    icn_future = {fn: {dt: hh for dt, hh in (dates or {}).items() if dt >= _seoul_today_iso}
+                  for fn, dates in (icn_future or {}).items()}
+    icn_future = {fn: dts for fn, dts in icn_future.items() if dts}
+
     # 편·날짜별 부착: 각 날짜 행의 실제 출발/도착 날짜를 계산해 '편명@날짜' 레코드를 찾아 day['board']에 붙인다.
     for fno in KOREA_FLIGHTS:
         f = flights_out.get(fno)
@@ -1596,6 +1689,12 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"[warn] apply_time_overrides: {e}", file=sys.stderr)
 
+    # 향후 예정편의 '인천쪽 시각'을 인천 발행 스케줄(D+1~D+6)로 반영 — 스케줄 변경을 최대 6일 전 자동 감지.
+    try:
+        apply_icn_future(flights_out, icn_future, sched_ovs)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] apply_icn_future: {e}", file=sys.stderr)
+
     out = {
         "generated_at_utc": now_utc.isoformat(timespec="seconds"),
         "generated_at_doha": now_utc.astimezone(TZ_DOHA).strftime("%Y-%m-%d %H:%M"),
@@ -1610,52 +1709,8 @@ def main():
         "flights": flights_out,
         "maintenance": maintenance,
         "boards": boards,
+        "icn_future": icn_future,   # 인천 향후 발행 스케줄(D+1~D+6, 이월용)
     }
-    # ===== [임시 탐침3] 공항 API 미래 발행 스케줄 유무(하마드·인천 D+5) — 조사 후 제거 =====
-    try:
-        _probe = {}
-        _bd = now_utc.astimezone(TZ_DOHA).date()
-        # 하마드(도하) 출발: 오늘~+6일 창에서 QR858/862가 미래 날짜로 잡히는지
-        try:
-            _hs = _bd.strftime("%d-%m-%Y")
-            _he = (_bd + timedelta(days=6)).strftime("%d-%m-%Y")
-            _qs = urllib.parse.urlencode({"type": "departures",
-                                          "startTime": f"{_hs} 00:00:00", "endTime": f"{_he} 23:59:59"})
-            _u = f"{HIA_BASE}?{_qs}"
-            _raw = json.loads(http_get(_u, timeout=15, retries=1))
-            _qr = [f for f in (_raw.get("flights") or [])
-                   if str(f.get("flightNumber") or "").replace(" ", "").upper() in ("QR858", "QR862")]
-            _rows = []
-            for f in _qr:
-                try:
-                    _dt = datetime.fromtimestamp(int(f["scheduledTime"]), TZ_DOHA)
-                    _rows.append(f"{f['flightNumber']}@{_dt.date().isoformat()} {_dt.strftime('%H:%M')}")
-                except Exception:  # noqa: BLE001
-                    pass
-            _probe["hamad_dep(0~+6)"] = sorted(_rows)
-        except Exception as _e:  # noqa: BLE001
-            _probe["hamad"] = f"ERR {str(_e)[:70]}"
-        # 인천 상세: +5일 출발(QR859/863)·도착(QR858/862)이 잡히는지
-        _ikey = (os.environ.get("ICN_API_KEY") or "").strip()
-        if _ikey:
-            for _dir, _op, _fns in (("dep", "getPassengerDeparturesDeOdp", ("QR859", "QR863")),
-                                    ("arr", "getPassengerArrivalsDeOdp", ("QR858", "QR862"))):
-                try:
-                    _sd = (_bd + timedelta(days=5)).strftime("%Y%m%d")
-                    _u = f"{ICN_BASE}/{_op}?serviceKey={_ikey}&type=json&searchday={_sd}&numOfRows=5000&pageNo=1&lang=E"
-                    _raw = json.loads(http_get(_u, timeout=15, retries=1))
-                    _items = ((_raw.get("response") or {}).get("body") or {}).get("items") or []
-                    if isinstance(_items, dict):
-                        _items = _items.get("item") or []
-                    _qr = [f"{it.get('flightId')} {it.get('scheduleDateTime')}" for it in _items
-                           if str(it.get("flightId") or "").replace(" ", "").upper() in _fns]
-                    _probe[f"icn_{_dir}(+5,{_sd})"] = _qr or f"QR없음(총 {len(_items)}편)"
-                except Exception as _e:  # noqa: BLE001
-                    _probe[f"icn_{_dir}"] = f"ERR {str(_e)[:70]}"
-        out["_probe"] = _probe
-    except Exception as _e:  # noqa: BLE001
-        out["_probe"] = f"probe fail: {_e}"
-    # ===== [임시 탐침3 끝] =====
     # 빅시그널 자가감사(영공 폐쇄·한국 노선 결항 표시의 신뢰도). 기존 값은 안 바꾸고 별도 기록만 한다.
     out["integrity"] = compute_integrity(out, prev, today_iso, tom_iso)
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
