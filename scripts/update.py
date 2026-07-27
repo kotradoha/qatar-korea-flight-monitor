@@ -1611,37 +1611,49 @@ def main():
         "maintenance": maintenance,
         "boards": boards,
     }
-    # ===== [임시 탐침2] FlightStats 미래 tracker 범위 재확인(딜레이로 레이트리밋 배제) + 스케줄 엔드포인트 =====
+    # ===== [임시 탐침3] 공항 API 미래 발행 스케줄 유무(하마드·인천 D+5) — 조사 후 제거 =====
     try:
-        import time as _t
         _probe = {}
         _bd = now_utc.astimezone(TZ_DOHA).date()
-        for _off in (3, 4, 7, 14):
-            _t.sleep(3)                       # 레이트리밋 회피
-            _dd = _bd + timedelta(days=_off)
-            try:
-                _r = fetch_flight("858", _dd)
-                _probe[f"trk+{_off}"] = (f"DATA code={_r.get('code')} dep_sched={to_local(_r.get('dep_sched_utc'), TZ_DOHA)}"
-                                         if _r else "None")
-            except Exception as _e:  # noqa: BLE001
-                _probe[f"trk+{_off}"] = f"ERR {type(_e).__name__}"
-        # FlightStats 스케줄 엔드포인트 후보(라우트/편별 미래 발행 스케줄)
-        _y, _m, _d10 = _bd.year, _bd.month, (_bd + timedelta(days=10))
-        _cands = {
-            "byroute": f"https://www.flightstats.com/v2/api-next/flight-tracker/route/QR/DOH/ICN/{_d10.year}/{_d10.month}/{_d10.day}",
-            "sched2": f"https://www.flightstats.com/v2/api-next/scheduled-flights/QR/858/{_d10.year}/{_d10.month}/{_d10.day}",
-        }
-        for _k, _u in _cands.items():
-            _t.sleep(2)
-            try:
-                _b = http_get(_u, timeout=10, retries=1)
-                _probe[_k] = f"OK len={len(_b)} head={_b[:100]!r}"
-            except Exception as _e:  # noqa: BLE001
-                _probe[_k] = f"ERR {str(_e)[:50]}"
+        # 하마드(도하) 출발: 오늘~+6일 창에서 QR858/862가 미래 날짜로 잡히는지
+        try:
+            _hs = _bd.strftime("%d-%m-%Y")
+            _he = (_bd + timedelta(days=6)).strftime("%d-%m-%Y")
+            _u = f"{HIA_BASE}?type=departures&startTime={_hs} 00:00:00&endTime={_he} 23:59:59"
+            _raw = json.loads(http_get(_u, timeout=15, retries=1))
+            _qr = [f for f in (_raw.get("flights") or [])
+                   if str(f.get("flightNumber") or "").replace(" ", "").upper() in ("QR858", "QR862")]
+            _rows = []
+            for f in _qr:
+                try:
+                    _dt = datetime.fromtimestamp(int(f["scheduledTime"]), TZ_DOHA)
+                    _rows.append(f"{f['flightNumber']}@{_dt.date().isoformat()} {_dt.strftime('%H:%M')}")
+                except Exception:  # noqa: BLE001
+                    pass
+            _probe["hamad_dep(0~+6)"] = sorted(_rows)
+        except Exception as _e:  # noqa: BLE001
+            _probe["hamad"] = f"ERR {str(_e)[:70]}"
+        # 인천 상세: +5일 출발(QR859/863)·도착(QR858/862)이 잡히는지
+        _ikey = (os.environ.get("ICN_API_KEY") or "").strip()
+        if _ikey:
+            for _dir, _op, _fns in (("dep", "getPassengerDeparturesDeOdp", ("QR859", "QR863")),
+                                    ("arr", "getPassengerArrivalsDeOdp", ("QR858", "QR862"))):
+                try:
+                    _sd = (_bd + timedelta(days=5)).strftime("%Y%m%d")
+                    _u = f"{ICN_BASE}/{_op}?serviceKey={_ikey}&type=json&searchday={_sd}&numOfRows=5000&pageNo=1&lang=E"
+                    _raw = json.loads(http_get(_u, timeout=15, retries=1))
+                    _items = ((_raw.get("response") or {}).get("body") or {}).get("items") or []
+                    if isinstance(_items, dict):
+                        _items = _items.get("item") or []
+                    _qr = [f"{it.get('flightId')} {it.get('scheduleDateTime')}" for it in _items
+                           if str(it.get("flightId") or "").replace(" ", "").upper() in _fns]
+                    _probe[f"icn_{_dir}(+5,{_sd})"] = _qr or f"QR없음(총 {len(_items)}편)"
+                except Exception as _e:  # noqa: BLE001
+                    _probe[f"icn_{_dir}"] = f"ERR {str(_e)[:70]}"
         out["_probe"] = _probe
     except Exception as _e:  # noqa: BLE001
         out["_probe"] = f"probe fail: {_e}"
-    # ===== [임시 탐침2 끝] =====
+    # ===== [임시 탐침3 끝] =====
     # 빅시그널 자가감사(영공 폐쇄·한국 노선 결항 표시의 신뢰도). 기존 값은 안 바꾸고 별도 기록만 한다.
     out["integrity"] = compute_integrity(out, prev, today_iso, tom_iso)
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
