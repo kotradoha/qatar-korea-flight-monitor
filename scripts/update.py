@@ -241,13 +241,20 @@ def _mark_suspended(fdict, note, note_en, until, source, url=None):
             day["kind"], day["cls"] = "suspended", "susp"
 
 
-def _eff_sched(cfg, d, ov_list):
-    """날짜 d(date)에 유효한 (sched_dep, sched_arr) 반환.
-    schedule_overrides(운영자 지정 정기 스케줄 변경, 효력일 'from' 기준) 중 from<=d 인 항목을
-    효력일 오름차순으로 적용하며, 각 항목이 지정한 dep/arr 만 덮어쓴다. 없으면 하드코딩 기본값.
-    형식(편별): {"from":"2026-08-01","dep":"02:05","arr":"16:50"} 또는 그 리스트."""
+def _eff_sched(cfg, d, ov_list, obs=None):
+    """날짜 d(date)에 유효한 (sched_dep, sched_arr) 반환. 우선순위: 하드코딩 < FlightStats 관측 < 운영자 지정.
+    - obs=(관측 dep HHMM, 관측 arr HHMM): FlightStats가 준 '현재 발행 스케줄'(근접일에서 관측).
+      항공사가 정기 스케줄을 바꾸면 조회창(±1일)에 들어오는 순간부터 향후편에 자동 반영된다.
+    - ov_list(schedule_overrides): 운영자 지정(효력일 'from' 기준). 관측값보다 우선(최종 확정).
+      형식(편별): {"from":"2026-08-01","dep":"02:05","arr":"16:50"} 또는 그 리스트."""
     dep = cfg.get("sched_dep")
     arr = cfg.get("sched_arr")
+    if obs:                       # FlightStats 관측 발행 스케줄(자동 반영)
+        od, oa = obs
+        if od:
+            dep = od
+        if oa:
+            arr = ("익일 " + oa) if str(cfg.get("sched_arr", "")).strip().startswith("익일") else oa
     items = ov_list if isinstance(ov_list, list) else ([ov_list] if isinstance(ov_list, dict) else [])
     applicable = []
     for ov in items:
@@ -288,11 +295,13 @@ def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
     horizon = 7 if cfg["daily"] else 14   # 매일편 1주, 비정기편은 향후 2주 내 운항 요일
     overnight = 1 if str(cfg.get("sched_arr", "")).strip().startswith("익일") else 0  # 도착이 익일인 야간편
     _ov_list = (sched_ovs or {}).get(fno)   # 이 편의 정기 스케줄 변경(효력일 기준)
+    _obs_dep = _obs_arr = None              # FlightStats로 관측한 '현재 발행 스케줄'(향후편 자동 반영용)
     for offset in range(-1, horizon + 1):   # -1: 어제 출발해 오늘 도착한 야간편을 놓치지 않도록
         d = today_local + timedelta(days=offset)
         if not cfg["daily"] and d.weekday() != cfg.get("dow", 3):   # 비정기편은 지정 운항 요일만
             continue
-        _eff_dep, _eff_arr = _eff_sched(cfg, d, _ov_list)   # 이 날짜에 유효한 스케줄(변경 반영)
+        # 이 날짜에 유효한 스케줄: 하드코딩 < FlightStats 관측(자동 반영) < 운영자 지정. 향후편에 적용.
+        _eff_dep, _eff_arr = _eff_sched(cfg, d, _ov_list, (_obs_dep, _obs_arr))
         # 도착일이 이미 지난 편은 제외 — 단 '도착일'은 출발지 날짜뿐 아니라 도착지 시간대로도 판단한다.
         #   (인천→도하 저녁편 등: 서울이 자정을 넘겨도 도하 도착 당일이면 계속 보여야 함)
         origin_keep = not ((d + timedelta(days=overnight)) < today_local)
@@ -342,8 +351,16 @@ def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
                     code = fs["code"]
                     confirmed_any = True
                     entry["confirmed"] = True   # 이 날짜 상태가 실데이터로 확인됨(영공 폐쇄 판정의 근거가 됨)
-                    # 정기 스케줄 변경 감지: FlightStats '예정' 출발시각(지연 아님)이 '이 날짜의 유효 스케줄'과
-                    #   다르면 후보로 기록(효력일=관측된 가장 이른 날짜). 미래 시점 변경(예: 8/1부터)도 잡는다.
+                    # 현재 '발행 스케줄' 관측: 조회창 안 가장 미래(내일)까지의 발행 시각을 기억해 향후편(플랜)에
+                    #   자동 반영한다. 항공사가 일정을 바꾸면 그 날짜가 조회창에 들어오는 순간부터 전파된다.
+                    #   (발행 스케줄 dep_sched/arr_sched는 지연·예상이 아닌 확정 시각이라 신뢰 가능)
+                    _osd = to_local(fs.get("dep_sched_utc"), tz)
+                    _osa = to_local(fs.get("arr_sched_utc"), arr_tz)
+                    if _osd:
+                        _obs_dep = _osd
+                    if _osa:
+                        _obs_arr = _osa
+                    # 정기 스케줄 변경 감지(운영자 안내용 보조 신호): 유효 스케줄과 다른 발행 시각을 기록.
                     _sd = to_local(fs.get("dep_sched_utc"), tz)
                     if _sd and _sd != _eff_dep:
                         _rec = sched_obs.setdefault(_sd, {"count": 0, "from": d.isoformat()})
