@@ -613,8 +613,8 @@ def _icn_hhmm(v):
     return s              # 이미 HHMM 형태면 그대로(_hhmm_norm이 최종 처리)
 
 
-def _fetch_icn_day(key, op, searchday, timeout):
-    """상세판 한 날짜(searchday=YYYYMMDD)에서 우리 4편만 뽑아 '편명@서울날짜' 레코드로 반환.
+def _fetch_icn_day(key, op, searchday, timeout, keep):
+    """상세판 한 날짜(searchday=YYYYMMDD)에서 keep(관심 편번호 집합) 편만 뽑아 '편명@서울날짜' 레코드로 반환.
     airline 필터가 무시돼 전 항공사(약 1100편)가 내려오므로, numOfRows를 크게 잡아 한 페이지로 받고
     편명으로 걸러낸다(과다 편수로 페이지가 넘칠 때만 경고—현재 편수로는 발생하지 않음)."""
     qs = urllib.parse.urlencode({
@@ -657,7 +657,7 @@ def _fetch_icn_day(key, op, searchday, timeout):
             if not isinstance(it, dict):
                 continue
             fid = str(it.get("flightId") or "").replace(" ", "").upper()
-            if fid not in KOREA_FLIGHTS:      # 우리 4편만 기록(QR8370 등 타편 제외)
+            if fid not in keep:               # 관심 편(핵심 4편+임시편)만 기록(QR8370 등 타편 제외)
                 continue
             sched = str(it.get("scheduleDateTime") or "").strip()
             dg = re.sub(r"\D", "", sched)
@@ -675,7 +675,7 @@ def _fetch_icn_day(key, op, searchday, timeout):
     return out
 
 
-def fetch_icn_board(key, now_utc, arrivals=True, timeout=12):
+def fetch_icn_board(key, now_utc, arrivals=True, timeout=12, keep=None):
     """인천공항 공식 '여객편 운항 현황 상세 조회' API에서 카타르항공(QR) 편 상태를 가져온다(한국 쪽 전광판).
     arrivals=True: 인천 '도착'(QR858·QR862 확인), False: 인천 '출발'(QR859·QR863 확인).
     오늘+어제(서울) 2일을 조회해, 비행 중인 편은 물론 이미 착륙해 실시간판에서 빠진 '과거 운항분'까지
@@ -685,12 +685,13 @@ def fetch_icn_board(key, now_utc, arrivals=True, timeout=12):
     ※ 호출량: 방향당 2일 = 2콜, (도착+출발) 총 4콜/실행 → 15분 주기 96실행 = 384콜/일(개발 한도 500/일 이내)."""
     if not key:
         return {}
+    keep = keep or KOREA_FLIGHTS
     op = "getPassengerArrivalsDeOdp" if arrivals else "getPassengerDeparturesDeOdp"
     seoul_today = now_utc.astimezone(TZ_SEOUL).date()
     out = {}
     for off in (0, 1):    # 오늘 + 어제(서울) — 과거 운항분 포함
         searchday = (seoul_today - timedelta(days=off)).strftime("%Y%m%d")
-        out.update(_fetch_icn_day(key, op, searchday, timeout))
+        out.update(_fetch_icn_day(key, op, searchday, timeout, keep))
     return out
 
 
@@ -705,11 +706,13 @@ def _hhmm_tz(ts, tz):
         return ""
 
 
-def fetch_hamad_board(now_utc, arrivals=False, timeout=12):
+def fetch_hamad_board(now_utc, arrivals=False, timeout=12, keep=None):
     """하마드공항(도하) 공식 전광판 FIDS API에서 QR 편 상태를 가져온다(도하 쪽 전광판, 키 불필요).
     arrivals=False: 도하 '출발'(QR858·QR862), True: 도하 '도착'(QR859·QR863).
     조회창을 '어제~내일(도하)'로 넓혀, 비행 중이라 도착이 내일 새벽인 편·이미 지나 빠진 편도 포함한다.
+    keep: 보관할 편번호 집합(핵심 4편+임시편). 기본은 핵심 4편.
     반환: {"편명@도하날짜(YYYY-MM-DD)": {status, statusCode, sched, est, other}} / 실패·미검증 시 {}."""
+    keep = keep or KOREA_FLIGHTS
     dnow = now_utc.astimezone(TZ_DOHA)
     # 조회창을 과거로 더 넓힌다(-3일). 주간편(QR862 목요일 출발)의 '직전 도착편' 출발시각을
     # 며칠 지나서도 전광판 기준으로 잡기 위함. 미래는 +1일(내일 새벽 도착편 포함).
@@ -730,7 +733,7 @@ def fetch_hamad_board(now_utc, arrivals=False, timeout=12):
             if not isinstance(it, dict):
                 continue
             fid = str(it.get("flightNumber") or "").replace(" ", "").upper()
-            if fid not in KOREA_FLIGHTS:      # 우리 4편만 기록(데이터 경량화)
+            if fid not in keep:               # 관심 편(핵심 4편+임시편)만 기록(데이터 경량화)
                 continue
             sched_ts = it.get("scheduledTime")
             try:                                   # 예정 시각(유닉스초)으로 도하 현지 운항 날짜를 키에 붙임
@@ -987,6 +990,82 @@ def apply_board_display(flights_out):
                 k = _map_board_status(arr_b.get("status"))
                 if k:
                     bkinds.append(k)
+            final = None
+            if "cancelled" in bkinds:
+                final = "cancelled"
+            elif "diverted" in bkinds:
+                final = "diverted"
+            elif bkinds:
+                cur = day.get("kind")
+                final = max(bkinds + ([cur] if cur in RANK else []), key=lambda k: RANK.get(k, 0))
+            if final:
+                day["kind"] = final
+                day["cls"] = CLS.get(final, "good")
+                day["confirmed"] = True
+                touched = True
+            if touched:
+                day["board_ok"] = True
+                day["delay"] = max(int(day.get("delay_dep") or 0), int(day.get("delay_arr") or 0))
+
+
+def apply_board_to_extra(flights_out, extra_keys, ham_dep, ham_arr, icn_arr, icn_dep):
+    """임시·추가편(QR8xxx)에도 공항 전광판 값을 반영한다(핵심 4편과 동일 취지).
+    임시편은 고정 스케줄이 없어 편명·감지된 출발일로 전광판을 직접 매칭한다.
+    도착 board 날짜는 당일·익일 둘 다 시도(야간편 대비). 전광판이 없으면 FlightStats 값을 그대로 둔다.
+    실패해도 화면이 깨지지 않도록 예외는 상위 try에서 흡수한다."""
+    RANK = {"plan": -1, "checking": -1, "sched": 0, "delayed": 1, "inflight": 1,
+            "landed": 2, "diverted": 3, "cancelled": 3}
+    CLS = {"sched": "good", "inflight": "good", "landed": "good", "delayed": "warn",
+           "cancelled": "crit", "diverted": "crit"}
+
+    def _bt(b):
+        return _hhmm_norm((b or {}).get("est") or (b or {}).get("sched"))
+
+    def _next(iso):
+        try:
+            return (date.fromisoformat(iso) + timedelta(days=1)).isoformat()
+        except (ValueError, TypeError):
+            return iso
+
+    for fno in extra_keys:
+        f = flights_out.get(fno)
+        if not isinstance(f, dict):
+            continue
+        route = f.get("route", "")
+        origin_doha = route.startswith("도하") or "(DOH) →" in route
+        for day in f.get("days", []):
+            d = day.get("date")
+            if not d or day.get("kind") == "suspended":
+                continue
+            dep_b = (ham_dep if origin_doha else icn_dep).get(f"{fno}@{d}")
+            arr_src = icn_arr if origin_doha else ham_arr
+            arr_b, arr_next = None, False
+            for ad in (d, _next(d)):
+                arr_b = arr_src.get(f"{fno}@{ad}")
+                if arr_b:
+                    arr_next = (ad != d)
+                    break
+            if not (dep_b or arr_b):
+                continue
+            touched = False
+            if dep_b and _bt(dep_b):
+                day["dep"] = _bt(dep_b); touched = True
+                dm = _delay_min(dep_b.get("sched"), dep_b.get("est"))
+                if dm is not None:
+                    day["delay_dep"] = dm
+            if arr_b and _bt(arr_b):
+                v = _bt(arr_b)
+                day["arr"] = ("익일 " + v) if arr_next else v
+                touched = True
+                am = _delay_min(arr_b.get("sched"), arr_b.get("est"))
+                if am is not None:
+                    day["delay_arr"] = am
+            bkinds = []
+            for bb in (dep_b, arr_b):
+                if bb:
+                    k = _map_board_status(bb.get("status"))
+                    if k:
+                        bkinds.append(k)
             final = None
             if "cancelled" in bkinds:
                 final = "cancelled"
@@ -1373,9 +1452,11 @@ def main():
     boards = {"checked_at_utc": now_utc.isoformat(timespec="seconds"),
               "hamad": {"ok": False}, "icn": {"ok": False}}
     ham_dep = ham_arr = icn_arr = icn_dep = {}
+    # 전광판 대조 대상: 핵심 4편 + 이번에 감지된 임시·추가편(QR8xxx). 임시편도 전광판값을 쓰도록.
+    board_keep = frozenset(KOREA_FLIGHTS) | frozenset(extra.keys())
     try:
-        ham_dep = fetch_hamad_board(now_utc, arrivals=False)   # 도하 출발(QR858·QR862)
-        ham_arr = fetch_hamad_board(now_utc, arrivals=True)    # 도하 도착(QR859·QR863)
+        ham_dep = fetch_hamad_board(now_utc, arrivals=False, keep=board_keep)   # 도하 출발
+        ham_arr = fetch_hamad_board(now_utc, arrivals=True, keep=board_keep)    # 도하 도착
         if ham_dep or ham_arr:
             boards["hamad"] = {"ok": True, "departures": ham_dep, "arrivals": ham_arr}
     except Exception as e:  # noqa: BLE001
@@ -1383,8 +1464,8 @@ def main():
     icn_key = (os.environ.get("ICN_API_KEY") or "").strip()
     if icn_key:
         try:
-            icn_arr = fetch_icn_board(icn_key, now_utc, arrivals=True)    # 인천 도착(QR858·QR862)
-            icn_dep = fetch_icn_board(icn_key, now_utc, arrivals=False)   # 인천 출발(QR859·QR863)
+            icn_arr = fetch_icn_board(icn_key, now_utc, arrivals=True, keep=board_keep)    # 인천 도착
+            icn_dep = fetch_icn_board(icn_key, now_utc, arrivals=False, keep=board_keep)   # 인천 출발
             if icn_arr or icn_dep:
                 boards["icn"] = {"ok": True, "arrivals": icn_arr, "departures": icn_dep}
         except Exception as e:  # noqa: BLE001
@@ -1428,6 +1509,13 @@ def main():
         apply_board_display(flights_out)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] apply_board_display: {e}", file=sys.stderr)
+
+    # 임시·추가편(QR8xxx)에도 전광판 값 반영(핵심 4편과 동일). 실패해도 표시 안 깨지게 try.
+    try:
+        if extra:
+            apply_board_to_extra(flights_out, list(extra.keys()), ham_dep, ham_arr, icn_arr, icn_dep)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] apply_board_to_extra: {e}", file=sys.stderr)
 
     # 각 편의 '가장 최신 도착 완료편' 유지: 다음 도착편이 생기기 전까지 직전 도착편을 계속 보여준다.
     #   (오늘 편이 아직 예정·비행 중이거나, 주간편 비운항일이라 표가 향후편만 남는 경우 대비)
