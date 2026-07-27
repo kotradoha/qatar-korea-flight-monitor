@@ -241,7 +241,33 @@ def _mark_suspended(fdict, note, note_en, until, source, url=None):
             day["kind"], day["cls"] = "suspended", "susp"
 
 
-def build_core_flight(fno, cfg, now_utc, alerts, health):
+def _eff_sched(cfg, d, ov_list):
+    """날짜 d(date)에 유효한 (sched_dep, sched_arr) 반환.
+    schedule_overrides(운영자 지정 정기 스케줄 변경, 효력일 'from' 기준) 중 from<=d 인 항목을
+    효력일 오름차순으로 적용하며, 각 항목이 지정한 dep/arr 만 덮어쓴다. 없으면 하드코딩 기본값.
+    형식(편별): {"from":"2026-08-01","dep":"02:05","arr":"16:50"} 또는 그 리스트."""
+    dep = cfg.get("sched_dep")
+    arr = cfg.get("sched_arr")
+    items = ov_list if isinstance(ov_list, list) else ([ov_list] if isinstance(ov_list, dict) else [])
+    applicable = []
+    for ov in items:
+        if not isinstance(ov, dict):
+            continue
+        frm = str(ov.get("from") or "").strip()[:10]
+        try:
+            if frm and date.fromisoformat(frm) <= d:
+                applicable.append((frm, ov))
+        except ValueError:
+            pass
+    for _frm, ov in sorted(applicable, key=lambda x: x[0]):
+        if ov.get("dep"):
+            dep = str(ov["dep"]).strip()
+        if ov.get("arr"):
+            arr = str(ov["arr"]).strip()
+    return dep, arr
+
+
+def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
     num = fno[2:]
     tz = tz_of(cfg["origin_tz"])
     arr_tz = tz_of(cfg["arr_tz"])
@@ -261,10 +287,12 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
     #    ±3일 밖은 발행 스케줄(운항 예정)로 채워 카타르항공 검색 결과와 동일 범위로 맞춘다.
     horizon = 7 if cfg["daily"] else 14   # 매일편 1주, 비정기편은 향후 2주 내 운항 요일
     overnight = 1 if str(cfg.get("sched_arr", "")).strip().startswith("익일") else 0  # 도착이 익일인 야간편
+    _ov_list = (sched_ovs or {}).get(fno)   # 이 편의 정기 스케줄 변경(효력일 기준)
     for offset in range(-1, horizon + 1):   # -1: 어제 출발해 오늘 도착한 야간편을 놓치지 않도록
         d = today_local + timedelta(days=offset)
         if not cfg["daily"] and d.weekday() != cfg.get("dow", 3):   # 비정기편은 지정 운항 요일만
             continue
+        _eff_dep, _eff_arr = _eff_sched(cfg, d, _ov_list)   # 이 날짜에 유효한 스케줄(변경 반영)
         # 도착일이 이미 지난 편은 제외 — 단 '도착일'은 출발지 날짜뿐 아니라 도착지 시간대로도 판단한다.
         #   (인천→도하 저녁편 등: 서울이 자정을 넘겨도 도하 도착 당일이면 계속 보여야 함)
         origin_keep = not ((d + timedelta(days=overnight)) < today_local)
@@ -289,7 +317,8 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
             "date": d.isoformat(),
             "label": f"{d.month}/{d.day} ({DOW_KR[d.weekday()]})",
             "label_en": f"{DOW_EN[d.weekday()]} {d.month}/{d.day}",
-            "dep": cfg["sched_dep"], "arr": cfg["sched_arr"],   # 시각은 카타르항공 스케줄 기준
+            # 시각은 카타르항공 스케줄 기준(효력일 반영). 근접(±3일)은 아래 FlightStats 실측으로 대체됨.
+            "dep": _eff_dep, "arr": _eff_arr,
             "kind": "plan", "cls": "plan", "delay": 0, "confirmed": False,
         }
         if offset <= 3:   # FlightStats 실시간 확인 가능 범위
@@ -307,10 +336,14 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
                     code = fs["code"]
                     confirmed_any = True
                     entry["confirmed"] = True   # 이 날짜 상태가 실데이터로 확인됨(영공 폐쇄 판정의 근거가 됨)
-                    # 정기 스케줄 변경 감지: FlightStats '예정' 출발시각(지연 아님)을 관측해 하드코딩값과 비교.
+                    # 정기 스케줄 변경 감지: FlightStats '예정' 출발시각(지연 아님)이 '이 날짜의 유효 스케줄'과
+                    #   다르면 후보로 기록(효력일=관측된 가장 이른 날짜). 미래 시점 변경(예: 8/1부터)도 잡는다.
                     _sd = to_local(fs.get("dep_sched_utc"), tz)
-                    if _sd:
-                        sched_obs[_sd] = sched_obs.get(_sd, 0) + 1
+                    if _sd and _sd != _eff_dep:
+                        _rec = sched_obs.setdefault(_sd, {"count": 0, "from": d.isoformat()})
+                        _rec["count"] += 1
+                        if d.isoformat() < _rec["from"]:
+                            _rec["from"] = d.isoformat()
                     worst = max(fs["delay_dep"], fs["delay_arr"])
                     entry["delay"] = worst
                     # ±3일 이내: 실제(예상→예정) 시각을 반영 → 스케줄 변경/지연(예: 17:05→17:15)까지 표시.
@@ -374,13 +407,13 @@ def build_core_flight(fno, cfg, now_utc, alerts, health):
     #   최종 확정은 main()에서 파이프라인이 열화(degraded)가 아닐 때만 반영한다.
     susp_auto = (sched_checked >= 2 and sched_absent == sched_checked)
 
-    # 정기 스케줄 변경 감지: 가장 많이 관측된 '예정' 출발시각이 하드코딩값과 다르고 2일 이상 일관되면 신호.
+    # 정기 스케줄 변경 감지: 유효 스케줄과 다른 '예정' 출발시각이 2일 이상 일관 관측되면 신호(효력일 포함).
     #   (단발 이상치·지연은 걸러진다. 지연은 '예정'이 아닌 '예상' 시각이라 여기 영향 없음.)
     sched_change = None
     if sched_obs:
-        top, cnt = max(sched_obs.items(), key=lambda kv: kv[1])
-        if cnt >= 2 and top != cfg["sched_dep"]:
-            sched_change = top
+        val, rec = max(sched_obs.items(), key=lambda kv: kv[1]["count"])
+        if rec["count"] >= 2:
+            sched_change = {"dep": val, "from": rec["from"]}
 
     # 실시간 위치(adsb.lol)는 화면에 표시하지 않으므로 수집하지 않는다(불필요한 외부요청 제거).
     out_cfg = {k: v for k, v in cfg.items() if k not in ("origin_tz", "arr_tz")}
@@ -1253,9 +1286,18 @@ def main():
     flights_out = {}
     confirmed_total = 0
 
+    # 정기 스케줄 변경(효력일 기준) 운영자 보정: 향후편(±3일 밖)이 옛 시각으로 뜨는 것을 방지.
+    sched_ovs = {}
+    _mn0 = ROOT / "docs" / "manual_notice.json"
+    if _mn0.exists():
+        try:
+            sched_ovs = (json.loads(_mn0.read_text(encoding="utf-8")).get("schedule_overrides")) or {}
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] schedule_overrides parse: {e}", file=sys.stderr)
+
     for fno, cfg in FLIGHTS.items():
         try:
-            entry, confirmed_any = build_core_flight(fno, cfg, now_utc, alerts, health)
+            entry, confirmed_any = build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs)
             flights_out[fno] = entry
             confirmed_total += 1 if confirmed_any else 0
         except Exception as e:  # noqa: BLE001
@@ -1313,10 +1355,11 @@ def main():
     for fno in core_order:
         fdict = flights_out.get(fno)
         ch = fdict.pop("_sched_change", None) if isinstance(fdict, dict) else None
-        if ch:
+        if isinstance(ch, dict) and ch.get("dep"):
             maintenance["schedule_review"].append(
                 {"flight": fno, "field": "dep",
-                 "expected": FLIGHTS[fno]["sched_dep"], "observed": ch})
+                 "expected": FLIGHTS[fno]["sched_dep"], "observed": ch["dep"],
+                 "from": ch.get("from")})
     for fdict in flights_out.values():   # 예외 경로 대비 임시키 정리
         if isinstance(fdict, dict):
             fdict.pop("_susp_auto", None)
