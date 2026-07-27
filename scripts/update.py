@@ -321,17 +321,20 @@ def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
             "dep": _eff_dep, "arr": _eff_arr,
             "kind": "plan", "cls": "plan", "delay": 0, "confirmed": False,
         }
-        if offset <= 3:   # FlightStats 실시간 확인 가능 범위
+        near = offset <= 3   # 운휴 감지·확인 실패 판정은 근접일만(먼 미래는 데이터 없어도 '미운항' 아님)
+        if True:   # 실시간(FlightStats)을 향후편까지 최대한 조회 — 3일 넘어도 예약 가능 스케줄을 끌어온다
             try:
                 fs = fetch_flight(num, d)
                 health["ok"] += 1
             except FetchError:
                 fs = None
                 health["err"] += 1
-                net_error = True
-                entry["kind"], entry["cls"] = "checking", "plan"
+                if near:             # 근접일 조회 실패만 '확인 중'(먼 미래 실패는 예매 가능 유지)
+                    net_error = True
+                    entry["kind"], entry["cls"] = "checking", "plan"
             else:
-                sched_checked += 1   # 조회 자체는 성공(네트워크 정상)
+                if near:
+                    sched_checked += 1   # 조회 자체는 성공(네트워크 정상)
                 if fs:
                     code = fs["code"]
                     confirmed_any = True
@@ -388,9 +391,9 @@ def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
                     else:                      # 알 수 없는/새 상태 코드 → '정상'으로 오인하지 않고 '확인 중'
                         entry["kind"], entry["cls"] = "checking", "plan"
                 else:
-                    sched_absent += 1          # 조회는 됐으나 해당일 편 없음(운휴 후보)
-                # fs None(±3 내 데이터 없음) → '예매 가능'(plan) 유지
-        # offset > 3 → 발행 스케줄(운항 예정) 그대로 표시
+                    if near:
+                        sched_absent += 1      # 근접일 조회는 됐으나 편 없음(운휴 후보). 먼 미래 없음은 무시.
+                # fs None → '예매 가능'(plan, 유효 스케줄) 유지
         days.append(entry)
 
     # 배지 결정: 확정 이상상태 > 확정 정상 > 확인 실패(check) > 정상(추정)
