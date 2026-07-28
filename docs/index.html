@@ -301,7 +301,7 @@ var I18N = {
     go_official: "공식 페이지 열기",
     table_key: "<b>상태 보는 법</b> — <span class='kp'>예매 가능</span>: 예매는 가능하나 운항 미확인(향후편) · <span class='kg'>✓ 운항 예정</span>: 실시간 데이터(Cirium/FlightStats)로 운항 확인 · <span class='kg'>✓ 비행 중·도착 완료</span>: 현재 실시간 상태 · <span class='kw'>⚠ 지연</span>: 출발 또는 도착 20분 이상 · <span class='kr'>✕ 결항·회항</span> · <span style='color:#a2701c;font-weight:600'>⏸ 임시 미운영</span>: 정기편이나 한동안 미운항 · 확인 중: 실시간 조회 일시 불가 · 실시간 시각은 공항 전광판 기준",
     sb_flightnotes: "✈ 한-카타르 노선 특기사항:",
-    sb_seetable: " (아래 표에서 확인)",
+    sb_seetable: " (아래 표 확인)",
     air_status: function(level, risk, manual){
       if (level === "closed") return "카타르 영공: <b>폐쇄 확인됨</b>" + (manual ? " (공식 공지 확인됨)" : " (공역 당국 집계 기준)") + ". 예약하신 편은 카타르항공 공식 채널에서 반드시 확인해 주세요.";
       if (level === "caution") return "카타르 영공 폐쇄 여부: <b>폐쇄 공지 없음</b> · 국제 회피 권고 발효 중" + (risk ? " (권고 등급 " + risk + ")" : "");
