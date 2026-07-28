@@ -1375,6 +1375,97 @@ def apply_icn_future(flights_out, icn_future, sched_ovs):
                 day["dep"] = hh
 
 
+def _alert_arr_dt(day, arr_tz):
+    """day 엔트리의 표시 도착시각(arr 문자열)+운항일(date)로 도착 aware datetime을 추정한다.
+    '익일'/'+N일' 접두를 반영해 야간편 날짜 넘김을 잃지 않는다. 파싱 실패 시 None(만료 판정은 보류)."""
+    arr = str(day.get("arr") or "")
+    m = re.search(r"(\d{1,2}):(\d{2})", arr)
+    if not m:
+        return None
+    shift = 1 if "익일" in arr else 0
+    mm = re.search(r"\+\s*(\d+)\s*일", arr)
+    if mm:
+        try:
+            shift = int(mm.group(1))
+        except ValueError:
+            pass
+    try:
+        d0 = date.fromisoformat(str(day.get("date")))
+    except (ValueError, TypeError):
+        return None
+    ad = d0 + timedelta(days=shift)
+    try:
+        return datetime(ad.year, ad.month, ad.day, int(m.group(1)), int(m.group(2)), tzinfo=arr_tz)
+    except ValueError:
+        return None
+
+
+def _alert_arr_tz(fno, flight):
+    """편의 '도착 시간대'를 반환. 핵심편은 설정값, 임시편은 노선 문자열(도하 출발이면 도착=서울)로 판정."""
+    cfg = FLIGHTS.get(fno)
+    if cfg:
+        return tz_of(cfg["arr_tz"])
+    return TZ_SEOUL if str(flight.get("route") or "").startswith("도하") else TZ_DOHA
+
+
+def rebuild_alerts(flights_out, order, now_utc):
+    """사이드바 '항공 운항 특기사항'을 최종 표시 상태에서 다시 만든다(전광판·보정 반영 후).
+    설계 이유:
+      - 표와 동일한 지연 분(day의 delay_dep/delay_arr)을 그대로 써서 '사이드바 숫자 ≠ 표 숫자' 불일치를 없앤다.
+        (기존엔 파이프라인 도중 FlightStats 값으로 알림을 만들어, 이후 전광판으로 표가 바뀌면 서로 달라졌다.)
+      - 비행 중/출발 전 지연은 state='expected'(도착 '지연 예상'), 도착 완료는 state='actual'(확정)로 구분.
+      - 단발 지연은 도착 2시간 뒤 자동으로 사라지고, 결항·회항이나 '다수 편 동시 지연'은 더 오래 유지한다."""
+    raw = []
+    for fno in (order or list(flights_out.keys())):
+        f = flights_out.get(fno)
+        if not isinstance(f, dict):
+            continue
+        arr_tz = _alert_arr_tz(fno, f)
+        for day in f.get("days", []):
+            if not day.get("confirmed") or not day.get("date"):
+                continue
+            kind = day.get("kind")
+            arr_dt = _alert_arr_dt(day, arr_tz)
+            if kind in ("cancelled", "diverted"):
+                raw.append({"flight": fno, "date": day["date"], "type": kind, "_arr": arr_dt})
+            elif kind in ("inflight", "landed", "delayed"):
+                dd = int(day.get("delay_dep") or 0)
+                ad = int(day.get("delay_arr") or 0)
+                if dd >= DELAY_ALERT_MIN or ad >= DELAY_ALERT_MIN:
+                    raw.append({"flight": fno, "date": day["date"], "type": "delay",
+                                "dep": dd, "arr": ad, "minutes": max(dd, ad),
+                                "state": ("actual" if kind == "landed" else "expected"),
+                                "_arr": arr_dt, "_landed": (kind == "landed")})
+    # 비정상 상황(결항·회항 존재 또는 '최근 6h 내' 지연이 2개 편 이상)이면 지연 알림을 더 오래 유지한다.
+    #   단발은 도착 2h 뒤 사라지되, 여러 편이 몰려 지연되는 '특이 상황'은 착륙 후에도 함께 유지한다.
+    def _recent(a):
+        if a["type"] != "delay":
+            return True
+        if not a.get("_landed"):
+            return True                       # 비행 중/출발 전 → 최근
+        return a.get("_arr") is None or (now_utc - a["_arr"]) <= timedelta(hours=6)
+
+    has_crit = any(a["type"] in ("cancelled", "diverted") for a in raw)
+    recent_delayed = {a["flight"] for a in raw if a["type"] == "delay" and _recent(a)}
+    abnormal = has_crit or len(recent_delayed) >= 2
+    keep_landed = timedelta(hours=12) if abnormal else timedelta(hours=2)
+
+    out = []
+    for a in raw:
+        arr = a.get("_arr")
+        if a["type"] in ("cancelled", "diverted"):
+            if arr is None or (now_utc - arr) <= timedelta(hours=24):   # 결항·회항: 예정 도착 후 24h까지 유지
+                out.append(a)
+        elif not a.get("_landed"):
+            out.append(a)                     # 비행 중/출발 전 지연은 항상 유지(예상)
+        elif arr is None or (now_utc - arr) <= keep_landed:            # 도착 완료 지연: 단발 2h·비정상 12h
+            out.append(a)
+    for a in out:
+        a.pop("_arr", None)
+        a.pop("_landed", None)
+    return out
+
+
 def main():
     prev = None
     if DATA_PATH.exists():
@@ -1698,6 +1789,13 @@ def main():
         apply_icn_future(flights_out, icn_future, sched_ovs)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] apply_icn_future: {e}", file=sys.stderr)
+
+    # 사이드바 '특기사항' 알림을 최종 표시 상태에서 재구성 — 표와 숫자를 일치시키고,
+    #   비행 중=지연 예상/도착=확정 구분, 단발 지연은 도착 2h 뒤 자동 소멸(결항·다수편은 유지).
+    try:
+        alerts = rebuild_alerts(flights_out, order, now_utc)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] rebuild_alerts: {e}", file=sys.stderr)
 
     out = {
         "generated_at_utc": now_utc.isoformat(timespec="seconds"),

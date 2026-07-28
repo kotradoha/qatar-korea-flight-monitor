@@ -450,10 +450,11 @@ function affectedSummary(alerts) {
     if (a.type === "diverted")  return fl + " " + d + (LANG === "ko" ? " 회항" : " diverted");
     if (a.type === "delay") {
       var dp = +(a.dep) || 0, ar = +(a.arr) || 0;      // 출발·도착 각각 20분+면 모두 표기
+      var est = (a.state === "expected");              // 비행 중/출발 전 → 도착은 '예상'(도착하면 확정)
       var kp = [], ep = [];
       if (dp >= 20) { kp.push(dp + "분 출발 지연"); ep.push("dep +" + dp + "min"); }
-      if (ar >= 20) { kp.push(ar + "분 도착 지연"); ep.push("arr +" + ar + "min"); }
-      if (!kp.length) { kp.push(esc(a.minutes) + "분 지연"); ep.push("+" + esc(a.minutes) + "min"); }
+      if (ar >= 20) { kp.push(ar + "분 도착 지연" + (est ? " 예상" : "")); ep.push("arr +" + ar + "min" + (est ? " (est.)" : "")); }
+      if (!kp.length) { kp.push(esc(a.minutes) + "분 지연" + (est ? " 예상" : "")); ep.push("+" + esc(a.minutes) + "min" + (est ? " (est.)" : "")); }
       return fl + " " + d + " " + (LANG === "ko" ? kp.join(" · ") : ep.join(" · "));
     }
     return fl + " " + d;
