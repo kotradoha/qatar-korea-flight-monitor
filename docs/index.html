@@ -297,9 +297,10 @@ var I18N = {
     lbl_advisories: "- 근거 (SafeAirspace 집계): ",
     lbl_qr_updates: "카타르항공 Travel Updates: ",
     lbl_qr_date: function(md){ return "(" + md + " 공지) "; },
+    lbl_qr_count: function(i, n){ return "(" + i + "/" + n + " 공지) "; },
     go_official: "공식 페이지 열기",
     table_key: "<b>상태 보는 법</b> — <span class='kp'>예매 가능</span>: 예매는 가능하나 운항 미확인(향후편) · <span class='kg'>✓ 운항 예정</span>: 실시간 데이터(Cirium/FlightStats)로 운항 확인 · <span class='kg'>✓ 비행 중·도착 완료</span>: 현재 실시간 상태 · <span class='kw'>⚠ 지연</span>: 출발 또는 도착 20분 이상 · <span class='kr'>✕ 결항·회항</span> · <span style='color:#a2701c;font-weight:600'>⏸ 임시 미운영</span>: 정기편이나 한동안 미운항 · 확인 중: 실시간 조회 일시 불가 · 실시간 시각은 공항 전광판 기준",
-    sb_flightnotes: "✈ 항공 운항 특기사항:",
+    sb_flightnotes: "✈ 한-카타르 노선 특기사항:",
     sb_seetable: " (아래 표에서 확인)",
     air_status: function(level, risk, manual){
       if (level === "closed") return "카타르 영공: <b>폐쇄 확인됨</b>" + (manual ? " (공식 공지 확인됨)" : " (공역 당국 집계 기준)") + ". 예약하신 편은 카타르항공 공식 채널에서 반드시 확인해 주세요.";
@@ -333,9 +334,10 @@ var I18N = {
     lbl_advisories: "- Advisories (via SafeAirspace): ",
     lbl_qr_updates: "Qatar Airways Travel Updates: ",
     lbl_qr_date: function(md){ return "(notice " + md + ") "; },
+    lbl_qr_count: function(i, n){ return "(notice " + i + "/" + n + ") "; },
     go_official: "Open official page",
     table_key: "<b>How to read the status</b> — <span class='kp'>Bookable</span>: bookable, operation not yet confirmed (future) · <span class='kg'>✓ Scheduled</span>: operation confirmed in live data (Cirium/FlightStats) · <span class='kg'>✓ In flight·Landed</span>: current live status · <span class='kw'>⚠ Delayed</span>: departure or arrival 20+ min · <span class='kr'>✕ Cancelled·Diverted</span> · <span style='color:#a2701c;font-weight:600'>⏸ Temporarily suspended</span>: scheduled flight, not operating for now · Checking: live lookup temporarily unavailable · Times follow the airports' official boards",
-    sb_flightnotes: "✈ Flight operations notice:",
+    sb_flightnotes: "✈ Korea–Qatar route notes:",
     sb_seetable: " (see tables below)",
     air_status: function(level, risk, manual){
       if (level === "closed") return "Qatar airspace: <b>closure confirmed</b>" + (manual ? " (official notice verified)" : " (based on aggregated airspace-authority sources)") + ". Please confirm your booking via official Qatar Airways channels.";
@@ -369,9 +371,10 @@ var I18N = {
     lbl_advisories: "- التحذيرات (عبر SafeAirspace): ",
     lbl_qr_updates: "تحديثات سفر الخطوط القطرية: ",
     lbl_qr_date: function(md){ return "(إشعار " + md + ") "; },
+    lbl_qr_count: function(i, n){ return "(إشعار " + i + "/" + n + ") "; },
     go_official: "فتح الصفحة الرسمية",
     table_key: "<b>كيف تقرأ الحالة</b> — <span class='kp'>متاحة للحجز</span>: متاحة للحجز والتشغيل غير مؤكّد بعد (قادمة) · <span class='kg'>✓ مجدولة</span>: التشغيل مؤكّد في البيانات المباشرة (Cirium/FlightStats) · <span class='kg'>✓ في الجو·وصلت</span>: الحالة المباشرة الآن · <span class='kw'>⚠ تأخير</span>: المغادرة أو الوصول 20 دقيقة فأكثر · <span class='kr'>✕ إلغاء·تحويل</span> · <span style='color:#a2701c;font-weight:600'>⏸ موقوفة مؤقتًا</span>: رحلة منتظمة لكنها متوقفة حاليًا · جارٍ التحقق: تعذّر الجلب المباشر مؤقتًا · الأوقات بحسب الشاشات الرسمية للمطارات",
-    sb_flightnotes: "✈ ملاحظات تشغيل الرحلات:",
+    sb_flightnotes: "✈ ملاحظات خط كوريا–قطر:",
     sb_seetable: " (انظر الجداول أدناه)",
     air_status: function(level, risk, manual){
       if (level === "closed") return "المجال الجوي القطري: <b>تأكّد الإغلاق</b>" + (manual ? " (تحقّق رسمي)" : " (حسب تجميع هيئات المجال الجوي)") + ". يرجى تأكيد حجزكم عبر القنوات الرسمية للخطوط القطرية.";
@@ -500,13 +503,17 @@ function renderStatusBox() {
   // 3) 실시간 조회 지연
   if (d.degraded) lines.push(t().stale_note);
   // 4) 카타르항공 Travel Updates 공지(운항 관련) — ✈ 줄, (공지일) + 네모 링크 칩
-  (d.qr_notices || []).forEach(function(it){
+  var _qn = (d.qr_notices || []).map(function(it){
     var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
-    if (!title) return;
-    var md = mdOf(it.date);
-    var datePart = md ? t().lbl_qr_date(md) : "";
-    lines.push("✈︎ " + t().lbl_qr_updates + datePart + esc(title) + qaChip(it.url));
-  });
+    return { title: title, url: it.url };
+  }).filter(function(x){ return x.title; });
+  if (_qn.length) {
+    lines.push("✈︎ " + t().lbl_qr_updates);                 // 라벨은 한 번만 — 이후 (n/N 공지)로 누적
+    _qn.forEach(function(x, i){
+      var pfx = _qn.length > 1 ? t().lbl_qr_count(i + 1, _qn.length) : "";
+      lines.push("· " + pfx + esc(x.title) + qaChip(x.url));
+    });
+  }
   // 5) 운영자 긴급 공지(일반 배너) — 있을 때만
   (d.travel_updates || []).forEach(function(it){
     var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
@@ -520,11 +527,18 @@ function renderStatusBox() {
   // ── 항공 운항 특기사항 (결항·지연) : 폐쇄 여부와 별도 표기 ──
   var notes = document.getElementById("sbNotes");
   var alerts = (d.alerts || []).filter(function(x){ return x.date; });
-  if (alerts.length) {
+  var rnotes = (d.route_notes || []).map(function(it){
+    var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
+    return { title: title, url: it.url };
+  }).filter(function(x){ return x.title; });
+  if (alerts.length || rnotes.length) {
     var hasCrit = alerts.some(function(x){ return x.type === "cancelled" || x.type === "diverted"; });
     notes.className = "sb-notes" + (hasCrit ? " crit" : "");
-    notes.innerHTML = "<span class='sn-label'>" + t().sb_flightnotes + "</span> " +
-      affectedSummary(alerts) + t().sb_seetable;
+    var items = [];
+    if (alerts.length) items.push(affectedSummary(alerts) + t().sb_seetable);   // 지연·결항(자동감지)
+    rnotes.forEach(function(x){ items.push(esc(x.title) + (x.url ? qaChip(x.url) : "")); });  // 노선 특기사항(운영자)
+    notes.innerHTML = "<span class='sn-label'>" + t().sb_flightnotes + "</span>" +
+      items.map(function(x){ return "<br>· " + x; }).join("");
     notes.style.display = "";
   } else {
     notes.style.display = "none";

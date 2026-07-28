@@ -1630,6 +1630,7 @@ def main():
     #  공식 링크는 프론트에서 항상 제공하고, 구체 문구는 이 파일로 운영자가 관리한다.)
     travel_updates = []
     qr_notices = []
+    route_notes = []          # 한-카타르 노선 '특기사항'(운영자 지정): 스케줄 임시변경 등 노선 직접 관련 안내
     time_overrides = {}
     _qn_seen = set()
     today_doha_date = now_utc.astimezone(TZ_DOHA).date()
@@ -1638,6 +1639,24 @@ def main():
         try:
             md = json.loads(mn.read_text(encoding="utf-8"))
             time_overrides = md.get("time_overrides") or {}   # 운영자 수동 시각 보정(과거 완료편)
+            # 한-카타르 노선 특기사항(운영자 지정): 사이드바 '특기사항' 박스에 노선 직접 관련 안내로 표시.
+            #   until(안내 종료일)이 지나면 자동 제외. Travel Updates(전체 공지)와 분리해 노선 특이사항만 담는다.
+            for it in (md.get("route_notes") or []):
+                title = (it.get("title") or it.get("title_en") or "").strip()
+                if not title:
+                    continue
+                until = str(it.get("until") or "").strip()
+                if until:
+                    try:
+                        if datetime.strptime(until[:10], "%Y-%m-%d").date() < today_doha_date:
+                            continue
+                    except ValueError:
+                        pass
+                route_notes.append({
+                    "title": it.get("title", ""), "title_en": it.get("title_en", ""),
+                    "title_ar": it.get("title_ar", ""), "date": str(it.get("date") or ""),
+                    "until": until, "url": it.get("url") or "",
+                })
             for it in (md.get("items") or []):
                 if it.get("title") or it.get("title_en") or it.get("title_ar"):
                     travel_updates.append({
@@ -1807,6 +1826,7 @@ def main():
         "alerts": alerts,
         "travel_updates": travel_updates,
         "qr_notices": qr_notices,
+        "route_notes": route_notes,
         "order": order,
         "flights": flights_out,
         "maintenance": maintenance,
