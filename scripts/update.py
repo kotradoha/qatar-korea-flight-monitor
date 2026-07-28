@@ -1375,6 +1375,58 @@ def apply_icn_future(flights_out, icn_future, sched_ovs):
                 day["dep"] = hh
 
 
+def detect_icn_schedule_changes(icn_future, sched_ovs):
+    """인천 발행 스케줄(향후 6일)의 '인천쪽 다리' 시각을 하드코딩 기준과 비교해, 일관되게 다른 값을
+    '정기 스케줄 변경 의심'으로 감지한다(운영자 안내용). 화면엔 이미 apply_icn_future가 반영하지만,
+    '기준과 달라졌다'는 신호를 maintenance.schedule_review에 남겨 매일 점검·알림에 쓰이도록 한다.
+      - 오탐 방지: 같은 관측 시각이 2일 이상 일관될 때만 신호(단발 제외).
+      - 운영자 override가 그 다리를 이미 지정한 날짜는 제외(확정된 값이므로).
+    반환: [{flight, field('dep'|'arr'), expected, observed, from, source:'ICN'}]."""
+    out = []
+    for fno in KOREA_FLIGHTS:
+        cfg = FLIGHTS.get(fno) or {}
+        origin_doha = cfg.get("origin_tz") == "doha"
+        field = "arr" if origin_doha else "dep"                      # 인천쪽 다리
+        base_raw = cfg.get("sched_arr") if origin_doha else cfg.get("sched_dep")
+        base = _hhmm_norm(str(base_raw or "").replace("익일", "").strip())
+        if not base:
+            continue
+        fut = (icn_future or {}).get(fno) or {}
+        ov_list = (sched_ovs or {}).get(fno)
+        ov_items = ov_list if isinstance(ov_list, list) else ([ov_list] if isinstance(ov_list, dict) else [])
+        obs = {}
+        for date_iso, hh in fut.items():
+            hhn = _hhmm_norm(hh)
+            if not hhn or hhn == base:
+                continue
+            try:
+                dd = date.fromisoformat(date_iso)
+            except (ValueError, TypeError):
+                continue
+            skip = False                                            # 운영자 override가 그 다리를 지정했으면 제외
+            for ov in ov_items:
+                if not isinstance(ov, dict):
+                    continue
+                frm = str(ov.get("from") or "").strip()[:10]
+                try:
+                    if frm and date.fromisoformat(frm) <= dd and ov.get(field):
+                        skip = True
+                        break
+                except ValueError:
+                    pass
+            if skip:
+                continue
+            rec = obs.setdefault(hhn, {"count": 0, "from": date_iso})
+            rec["count"] += 1
+            if date_iso < rec["from"]:
+                rec["from"] = date_iso
+        for val, rec in obs.items():
+            if rec["count"] >= 2:                                   # 2일 이상 일관 관측만 신호
+                out.append({"flight": fno, "field": field, "expected": base_raw,
+                            "observed": val, "from": rec["from"], "source": "ICN"})
+    return out
+
+
 def _alert_arr_dt(day, arr_tz):
     """day 엔트리의 표시 도착시각(arr 문자열)+운항일(date)로 도착 aware datetime을 추정한다.
     '익일'/'+N일' 접두를 반영해 야간편 날짜 넘김을 잃지 않는다. 파싱 실패 시 None(만료 판정은 보류)."""
@@ -1808,6 +1860,17 @@ def main():
         apply_icn_future(flights_out, icn_future, sched_ovs)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] apply_icn_future: {e}", file=sys.stderr)
+
+    # 인천 발행 스케줄(6일)이 기준 시각과 다르면 '스케줄 변경 의심'으로 기록(매일 점검·알림용).
+    #   화면엔 이미 반영되지만, '달라졌다'는 신호를 남겨야 담당자가 하드코딩 기준·override를 갱신할 수 있다.
+    try:
+        _seen_sr = {(r.get("flight"), r.get("field"), r.get("observed")) for r in maintenance["schedule_review"]}
+        for r in detect_icn_schedule_changes(icn_future, sched_ovs):
+            if (r["flight"], r["field"], r["observed"]) not in _seen_sr:
+                maintenance["schedule_review"].append(r)
+                _seen_sr.add((r["flight"], r["field"], r["observed"]))
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] detect_icn_schedule_changes: {e}", file=sys.stderr)
 
     # 사이드바 '특기사항' 알림을 최종 표시 상태에서 재구성 — 표와 숫자를 일치시키고,
     #   비행 중=지연 예상/도착=확정 구분, 단발 지연은 도착 2h 뒤 자동 소멸(결항·다수편은 유지).
