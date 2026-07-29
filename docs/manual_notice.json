@@ -22,9 +22,9 @@
   ],
   "route_notes": [
     {
-      "title": "QR858편(도하→서울) 출발 시각 임시 조정(8. 1.~8. 14.): 02:20→02:05, 15분 앞당김. 도착 시각은 종전과 동일.",
-      "title_en": "Flight QR858 (Doha→Seoul): departure time temporarily adjusted from 02:20 to 02:05 (15 minutes earlier), 1–14 Aug; arrival time unchanged.",
-      "title_ar": "الرحلة QR858 (الدوحة→سيول): تعديل مؤقت لوقت المغادرة من 02:20 إلى 02:05 (تقديم 15 دقيقة)، 1–14 أغسطس؛ ووقت الوصول دون تغيير.",
+      "title": "QR858편(도하→서울) 8/1~8/14 기간에 한해 출발시각 15분 조정(02:20→02:05). 도착시각은 종전과 동일.",
+      "title_en": "Flight QR858 (Doha→Seoul): for the period 1–14 Aug only, departure time adjusted by 15 minutes (02:20→02:05); arrival time unchanged.",
+      "title_ar": "الرحلة QR858 (الدوحة→سيول): خلال الفترة 1–14 أغسطس فقط، تعديل وقت المغادرة بمقدار 15 دقيقة (02:20→02:05)؛ ووقت الوصول دون تغيير.",
       "date": "2026-07-28",
       "until": "2026-08-14",
       "url": ""
