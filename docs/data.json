@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-29T16:04:13+00:00",
- "generated_at_doha": "2026-07-29 19:04",
- "generated_at_seoul": "2026-07-30 01:04",
+ "generated_at_utc": "2026-07-29T16:15:26+00:00",
+ "generated_at_doha": "2026-07-29 19:15",
+ "generated_at_seoul": "2026-07-30 01:15",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-29T16:04:22+00:00",
+  "checked_at_utc": "2026-07-29T16:15:55+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -297,9 +297,9 @@
      "date": "2026-07-30",
      "label": "7/30 (목)",
      "label_en": "Thu 7/30",
-     "dep": "01:20",
+     "dep": "01:13",
      "arr": "05:20",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
@@ -313,9 +313,9 @@
        "source": "HIA"
       },
       "korea": {
-       "status": "Gate Closed",
+       "status": "Departure",
        "sched": "0120",
-       "est": "0120",
+       "est": "0113",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -413,9 +413,9 @@
      "source": "HIA"
     },
     "korea": {
-     "status": "Gate Closed",
+     "status": "Departure",
      "sched": "0120",
-     "est": "0120",
+     "est": "0113",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -608,7 +608,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-29T16:04:13+00:00",
+  "checked_at_utc": "2026-07-29T16:15:26+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -711,9 +711,9 @@
    },
    "departures": {
     "QR859@2026-07-30": {
-     "status": "Gate Closed",
+     "status": "Departure",
      "sched": "0120",
-     "est": "0120",
+     "est": "0113",
      "airport": "DOH"
     },
     "QR859@2026-07-29": {
@@ -750,7 +750,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-29T16:06:20+00:00",
+  "checked_at_utc": "2026-07-29T16:17:55+00:00",
   "flags": [],
   "material": false
  }
