@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-30T17:30:36+00:00",
- "generated_at_doha": "2026-07-30 20:30",
- "generated_at_seoul": "2026-07-31 02:30",
+ "generated_at_utc": "2026-07-30T17:45:26+00:00",
+ "generated_at_doha": "2026-07-30 20:45",
+ "generated_at_seoul": "2026-07-31 02:45",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-30T17:31:00+00:00",
+  "checked_at_utc": "2026-07-30T17:45:34+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -311,7 +311,7 @@
      "label": "7/31 (금)",
      "label_en": "Fri 7/31",
      "dep": "01:12",
-     "arr": "05:09",
+     "arr": "04:33",
      "kind": "inflight",
      "cls": "good",
      "delay": 0,
@@ -321,7 +321,7 @@
        "status": "Scheduled",
        "statusCode": "SH",
        "sched": "05:20",
-       "est": "05:09",
+       "est": "04:33",
        "other": "ICN",
        "source": "HIA"
       },
@@ -421,7 +421,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "05:20",
-     "est": "05:09",
+     "est": "04:33",
      "other": "ICN",
      "source": "HIA"
     },
@@ -495,7 +495,7 @@
      "board": {
       "doha": {
        "status": "Departed",
-       "statusCode": "OB",
+       "statusCode": "DP",
        "sched": "19:45",
        "est": "19:49",
        "other": "ICN",
@@ -540,7 +540,7 @@
    "board": {
     "doha": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "19:45",
      "est": "19:49",
      "other": "ICN",
@@ -695,7 +695,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-30T17:30:36+00:00",
+  "checked_at_utc": "2026-07-30T17:45:26+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -729,7 +729,7 @@
     },
     "QR862@2026-07-30": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "19:45",
      "est": "19:49",
      "other": "ICN"
@@ -775,7 +775,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "05:20",
-     "est": "05:09",
+     "est": "04:33",
      "other": "ICN"
     },
     "QR863@2026-07-31": {
@@ -856,7 +856,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-30T17:34:18+00:00",
+  "checked_at_utc": "2026-07-30T17:48:50+00:00",
   "flags": [],
   "material": false
  }
