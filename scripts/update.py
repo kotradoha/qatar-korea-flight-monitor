@@ -28,6 +28,7 @@ import urllib.request
 import urllib.error
 import urllib.parse
 from datetime import datetime, date, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
 
@@ -875,7 +876,14 @@ def fetch_qr_alerts():
     return out
 
 
-def fetch_thirdparty_news(now_utc, max_items=4, days=12):
+# 제3자 뉴스에서 제외할 상시성(가이드·정보성)·동호인·홍보 콘텐츠 패턴(잡음). 이월분 재검증에도 공유한다.
+_NEWS_EXCL = re.compile(r"what\s+to\s+do|how\s+to|\bguide\b|explained|everything\s+you|\btips\b|\breview\b|"
+                        r"ranked|\bbest\b|\bworst\b|rare\s+appearance|spotting|makes\s+\w+\s+appearance|"
+                        r"\bphotos?\b|compensation|\brefund\b|\bclaim\b|\bdeal\b|\bsale\b|promo|"
+                        r"everything\s+to\s+know|need\s+to\s+know|\bhack\b|\btricks?\b", re.IGNORECASE)
+
+
+def fetch_thirdparty_news(now_utc, max_items=3, days=10):
     """공신력 뉴스 집계(구글 뉴스 RSS)에서 카타르항공 '운항 결항·중단·영공/정세' 관련 고신호 항목만 감지.
     RSS(구조화 XML)라 파싱이 안정적이며, 각 항목에 발행처(출처)와 원문 링크가 붙는다.
     보수적 필터: 제목에 (결항/중단/영공/공습 등 고신호) + 'qatar' + (운항/노선/도하/서울 등 맥락)이 모두 있어야 채택.
@@ -893,8 +901,13 @@ def fetch_thirdparty_news(now_utc, max_items=4, days=12):
     HI = re.compile(r"cancel|suspend|grounded|\bhalt|not\s+operat|disrupt|divert|airspace|no[- ]fly|"
                     r"closed?\s+(?:its\s+)?airspace|strike|missile|attack|airstrike|war\b|sanction|evacuat",
                     re.IGNORECASE)
+    # 고신호가 '항공편/노선/운항'에 실제로 걸릴 때만(예: suspends flights, cancel ... service). 단발 단어 오탐 억제.
+    OPS = re.compile(r"(?:cancel|suspend|ground|halt|resume|divert|disrupt|axe|drop|cut|reduc)\w*\s+"
+                     r"(?:\w+\s+){0,3}(?:flight|service|route|operation|destination|frequenc)|"
+                     r"airspace|no[- ]fly|missile|airstrike|air\s+strike|evacuat|war\b|sanction", re.IGNORECASE)
     CTX = re.compile(r"flight|operat|route|service|schedul|airspace|passenger|"
                      r"doha|hamad|seoul|incheon|korea|gulf", re.IGNORECASE)
+    EXCL = _NEWS_EXCL                               # 상시성·동호인·홍보 콘텐츠 제외(모듈 레벨, 이월분 재검증과 공유)
     def _clean(s):
         s = re.sub(r"<[^>]+>", "", s)
         for a, b in (("&amp;", "&"), ("&#39;", "'"), ("&quot;", '"'), ("&apos;", "'"), ("&lt;", "<"), ("&gt;", ">")):
@@ -909,8 +922,18 @@ def fetch_thirdparty_news(now_utc, max_items=4, days=12):
         title = _clean(tm.group(1))
         if not title or len(title) > 180:
             continue
-        if not (re.search(r"qatar", title, re.IGNORECASE) and HI.search(title) and CTX.search(title)):
+        # 채택 조건: 'qatar' + 고신호 + 운항맥락 + (운항에 직접 걸린 표현 OR 정세) + 잡음 제외
+        if not (re.search(r"qatar", title, re.IGNORECASE) and HI.search(title)
+                and CTX.search(title) and OPS.search(title)) or EXCL.search(title):
             continue
+        pm = re.search(r"<pubDate>(.*?)</pubDate>", block, re.IGNORECASE | re.DOTALL)
+        if pm:                                          # 최근(days일 이내) 항목만 — 오래된 기사/상시 콘텐츠 배제
+            try:
+                pub = parsedate_to_datetime(_clean(pm.group(1)))
+                if pub is not None and (now_utc - pub).days > days:
+                    continue
+            except (TypeError, ValueError, OverflowError):
+                pass
         lm = re.search(r"<link>(.*?)</link>", block, re.IGNORECASE | re.DOTALL)
         sm = re.search(r"<source[^>]*>(.*?)</source>", block, re.IGNORECASE | re.DOTALL)
         link = _clean(lm.group(1)) if lm else url
@@ -1846,6 +1869,8 @@ def main():
         _nseen = set(_qn_seen)
         for a in (_fresh + _prev_news):
             title = (a.get("title") or "")
+            if _NEWS_EXCL.search(title):        # 이월분도 잡음 제외 재검증(필터 강화 시 기존 캐시 즉시 정리)
+                continue
             k = re.sub(r"\W+", "", title.lower())[:70]
             if not k or k in _nseen:
                 continue
