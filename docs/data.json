@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-30T13:45:26+00:00",
- "generated_at_doha": "2026-07-30 16:45",
- "generated_at_seoul": "2026-07-30 22:45",
+ "generated_at_utc": "2026-07-30T13:58:45+00:00",
+ "generated_at_doha": "2026-07-30 16:58",
+ "generated_at_seoul": "2026-07-30 22:58",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-30T13:45:45+00:00",
+  "checked_at_utc": "2026-07-30T13:58:56+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -42,27 +42,9 @@
    "source": "operator"
   }
  ],
- "news_notices": [
-  {
-   "title": "UAE travel update today: Etihad, Air Arabia, flydubai and Qatar Airways cancel select Gulf flights - Gulf News (Gulf News)",
-   "title_en": "UAE travel update today: Etihad, Air Arabia, flydubai and Qatar Airways cancel select Gulf flights - Gulf News (Gulf News)",
-   "title_ar": "UAE travel update today: Etihad, Air Arabia, flydubai and Qatar Airways cancel select Gulf flights - Gulf News (Gulf News)",
-   "date": "2026-07-30",
-   "until": "2026-08-06",
-   "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPZl84R29JYk5fbmZSdGZwbkdKV0c5d0RsUVk1S1otb25QT29oMXRIN05fazFDWVhiVDE2b241V2FVQ3V1dGE5dFV2UjFkb1JyQmJJZWU1ZzVtY1BlbEhlLTd2S1NoR2xMUDVtN1c0Y1hQSDI5aUk0M1J6QVMzSkYxNnJFSFJQdnV1SkxpZFVyOVVoTGpQQVduYm9LaDhVZHAwYVVoQWV2bm81NmY1dnh5OWpiRldvcmxIV0dVVW5qb3BxZHF4Qi1CTmpKS3FGMTRD0gHgAUFVX3lxTE11X3ptVEdWWjZ4V010T3pBNVlNR2JudjU0LTg4eVhzUmR4UmF3dTUzME9qWWt4dlY2Q3hVaUFEY1doS05yZHdMWWxRRkIyTGg4NGxyVnFQSGNJalFDNGx0emYzNzFYcmd1bjdRU0lwdVRtT0xqZ2NFM2VzMEFjUUxTRHRLY2pXdHMxZVdCbEk1NmJsWlNaRDBScU8tR1hBU3YyZzBMT3BrUlNRODNiMjBULWlIM1VpUXhmaEk5djdPX3c3MmZpaUlmZE9TRGVQUXR5NFhmQjJ3MS1vNTQyUlFZ?oc=5",
-   "source": "auto-news"
-  },
-  {
-   "title": "Qatar Airways Suddenly Suspends Flights To 13 Destinations: See The Full List Now - Simple Flying (Simple Flying)",
-   "title_en": "Qatar Airways Suddenly Suspends Flights To 13 Destinations: See The Full List Now - Simple Flying (Simple Flying)",
-   "title_ar": "Qatar Airways Suddenly Suspends Flights To 13 Destinations: See The Full List Now - Simple Flying (Simple Flying)",
-   "date": "2026-07-30",
-   "until": "2026-08-06",
-   "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPTGhxRUlBanM0QUdCTW02ODdnc0tvRVlvTC13VGVUQ2pFYlBvNWpiU2JmUnY4VWl3Q2Yyd1JzOWxXQ190eWVzTzN2WE9La0JmSG91QS1JTVA3UURKMXBrSVJ4eUR3Ri1ISmc3M2tENnQzQ1M4RXNSM1A4b2tBbHotN0NyXzBEclJ5clJTODYtSXVJYlJDZzUzSUpMTHJBOHNVX1lPRHpoQW1Fdw?oc=5",
-   "source": "auto-news"
-  }
- ],
+ "news_notices": [],
  "news_scanned_utc": "2026-07-30T13:16:58+00:00",
+ "news_since_utc": "2026-07-30T13:58:45+00:00",
  "route_notes": [
   {
    "title": "QR858편(도하→서울) 8/1~8/14 기간에 한해 출발시각 15분 조정(02:20→02:05). 도착시각은 종전과 동일.",
@@ -635,7 +617,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-30T13:45:26+00:00",
+  "checked_at_utc": "2026-07-30T13:58:45+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -784,7 +766,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-30T13:49:04+00:00",
+  "checked_at_utc": "2026-07-30T14:02:11+00:00",
   "flags": [],
   "material": false
  }
