@@ -511,10 +511,9 @@ function renderStatusBox() {
     return { title: title, url: it.url };
   }).filter(function(x){ return x.title; });
   if (_qn.length) {
-    lines.push("✈︎ " + t().lbl_qr_updates);                 // 라벨은 한 번만 — 이후 (n/N 공지)로 누적
-    _qn.forEach(function(x, i){
-      var pfx = _qn.length > 1 ? t().lbl_qr_count(i + 1, _qn.length) : "";
-      lines.push("· " + pfx + esc(x.title) + qaChip(x.url));
+    lines.push("✈︎ " + t().lbl_qr_updates);                 // 라벨은 한 번만, 이후 항목을 · 로 나열
+    _qn.forEach(function(x){
+      lines.push("· " + esc(x.title) + qaChip(x.url));
     });
   }
   // 4-B) 제3자 공신력 뉴스(자동 감지) — 공식 공지와 구분해 '📰 관련 뉴스' 줄, 출처 링크 포함
@@ -524,9 +523,8 @@ function renderStatusBox() {
   }).filter(function(x){ return x.title; });
   if (_nn.length) {
     lines.push("📰 " + t().lbl_news);                        // '관련 뉴스(자동 감지·미확인)' 라벨 한 번
-    _nn.forEach(function(x, i){
-      var pfx = _nn.length > 1 ? t().lbl_qr_count(i + 1, _nn.length) : "";
-      lines.push("· " + pfx + esc(x.title) + qaChip(x.url));
+    _nn.forEach(function(x){
+      lines.push("· " + esc(x.title) + qaChip(x.url));
     });
   }
   // 5) 운영자 긴급 공지(일반 배너) — 있을 때만

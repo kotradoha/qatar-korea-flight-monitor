@@ -883,10 +883,12 @@ _NEWS_EXCL = re.compile(r"what\s+to\s+do|how\s+to|\bguide\b|explained|everything
                         r"everything\s+to\s+know|need\s+to\s+know|\bhack\b|\btricks?\b", re.IGNORECASE)
 
 
-def fetch_thirdparty_news(now_utc, max_items=3, days=10):
+def fetch_thirdparty_news(now_utc, news_since, max_items=3, days=10):
     """공신력 뉴스 집계(구글 뉴스 RSS)에서 카타르항공 '운항 결항·중단·영공/정세' 관련 고신호 항목만 감지.
     RSS(구조화 XML)라 파싱이 안정적이며, 각 항목에 발행처(출처)와 원문 링크가 붙는다.
-    보수적 필터: 제목에 (결항/중단/영공/공습 등 고신호) + 'qatar' + (운항/노선/도하/서울 등 맥락)이 모두 있어야 채택.
+    보수적 필터: 제목에 (결항/중단/영공/공습 등 고신호) + 'qatar' + (운항/노선/도하/서울 등 맥락) + 운항 직접표현이
+    모두 있어야 채택하고, 상시성·동호인·홍보 콘텐츠는 제외한다.
+    ★ news_since(활성화 시점) '이후 발행'된 기사만 채택한다(옛 기사 백필 방지). pubDate 없으면 제외.
     실패/미검증 시 빈 목록. 오탐 방지를 위해 '자동감지·미확인' 성격으로 취급하고 출처를 반드시 함께 표기한다."""
     q = ('"Qatar Airways" (cancelled OR canceled OR suspended OR suspends OR grounded OR '
          '"not operating" OR disruption OR airspace OR Doha)')
@@ -927,13 +929,17 @@ def fetch_thirdparty_news(now_utc, max_items=3, days=10):
                 and CTX.search(title) and OPS.search(title)) or EXCL.search(title):
             continue
         pm = re.search(r"<pubDate>(.*?)</pubDate>", block, re.IGNORECASE | re.DOTALL)
-        if pm:                                          # 최근(days일 이내) 항목만 — 오래된 기사/상시 콘텐츠 배제
+        pub = None
+        if pm:
             try:
                 pub = parsedate_to_datetime(_clean(pm.group(1)))
-                if pub is not None and (now_utc - pub).days > days:
-                    continue
             except (TypeError, ValueError, OverflowError):
-                pass
+                pub = None
+        if pub is not None and pub.tzinfo is None:      # naive → UTC 로 간주(비교 안전)
+            pub = pub.replace(tzinfo=timezone.utc)
+        # 활성화 시점(news_since) '이후 발행'된 최근(days일 이내) 항목만. pubDate 없으면 제외(옛 기사 백필 방지).
+        if pub is None or pub < news_since or (now_utc - pub).days > days:
+            continue
         lm = re.search(r"<link>(.*?)</link>", block, re.IGNORECASE | re.DOTALL)
         sm = re.search(r"<source[^>]*>(.*?)</source>", block, re.IGNORECASE | re.DOTALL)
         link = _clean(lm.group(1)) if lm else url
@@ -947,7 +953,7 @@ def fetch_thirdparty_news(now_utc, max_items=3, days=10):
             "title": disp, "title_en": disp, "title_ar": disp,
             "date": now_utc.astimezone(TZ_DOHA).date().isoformat(),
             "until": (now_utc.astimezone(TZ_DOHA).date() + timedelta(days=7)).isoformat(),
-            "url": link, "source": "auto-news",
+            "pub": pub.isoformat(), "url": link, "source": "auto-news",
         })
         if len(out) >= max_items:
             break
@@ -1856,6 +1862,14 @@ def main():
     #   호출량 관리: 하루 4회(UTC 1·7·13·19시)만 새로 조회하고, 그 외에는 직전 값을 이월(만료분 제거)한다.
     news_notices = []
     news_scanned_utc = (prev or {}).get("news_scanned_utc")
+    # 활성화 시점(news_since): 최초 1회 '지금'으로 고정. 이후 이 시점 '이후 발행'된 기사만 노출(옛 기사 백필 방지).
+    news_since_utc = (prev or {}).get("news_since_utc") or now_utc.isoformat(timespec="seconds")
+    try:
+        _since = datetime.fromisoformat(news_since_utc)
+        if _since.tzinfo is None:
+            _since = _since.replace(tzinfo=timezone.utc)
+    except (ValueError, TypeError):
+        _since = now_utc
     try:
         _prev_news = (prev or {}).get("news_notices") or []
         # 시간대(UTC 1·7·13·19시)에만 재조회. 최초(스캔 이력 없음)엔 1회 부트스트랩.
@@ -1863,13 +1877,24 @@ def main():
         _rescan = (now_utc.hour in (1, 7, 13, 19) and now_utc.minute < 8) or not news_scanned_utc
         _fresh = []
         if _rescan:
-            _fresh = fetch_thirdparty_news(now_utc)
+            _fresh = fetch_thirdparty_news(now_utc, _since)
             news_scanned_utc = now_utc.isoformat(timespec="seconds")
         # 이월 + 신규 병합, until 만료분 제거, 제목 유사 중복 제거(공식 qr_notices 와도 중복 배제)
         _nseen = set(_qn_seen)
         for a in (_fresh + _prev_news):
             title = (a.get("title") or "")
             if _NEWS_EXCL.search(title):        # 이월분도 잡음 제외 재검증(필터 강화 시 기존 캐시 즉시 정리)
+                continue
+            _pub = a.get("pub")                 # '지금 이후 발행'분만 — pub 없거나 기준 이전이면 제외(옛 캐시 정리)
+            try:
+                if not _pub:
+                    continue
+                _pd = datetime.fromisoformat(_pub)
+                if _pd.tzinfo is None:
+                    _pd = _pd.replace(tzinfo=timezone.utc)
+                if _pd < _since:
+                    continue
+            except (ValueError, TypeError):
                 continue
             k = re.sub(r"\W+", "", title.lower())[:70]
             if not k or k in _nseen:
@@ -2027,6 +2052,7 @@ def main():
         "qr_notices": qr_notices,
         "news_notices": news_notices,
         "news_scanned_utc": news_scanned_utc,
+        "news_since_utc": news_since_utc,
         "route_notes": route_notes,
         "order": order,
         "flights": flights_out,
