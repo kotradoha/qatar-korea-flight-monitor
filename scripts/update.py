@@ -810,30 +810,33 @@ def fetch_hamad_board(now_utc, arrivals=False, timeout=12, keep=None):
     return out
 
 
-def fetch_qr_alerts():
-    """카타르항공 Travel Updates(travel-alerts.html)에서 '운항 중단·재개' 관련 공지만 자동 감지(보조).
-    일반 안내(파워뱅크·비자·수하물·네트워크 확장 등)는 제외한다.
-    반환: [{title,title_en,title_ar,date,until,url,source}] (제목은 페이지 영문 그대로). 실패/미검증 시 빈 목록.
-    ※ 신뢰 채널은 운영자 지정(manual_notice.json 의 qr_notices)이며, 이 자동 감지는 어디까지나 보조 수단이다.
-       페이지가 JS 렌더/구조 변경 등으로 읽히지 않으면 조용히 빈 목록을 반환한다(거짓 표기 방지)."""
+QR_ALERT_PAGES = [
+    "https://www.qatarairways.com/en/travel-alerts.html",              # 공식 영문 Travel Updates
+    "https://www.qatarairways.com/tradeportal/ko-kr/airline_news.html",  # 공식 한국어 트레이드포털 뉴스
+]
+
+
+def _scan_qr_official_page(url):
+    """카타르항공 공식 페이지(영문 Travel Updates / 한국어 트레이드포털)의 헤드라인에서 '운항 관련' 공지만 감지.
+    일반 안내(마일리지·수하물·라운지·요금·비자 등)는 제외. 페이지가 안 읽히면 조용히 빈 목록(거짓 표기 방지)."""
     OP = re.compile(
-        r"suspend|cancel|resume|disrupt|divert|halt|grounded|"
-        r"not\s+operat|will\s+not\s+fly|temporar\w{0,3}\s+(?:stop|hold)",
+        r"suspend|cancel|resume|disrupt|divert|halt|grounded|not\s+operat|will\s+not\s+fly|"
+        r"temporar\w{0,3}\s+(?:stop|hold)|airspace|"
+        r"중단|중지|재개|결항|회항|지연|운항.{0,6}(?:변경|중단|재개|정상)|감편|증편|정상화|비정상|영공",
         re.IGNORECASE)
     GEN = re.compile(
-        r"power\s*bank|visa|baggage|check[- ]?in|network|expansion|expand|"
-        r"loyalty|privilege|wi-?fi|lounge|meal|menu|entertainment",
+        r"power\s*bank|visa|baggage|check[- ]?in|network|expansion|expand|loyalty|privilege|"
+        r"wi-?fi|lounge|meal|menu|entertainment|fare|installment|card|pricing|stopover|"
+        r"마일리지|수하물|라운지|프로모션|카드|할부|비자|기내식|와이파이|요금|운임|좌석|스톱오버|명의|판매",
         re.IGNORECASE)
     try:
-        html = http_get("https://www.qatarairways.com/en/travel-alerts.html")
+        html = http_get(url)
     except FetchError:
         return []
     low = html.lower()
-    # 콘텐츠 검증(sentinel): 실제 Travel Alerts 페이지인지 확인. 아니면 신뢰 불가 → 빈 목록.
-    if not ("qatar" in low and ("alert" in low or "travel" in low)):
+    if "qatar" not in low:                          # 콘텐츠 검증(sentinel): 실제 QR 페이지가 아니면 신뢰 불가
         return []
-    out = []
-    seen = set()
+    out, seen = [], set()
     for m in re.finditer(r"<h[1-4][^>]*>(.*?)</h[1-4]>", html, re.IGNORECASE | re.DOTALL):
         txt = re.sub(r"<[^>]+>", " ", m.group(1))
         txt = re.sub(r"\s+", " ", txt).strip()
@@ -841,17 +844,89 @@ def fetch_qr_alerts():
             continue
         if not OP.search(txt) or GEN.search(txt):   # 운항 관련만, 일반 안내는 제외
             continue
-        key = txt.lower()
-        if key in seen:
+        key = re.sub(r"\W+", "", txt.lower())
+        if not key or key in seen:
             continue
         seen.add(key)
         out.append({
             "title": txt, "title_en": txt, "title_ar": txt,
-            "date": "", "until": "",
-            "url": "https://www.qatarairways.com/en/travel-alerts.html",
-            "source": "auto",
+            "date": "", "until": "", "url": url, "source": "auto",
         })
         if len(out) >= 6:
+            break
+    return out
+
+
+def fetch_qr_alerts():
+    """카타르항공 공식 페이지들(영문 Travel Updates + 한국어 트레이드포털)에서 '운항 관련' 공지 자동 감지(보조).
+    반환: [{title,title_en,title_ar,date,until,url,source}]. 실패/미검증 시 빈 목록.
+    ※ 신뢰 채널은 운영자 지정(manual_notice.json 의 qr_notices)이며, 이 자동 감지는 보조 수단이다."""
+    out, seen = [], set()
+    for url in QR_ALERT_PAGES:
+        try:
+            for a in _scan_qr_official_page(url):
+                k = re.sub(r"\W+", "", (a.get("title") or "").lower())
+                if not k or k in seen:
+                    continue
+                seen.add(k)
+                out.append(a)
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] qr official scan ({url}): {e}", file=sys.stderr)
+    return out
+
+
+def fetch_thirdparty_news(now_utc, max_items=4, days=12):
+    """공신력 뉴스 집계(구글 뉴스 RSS)에서 카타르항공 '운항 결항·중단·영공/정세' 관련 고신호 항목만 감지.
+    RSS(구조화 XML)라 파싱이 안정적이며, 각 항목에 발행처(출처)와 원문 링크가 붙는다.
+    보수적 필터: 제목에 (결항/중단/영공/공습 등 고신호) + 'qatar' + (운항/노선/도하/서울 등 맥락)이 모두 있어야 채택.
+    실패/미검증 시 빈 목록. 오탐 방지를 위해 '자동감지·미확인' 성격으로 취급하고 출처를 반드시 함께 표기한다."""
+    q = ('"Qatar Airways" (cancelled OR canceled OR suspended OR suspends OR grounded OR '
+         '"not operating" OR disruption OR airspace OR Doha)')
+    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode(
+        {"q": q, "hl": "en-US", "gl": "US", "ceid": "US:en"})
+    try:
+        xml = http_get(url, timeout=15, retries=2)
+    except FetchError:
+        return []
+    if "<rss" not in xml.lower() and "<item" not in xml.lower():
+        return []
+    HI = re.compile(r"cancel|suspend|grounded|\bhalt|not\s+operat|disrupt|divert|airspace|no[- ]fly|"
+                    r"closed?\s+(?:its\s+)?airspace|strike|missile|attack|airstrike|war\b|sanction|evacuat",
+                    re.IGNORECASE)
+    CTX = re.compile(r"flight|operat|route|service|schedul|airspace|passenger|"
+                     r"doha|hamad|seoul|incheon|korea|gulf", re.IGNORECASE)
+    def _clean(s):
+        s = re.sub(r"<[^>]+>", "", s)
+        for a, b in (("&amp;", "&"), ("&#39;", "'"), ("&quot;", '"'), ("&apos;", "'"), ("&lt;", "<"), ("&gt;", ">")):
+            s = s.replace(a, b)
+        return re.sub(r"\s+", " ", s).strip()
+    out, seen = [], set()
+    for m in re.finditer(r"<item>(.*?)</item>", xml, re.IGNORECASE | re.DOTALL):
+        block = m.group(1)
+        tm = re.search(r"<title>(.*?)</title>", block, re.IGNORECASE | re.DOTALL)
+        if not tm:
+            continue
+        title = _clean(tm.group(1))
+        if not title or len(title) > 180:
+            continue
+        if not (re.search(r"qatar", title, re.IGNORECASE) and HI.search(title) and CTX.search(title)):
+            continue
+        lm = re.search(r"<link>(.*?)</link>", block, re.IGNORECASE | re.DOTALL)
+        sm = re.search(r"<source[^>]*>(.*?)</source>", block, re.IGNORECASE | re.DOTALL)
+        link = _clean(lm.group(1)) if lm else url
+        src = _clean(sm.group(1)) if sm else ""
+        key = re.sub(r"\W+", "", title.lower())[:70]
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        disp = title if not src else f"{title} ({src})"
+        out.append({
+            "title": disp, "title_en": disp, "title_ar": disp,
+            "date": now_utc.astimezone(TZ_DOHA).date().isoformat(),
+            "until": (now_utc.astimezone(TZ_DOHA).date() + timedelta(days=7)).isoformat(),
+            "url": link, "source": "auto-news",
+        })
+        if len(out) >= max_items:
             break
     return out
 
@@ -1741,7 +1816,7 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"[warn] manual_notice parse: {e}", file=sys.stderr)
 
-    # 자동 감지(보조): 카타르항공 Travel Updates 페이지에서 '운항 중단·재개' 공지가 감지되면 추가.
+    # 자동 감지(보조): 카타르항공 공식 페이지(영문 Travel Updates + 한국어 트레이드포털)에서 '운항 관련' 공지 추가.
     #   운영자 지정분과 중복(제목 유사)이면 건너뛴다. 실패/미검증 시 조용히 넘어간다(보조 채널).
     try:
         for a in fetch_qr_alerts():
@@ -1752,6 +1827,42 @@ def main():
             qr_notices.append(a)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] qr_alerts scan: {e}", file=sys.stderr)
+
+    # 제3자 공신력 뉴스(구글 뉴스 RSS 집계) 자동 감지 — 카타르항공 결항·중단·영공/정세 고신호 항목만, 출처 포함.
+    #   별도 'news_notices'로 담아 프론트에서 '📰 관련 뉴스(자동 감지)'로 공식 공지와 구분해 표기한다.
+    #   호출량 관리: 하루 4회(UTC 1·7·13·19시)만 새로 조회하고, 그 외에는 직전 값을 이월(만료분 제거)한다.
+    news_notices = []
+    news_scanned_utc = (prev or {}).get("news_scanned_utc")
+    try:
+        _prev_news = (prev or {}).get("news_notices") or []
+        # 시간대(UTC 1·7·13·19시)에만 재조회. 최초(스캔 이력 없음)엔 1회 부트스트랩.
+        #   결과가 비어도 '스캔 이력'을 남겨, 매 실행 재조회로 뉴스 사이트를 두드리는 일이 없게 한다.
+        _rescan = (now_utc.hour in (1, 7, 13, 19) and now_utc.minute < 8) or not news_scanned_utc
+        _fresh = []
+        if _rescan:
+            _fresh = fetch_thirdparty_news(now_utc)
+            news_scanned_utc = now_utc.isoformat(timespec="seconds")
+        # 이월 + 신규 병합, until 만료분 제거, 제목 유사 중복 제거(공식 qr_notices 와도 중복 배제)
+        _nseen = set(_qn_seen)
+        for a in (_fresh + _prev_news):
+            title = (a.get("title") or "")
+            k = re.sub(r"\W+", "", title.lower())[:70]
+            if not k or k in _nseen:
+                continue
+            until = str(a.get("until") or "").strip()
+            if until:
+                try:
+                    if datetime.strptime(until[:10], "%Y-%m-%d").date() < today_doha_date:
+                        continue
+                except ValueError:
+                    pass
+            _nseen.add(k)
+            a.setdefault("source", "auto-news")
+            news_notices.append(a)
+        news_notices = news_notices[:6]
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] thirdparty news scan: {e}", file=sys.stderr)
+
 
     # ── 공식 전광판 대조 데이터: 도하(하마드)+한국(인천) 양쪽, 편·날짜별로 정확히 매칭해 부착 ──────
     #   조회창을 어제~내일(하마드)로 넓혀, 비행 중이라 도착이 내일 새벽인 편·이미 지나 빠진 편까지 포함한다.
@@ -1889,6 +2000,8 @@ def main():
         "alerts": alerts,
         "travel_updates": travel_updates,
         "qr_notices": qr_notices,
+        "news_notices": news_notices,
+        "news_scanned_utc": news_scanned_utc,
         "route_notes": route_notes,
         "order": order,
         "flights": flights_out,

@@ -298,6 +298,7 @@ var I18N = {
     lbl_qr_updates: "카타르항공 Travel Updates: ",
     lbl_qr_date: function(md){ return "(" + md + " 공지) "; },
     lbl_qr_count: function(i, n){ return "(" + i + "/" + n + " 공지) "; },
+    lbl_news: "관련 뉴스 (자동 감지·미확인, 출처 참고): ",
     go_official: "공식 페이지 열기",
     table_key: "<b>상태 보는 법</b> — <span class='kp'>예매 가능</span>: 예매는 가능하나 운항 미확인(향후편) · <span class='kg'>✓ 운항 예정</span>: 실시간 데이터(Cirium/FlightStats)로 운항 확인 · <span class='kg'>✓ 비행 중·도착 완료</span>: 현재 실시간 상태 · <span class='kw'>⚠ 지연</span>: 출발 또는 도착 20분 이상 · <span class='kr'>✕ 결항·회항</span> · <span style='color:#a2701c;font-weight:600'>⏸ 임시 미운영</span>: 정기편이나 한동안 미운항 · 확인 중: 실시간 조회 일시 불가 · 실시간 시각은 공항 전광판 기준",
     sb_flightnotes: "✈ 한-카타르 노선 특기사항:",
@@ -335,6 +336,7 @@ var I18N = {
     lbl_qr_updates: "Qatar Airways Travel Updates: ",
     lbl_qr_date: function(md){ return "(notice " + md + ") "; },
     lbl_qr_count: function(i, n){ return "(notice " + i + "/" + n + ") "; },
+    lbl_news: "Related news (auto-detected, unverified — see source): ",
     go_official: "Open official page",
     table_key: "<b>How to read the status</b> — <span class='kp'>Bookable</span>: bookable, operation not yet confirmed (future) · <span class='kg'>✓ Scheduled</span>: operation confirmed in live data (Cirium/FlightStats) · <span class='kg'>✓ In flight·Landed</span>: current live status · <span class='kw'>⚠ Delayed</span>: departure or arrival 20+ min · <span class='kr'>✕ Cancelled·Diverted</span> · <span style='color:#a2701c;font-weight:600'>⏸ Temporarily suspended</span>: scheduled flight, not operating for now · Checking: live lookup temporarily unavailable · Times follow the airports' official boards",
     sb_flightnotes: "✈ Korea–Qatar route notes:",
@@ -372,6 +374,7 @@ var I18N = {
     lbl_qr_updates: "تحديثات سفر الخطوط القطرية: ",
     lbl_qr_date: function(md){ return "(إشعار " + md + ") "; },
     lbl_qr_count: function(i, n){ return "(إشعار " + i + "/" + n + ") "; },
+    lbl_news: "أخبار ذات صلة (رصد آلي غير مؤكد — راجع المصدر): ",
     go_official: "فتح الصفحة الرسمية",
     table_key: "<b>كيف تقرأ الحالة</b> — <span class='kp'>متاحة للحجز</span>: متاحة للحجز والتشغيل غير مؤكّد بعد (قادمة) · <span class='kg'>✓ مجدولة</span>: التشغيل مؤكّد في البيانات المباشرة (Cirium/FlightStats) · <span class='kg'>✓ في الجو·وصلت</span>: الحالة المباشرة الآن · <span class='kw'>⚠ تأخير</span>: المغادرة أو الوصول 20 دقيقة فأكثر · <span class='kr'>✕ إلغاء·تحويل</span> · <span style='color:#a2701c;font-weight:600'>⏸ موقوفة مؤقتًا</span>: رحلة منتظمة لكنها متوقفة حاليًا · جارٍ التحقق: تعذّر الجلب المباشر مؤقتًا · الأوقات بحسب الشاشات الرسمية للمطارات",
     sb_flightnotes: "✈ ملاحظات خط كوريا–قطر:",
@@ -511,6 +514,18 @@ function renderStatusBox() {
     lines.push("✈︎ " + t().lbl_qr_updates);                 // 라벨은 한 번만 — 이후 (n/N 공지)로 누적
     _qn.forEach(function(x, i){
       var pfx = _qn.length > 1 ? t().lbl_qr_count(i + 1, _qn.length) : "";
+      lines.push("· " + pfx + esc(x.title) + qaChip(x.url));
+    });
+  }
+  // 4-B) 제3자 공신력 뉴스(자동 감지) — 공식 공지와 구분해 '📰 관련 뉴스' 줄, 출처 링크 포함
+  var _nn = (d.news_notices || []).map(function(it){
+    var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
+    return { title: title, url: it.url };
+  }).filter(function(x){ return x.title; });
+  if (_nn.length) {
+    lines.push("📰 " + t().lbl_news);                        // '관련 뉴스(자동 감지·미확인)' 라벨 한 번
+    _nn.forEach(function(x, i){
+      var pfx = _nn.length > 1 ? t().lbl_qr_count(i + 1, _nn.length) : "";
       lines.push("· " + pfx + esc(x.title) + qaChip(x.url));
     });
   }
