@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-30T13:16:58+00:00",
- "generated_at_doha": "2026-07-30 16:16",
- "generated_at_seoul": "2026-07-30 22:16",
+ "generated_at_utc": "2026-07-30T13:23:56+00:00",
+ "generated_at_doha": "2026-07-30 16:23",
+ "generated_at_seoul": "2026-07-30 22:23",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-30T13:17:07+00:00",
+  "checked_at_utc": "2026-07-30T13:24:24+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -44,15 +44,6 @@
  ],
  "news_notices": [
   {
-   "title": "Large aircraft makes rare appearance at KCI after Qatar Airways flight is diverted - Kansas City Star (Kansas City Star)",
-   "title_en": "Large aircraft makes rare appearance at KCI after Qatar Airways flight is diverted - Kansas City Star (Kansas City Star)",
-   "title_ar": "Large aircraft makes rare appearance at KCI after Qatar Airways flight is diverted - Kansas City Star (Kansas City Star)",
-   "date": "2026-07-30",
-   "until": "2026-08-06",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFB1ZG9xQTlWMlE2NW9OZnNSTUFDeTRyN2cySXJCYjJnNi1MMlRNQ2duc29LT0ZwV2M4LS1mZ1Qzay1aejdnVlktSHdwZDZkNnRCZEFwNmhiY1VTbXNXMGdZYnBYaWllWWQ3amhJ0gFrQVVfeXFMTUNMZ01EN1ZrMEdyQkszUTJSM01Qemw5U3NLNzk5c2ZLQ05EVU9wODlIcWNjajlGWjhucFYyczFBN3hjekJlMG9EdExwd1pZa0ljMGF3Zm03RVVxcUctVTl4Y2tvcXZ0QUJvaUU?oc=5",
-   "source": "auto-news"
-  },
-  {
    "title": "UAE travel update today: Etihad, Air Arabia, flydubai and Qatar Airways cancel select Gulf flights - Gulf News (Gulf News)",
    "title_en": "UAE travel update today: Etihad, Air Arabia, flydubai and Qatar Airways cancel select Gulf flights - Gulf News (Gulf News)",
    "title_ar": "UAE travel update today: Etihad, Air Arabia, flydubai and Qatar Airways cancel select Gulf flights - Gulf News (Gulf News)",
@@ -68,15 +59,6 @@
    "date": "2026-07-30",
    "until": "2026-08-06",
    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPTGhxRUlBanM0QUdCTW02ODdnc0tvRVlvTC13VGVUQ2pFYlBvNWpiU2JmUnY4VWl3Q2Yyd1JzOWxXQ190eWVzTzN2WE9La0JmSG91QS1JTVA3UURKMXBrSVJ4eUR3Ri1ISmc3M2tENnQzQ1M4RXNSM1A4b2tBbHotN0NyXzBEclJ5clJTODYtSXVJYlJDZzUzSUpMTHJBOHNVX1lPRHpoQW1Fdw?oc=5",
-   "source": "auto-news"
-  },
-  {
-   "title": "Qatar Airways Flight Cancellation: What to Do If Your Flight Is Cancelled (2026 Guide) - Wego Travel Blog (Wego Travel Blog)",
-   "title_en": "Qatar Airways Flight Cancellation: What to Do If Your Flight Is Cancelled (2026 Guide) - Wego Travel Blog (Wego Travel Blog)",
-   "title_ar": "Qatar Airways Flight Cancellation: What to Do If Your Flight Is Cancelled (2026 Guide) - Wego Travel Blog (Wego Travel Blog)",
-   "date": "2026-07-30",
-   "until": "2026-08-06",
-   "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPQ1lQWG5JVGFQWW5CN3ZjdktiV0RNbUZYT2NHd1hlaUtZaWtJcVBmNnF2aE5aWHVHM3YyS3FHNC1Hbzc0R1lWdGFZYjQ5VFRUQ3UzRDR1VnhKaTN0VHhYdkNLQV9ubjRHNmQ2R1VYQ2VkR2piUUptLThGY3BFd3R3aktncV8wcHJIUlFqQTJrY1dIUE1ra2ZHTVVXb0NESklWNUNQNkNGVmo4QQ?oc=5",
    "source": "auto-news"
   }
  ],
@@ -653,7 +635,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-30T13:16:58+00:00",
+  "checked_at_utc": "2026-07-30T13:23:56+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -802,7 +784,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-30T13:20:53+00:00",
+  "checked_at_utc": "2026-07-30T13:27:39+00:00",
   "flags": [],
   "material": false
  }
