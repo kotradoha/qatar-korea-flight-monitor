@@ -1,10 +1,10 @@
 {
- "generated_at_utc": "2026-07-31T14:45:26+00:00",
- "generated_at_doha": "2026-07-31 17:45",
- "generated_at_seoul": "2026-07-31 23:45",
+ "generated_at_utc": "2026-07-31T15:00:46+00:00",
+ "generated_at_doha": "2026-07-31 18:00",
+ "generated_at_seoul": "2026-08-01 00:00",
  "degraded": false,
  "fetch_health": {
-  "ok": 80,
+  "ok": 81,
   "err": 0
  },
  "airspace": {
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-31T14:45:37+00:00",
+  "checked_at_utc": "2026-07-31T15:01:15+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -132,9 +132,17 @@
        "est": "02:05",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1705",
+       "est": "1705",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -306,8 +314,16 @@
        "est": "05:20",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Gate Open",
+       "sched": "0120",
+       "est": "0120",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -376,22 +392,33 @@
      "cls": "plan",
      "delay": 0,
      "confirmed": false
+    },
+    {
+     "date": "2026-08-08",
+     "label": "8/8 (토)",
+     "label_en": "Sat 8/8",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     }
    ],
    "position": null,
    "board": {
     "doha": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
+     "status": "Scheduled",
+     "statusCode": "SH",
      "sched": "05:20",
-     "est": "04:25",
+     "est": "05:20",
      "other": "ICN",
      "source": "HIA"
     },
     "korea": {
-     "status": "Departure",
+     "status": "Gate Open",
      "sched": "0120",
-     "est": "0112",
+     "est": "0120",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -565,8 +592,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Scheduled",
-       "statusCode": "SH",
+       "status": "Early",
+       "statusCode": "EA",
        "sched": "22:30",
        "est": "22:00",
        "other": "ICN",
@@ -610,8 +637,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Early",
+     "statusCode": "EA",
      "sched": "22:30",
      "est": "22:00",
      "other": "ICN",
@@ -645,7 +672,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-31T14:45:26+00:00",
+  "checked_at_utc": "2026-07-31T15:00:46+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -722,8 +749,8 @@
      "other": "ICN"
     },
     "QR863@2026-07-31": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Early",
+     "statusCode": "EA",
      "sched": "22:30",
      "est": "22:00",
      "other": "ICN"
@@ -740,6 +767,12 @@
   "icn": {
    "ok": true,
    "arrivals": {
+    "QR858@2026-08-01": {
+     "status": "",
+     "sched": "1705",
+     "est": "1705",
+     "airport": "DOH"
+    },
     "QR862@2026-07-31": {
      "status": "Arrived",
      "sched": "1030",
@@ -751,15 +784,15 @@
      "sched": "1705",
      "est": "1747",
      "airport": "DOH"
-    },
-    "QR858@2026-07-30": {
-     "status": "Arrived",
-     "sched": "1705",
-     "est": "1727",
-     "airport": "DOH"
     }
    },
    "departures": {
+    "QR859@2026-08-01": {
+     "status": "Gate Open",
+     "sched": "0120",
+     "est": "0120",
+     "airport": "DOH"
+    },
     "QR859@2026-07-31": {
      "status": "Departure",
      "sched": "0120",
@@ -770,12 +803,6 @@
      "status": "Departure",
      "sched": "1830",
      "est": "1829",
-     "airport": "DOH"
-    },
-    "QR859@2026-07-30": {
-     "status": "Departure",
-     "sched": "0120",
-     "est": "0113",
      "airport": "DOH"
     }
    }
@@ -800,7 +827,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-31T14:50:17+00:00",
+  "checked_at_utc": "2026-07-31T15:05:54+00:00",
   "flags": [],
   "material": false
  }
