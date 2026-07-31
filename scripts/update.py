@@ -1910,10 +1910,15 @@ def main():
             _fresh = fetch_thirdparty_news(now_utc, _since)
             news_scanned_utc = now_utc.isoformat(timespec="seconds")
         # 이월 + 신규 병합, until 만료분 제거, 제목 유사 중복 제거(공식 qr_notices 와도 중복 배제)
+        #   ★ 공식 공지(qr_notices)와 '동일 주제'(지명 2개+ 겹침)인 뉴스는 제외 — 공식 공지가 이미 있으면 관련뉴스는 불필요.
         _nseen = set(_qn_seen)
+        _qr_topics = [_topic_words((n.get("title_en") or "") + " " + (n.get("title") or "")) for n in qr_notices]
         for a in (_fresh + _prev_news):
             title = (a.get("title") or "")
             if _NEWS_EXCL.search(title):        # 이월분도 잡음 제외 재검증(필터 강화 시 기존 캐시 즉시 정리)
+                continue
+            _ntw = _topic_words(title)          # 공식 공지와 동일 주제면 제외(이월분도 즉시 정리)
+            if _ntw and any(len(_ntw & qt) >= 2 for qt in _qr_topics if qt):
                 continue
             _pub = a.get("pub")                 # '지금 이후 발행'분만 — pub 없거나 기준 이전이면 제외(옛 캐시 정리)
             try:
