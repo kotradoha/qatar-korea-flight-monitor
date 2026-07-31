@@ -811,8 +811,20 @@ def fetch_hamad_board(now_utc, arrivals=False, timeout=12, keep=None):
     return out
 
 
+_TOPIC_STOP = {"qatar", "airways", "passenger", "passengers", "flight", "flights", "service",
+               "services", "temporary", "temporarily", "suspended", "suspension", "update",
+               "updates", "travel", "alert", "alerts", "until", "from", "with", "this", "that",
+               "have", "between", "operations", "operation", "route", "routes", "notice"}
+
+
+def _topic_words(s):
+    """제목에서 '주제어'(지명 등 4자+ 단어, 흔한 운항 용어 제외) 집합을 뽑는다. 공지 중복 판정용."""
+    return {w for w in re.findall(r"[a-z]{4,}", (s or "").lower()) if w not in _TOPIC_STOP}
+
+
 QR_ALERT_PAGES = [
-    "https://www.qatarairways.com/en/travel-alerts.html",              # 공식 영문 Travel Updates
+    "https://www.qatarairways.com/en/travel-alerts.html",              # 공식 영문 Travel Updates(글로벌)
+    "https://www.qatarairways.com/en-sa/travel-alerts.html",           # 지역(걸프) 마켓 — 걸프 운항중단 등 지역공지 게재
     "https://www.qatarairways.com/tradeportal/ko-kr/airline_news.html",  # 공식 한국어 트레이드포털 뉴스
 ]
 
@@ -821,8 +833,8 @@ def _scan_qr_official_page(url):
     """카타르항공 공식 페이지(영문 Travel Updates / 한국어 트레이드포털)의 헤드라인에서 '운항 관련' 공지만 감지.
     일반 안내(마일리지·수하물·라운지·요금·비자 등)는 제외. 페이지가 안 읽히면 조용히 빈 목록(거짓 표기 방지)."""
     OP = re.compile(
-        r"suspend|cancel|resume|disrupt|divert|halt|grounded|not\s+operat|will\s+not\s+fly|"
-        r"temporar\w{0,3}\s+(?:stop|hold)|airspace|"
+        r"suspen|cancel|resum|disrupt|diver(?:t|sion)|\bhalt|ground|not\s+operat|will\s+not\s+fly|"
+        r"temporar\w{0,3}\s+(?:stop|hold|suspen)|airspace|no[- ]fly|"
         r"중단|중지|재개|결항|회항|지연|운항.{0,6}(?:변경|중단|재개|정상)|감편|증편|정상화|비정상|영공",
         re.IGNORECASE)
     GEN = re.compile(
@@ -838,22 +850,32 @@ def _scan_qr_official_page(url):
     if "qatar" not in low:                          # 콘텐츠 검증(sentinel): 실제 QR 페이지가 아니면 신뢰 불가
         return []
     out, seen = [], set()
-    for m in re.finditer(r"<h[1-4][^>]*>(.*?)</h[1-4]>", html, re.IGNORECASE | re.DOTALL):
-        txt = re.sub(r"<[^>]+>", " ", m.group(1))
-        txt = re.sub(r"\s+", " ", txt).strip()
-        if not txt or len(txt) > 140:
-            continue
-        if not OP.search(txt) or GEN.search(txt):   # 운항 관련만, 일반 안내는 제외
-            continue
-        key = re.sub(r"\W+", "", txt.lower())
+
+    def _add(txt):
+        txt = re.sub(r"\s+", " ", txt).strip(" -–—·|:")
+        if not txt or len(txt) > 150 or not OP.search(txt) or GEN.search(txt):
+            return
+        key = re.sub(r"\W+", "", txt.lower())[:80]
         if not key or key in seen:
-            continue
+            return
         seen.add(key)
-        out.append({
-            "title": txt, "title_en": txt, "title_ar": txt,
-            "date": "", "until": "", "url": url, "source": "auto",
-        })
+        out.append({"title": txt, "title_en": txt, "title_ar": txt,
+                    "date": "", "until": "", "url": url, "source": "auto"})
+
+    # (1) heading 태그(<h1>~<h4>)
+    for m in re.finditer(r"<h[1-4][^>]*>(.*?)</h[1-4]>", html, re.IGNORECASE | re.DOTALL):
+        _add(re.sub(r"<[^>]+>", " ", m.group(1)))
         if len(out) >= 6:
+            return out
+    # (2) 아코디언/버튼 등 heading 외 마크업 대비 — 카타르항공 공지 제목은 'DD Month YYYY: 제목' 형식이 많다.
+    #     본문 텍스트를 날짜-접두 마커로 쪼개 각 조각의 앞부분(제목)을 검사한다(마켓 페이지의 걸프 운항중단 등 포착).
+    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+    parts = re.split(r"(\d{1,2}\s+[A-Za-z]{3,9}\s+20\d\d\s*:)", text)
+    for i in range(1, len(parts) - 1, 2):
+        body = parts[i + 1]
+        seg = re.split(r"(?<=[)\w])\.\s|\s{2,}|·|\|", body)[0][:130]  # 제목만(첫 문장/구분자까지)
+        _add(seg)
+        if len(out) >= 8:
             break
     return out
 
@@ -900,12 +922,14 @@ def fetch_thirdparty_news(now_utc, news_since, max_items=3, days=10):
         return []
     if "<rss" not in xml.lower() and "<item" not in xml.lower():
         return []
-    HI = re.compile(r"cancel|suspend|grounded|\bhalt|not\s+operat|disrupt|divert|airspace|no[- ]fly|"
+    HI = re.compile(r"cancel|suspen|ground|\bhalt|not\s+operat|disrupt|diver(?:t|sion)|airspace|no[- ]fly|"
                     r"closed?\s+(?:its\s+)?airspace|strike|missile|attack|airstrike|war\b|sanction|evacuat",
                     re.IGNORECASE)
     # 고신호가 '항공편/노선/운항'에 실제로 걸릴 때만(예: suspends flights, cancel ... service). 단발 단어 오탐 억제.
-    OPS = re.compile(r"(?:cancel|suspend|ground|halt|resume|divert|disrupt|axe|drop|cut|reduc)\w*\s+"
+    #  동사형(suspends)뿐 아니라 명사형(suspension of/to flights)·전치형(flight suspension)도 잡는다.
+    OPS = re.compile(r"(?:cancel|suspen|ground|halt|resum|diver(?:t|sion)|disrupt|axe|drop|cut|reduc)\w*\s+"
                      r"(?:\w+\s+){0,3}(?:flight|service|route|operation|destination|frequenc)|"
+                     r"(?:flight|service|route|operation)s?\s+(?:\w+\s+){0,2}(?:cancel|suspen|ground|halt|disrupt)|"
                      r"airspace|no[- ]fly|missile|airstrike|air\s+strike|evacuat|war\b|sanction", re.IGNORECASE)
     CTX = re.compile(r"flight|operat|route|service|schedul|airspace|passenger|"
                      r"doha|hamad|seoul|incheon|korea|gulf", re.IGNORECASE)
@@ -1845,14 +1869,20 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"[warn] manual_notice parse: {e}", file=sys.stderr)
 
-    # 자동 감지(보조): 카타르항공 공식 페이지(영문 Travel Updates + 한국어 트레이드포털)에서 '운항 관련' 공지 추가.
-    #   운영자 지정분과 중복(제목 유사)이면 건너뛴다. 실패/미검증 시 조용히 넘어간다(보조 채널).
+    # 자동 감지(보조): 카타르항공 공식 페이지(글로벌+지역 마켓+한국어)에서 '운항 관련' 공지 추가.
+    #   운영자 지정분과 중복이면 건너뛴다 — 문자열 유사 + '주제어(지명 등) 2개 이상 겹침'도 중복으로 본다
+    #   (예: 운영자가 '바레인·쿠웨이트·에르빌 중단'을 넣었으면 자동 감지된 같은 공지는 생략). 실패해도 조용히 넘어간다.
+    _op_topics = [_topic_words((n.get("title_en") or "") + " " + (n.get("title") or "")) for n in qr_notices]
     try:
         for a in fetch_qr_alerts():
             k = re.sub(r"\s+", "", a.get("title_en") or "").lower()
             if not k or any(k in s or s in k for s in _qn_seen):
                 continue
+            atw = _topic_words(a.get("title_en") or "")
+            if atw and any(len(atw & ot) >= 2 for ot in _op_topics if ot):   # 주제어 2개+ 겹치면 중복
+                continue
             _qn_seen.add(k)
+            _op_topics.append(atw)
             qr_notices.append(a)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] qr_alerts scan: {e}", file=sys.stderr)
