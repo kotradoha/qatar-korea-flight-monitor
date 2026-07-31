@@ -12,11 +12,11 @@
   "items": [],
   "qr_notices": [
     {
-      "title": "바레인·쿠웨이트·에르빌(이라크) 여객편 7/31까지 운항 일시 중단",
-      "title_en": "Passenger flights to Bahrain, Kuwait and Erbil (Iraq) temporarily suspended until 31 July",
-      "title_ar": "تعليق مؤقت لرحلات الركاب إلى البحرين والكويت وأربيل (العراق) حتى 31 يوليو",
-      "date": "2026-07-23",
-      "until": "2026-07-31",
+      "title": "바레인·쿠웨이트·에르빌(이라크) 여객편 운항 일시 중단 — 8/7까지 연장(종전 7/31)",
+      "title_en": "Passenger flights to Bahrain, Kuwait and Erbil (Iraq) temporarily suspended — extended to 7 Aug (was 31 Jul)",
+      "title_ar": "تعليق مؤقت لرحلات الركاب إلى البحرين والكويت وأربيل (العراق) — تمديد حتى 7 أغسطس (بدلاً من 31 يوليو)",
+      "date": "2026-07-30",
+      "until": "2026-08-07",
       "url": "https://www.qatarairways.com/en/travel-alerts.html"
     }
   ],
