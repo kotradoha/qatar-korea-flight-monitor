@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-07-31T07:35:11+00:00",
- "generated_at_doha": "2026-07-31 10:35",
- "generated_at_seoul": "2026-07-31 16:35",
+ "generated_at_utc": "2026-07-31T07:45:25+00:00",
+ "generated_at_doha": "2026-07-31 10:45",
+ "generated_at_seoul": "2026-07-31 16:45",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-07-31T07:35:39+00:00",
+  "checked_at_utc": "2026-07-31T07:45:46+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -35,8 +35,8 @@
    "date": "2026-07-31",
    "type": "delay",
    "dep": 1,
-   "arr": 30,
-   "minutes": 30,
+   "arr": 31,
+   "minutes": 31,
    "state": "expected"
   },
   {
@@ -121,13 +121,13 @@
      "label": "7/31 (금)",
      "label_en": "Fri 7/31",
      "dep": "02:21",
-     "arr": "17:35",
+     "arr": "17:36",
      "kind": "inflight",
      "cls": "good",
-     "delay": 30,
+     "delay": 31,
      "confirmed": true,
      "delay_dep": 1,
-     "delay_arr": 30,
+     "delay_arr": 31,
      "board": {
       "doha": {
        "status": "Departed",
@@ -140,7 +140,7 @@
       "korea": {
        "status": "Delayed",
        "sched": "1705",
-       "est": "1735",
+       "est": "1736",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -250,7 +250,7 @@
     "korea": {
      "status": "Delayed",
      "sched": "1705",
-     "est": "1735",
+     "est": "1736",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -678,7 +678,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-07-31T07:35:11+00:00",
+  "checked_at_utc": "2026-07-31T07:45:25+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -782,7 +782,7 @@
     "QR858@2026-07-31": {
      "status": "Delayed",
      "sched": "1705",
-     "est": "1735",
+     "est": "1736",
      "airport": "DOH"
     },
     "QR858@2026-07-30": {
@@ -833,7 +833,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-07-31T07:40:31+00:00",
+  "checked_at_utc": "2026-07-31T07:50:26+00:00",
   "flags": [],
   "material": false
  }
