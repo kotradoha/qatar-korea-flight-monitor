@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-01T00:12:24+00:00",
- "generated_at_doha": "2026-08-01 03:12",
- "generated_at_seoul": "2026-08-01 09:12",
+ "generated_at_utc": "2026-08-01T00:17:43+00:00",
+ "generated_at_doha": "2026-08-01 03:17",
+ "generated_at_seoul": "2026-08-01 09:17",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-01T00:12:50+00:00",
+  "checked_at_utc": "2026-08-01T00:18:10+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -109,7 +109,7 @@
      "board": {
       "doha": {
        "status": "Departed",
-       "statusCode": "OB",
+       "statusCode": "DP",
        "sched": "02:05",
        "est": "02:11",
        "other": "ICN",
@@ -136,7 +136,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "02:05",
+       "est": "02:05",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-08-03",
@@ -209,7 +221,7 @@
    "board": {
     "doha": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "02:05",
      "est": "02:11",
      "other": "ICN",
@@ -311,7 +323,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "05:20",
+       "est": "05:20",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-08-03",
@@ -564,7 +588,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-01T00:12:24+00:00",
+  "checked_at_utc": "2026-08-01T00:17:43+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -598,9 +622,16 @@
     },
     "QR858@2026-08-01": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "02:05",
      "est": "02:11",
+     "other": "ICN"
+    },
+    "QR858@2026-08-02": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "02:05",
+     "est": "02:05",
      "other": "ICN"
     }
    },
@@ -638,6 +669,13 @@
      "statusCode": "EA",
      "sched": "05:20",
      "est": "04:33",
+     "other": "ICN"
+    },
+    "QR859@2026-08-02": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "05:20",
+     "est": "05:20",
      "other": "ICN"
     }
    }
@@ -711,7 +749,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-01T00:17:31+00:00",
+  "checked_at_utc": "2026-08-01T00:22:47+00:00",
   "flags": [],
   "material": false
  }
