@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-01T21:46:51+00:00",
- "generated_at_doha": "2026-08-02 00:46",
- "generated_at_seoul": "2026-08-02 06:46",
+ "generated_at_utc": "2026-08-01T22:03:38+00:00",
+ "generated_at_doha": "2026-08-02 01:03",
+ "generated_at_seoul": "2026-08-02 07:03",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-01T21:46:56+00:00",
+  "checked_at_utc": "2026-08-01T22:04:04+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -108,8 +108,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Check In Open",
-       "statusCode": "CO",
+       "status": "Go to Gate",
+       "statusCode": "GO",
        "sched": "02:05",
        "est": "02:05",
        "other": "ICN",
@@ -208,8 +208,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Check In Open",
-     "statusCode": "CO",
+     "status": "Go to Gate",
+     "statusCode": "GO",
      "sched": "02:05",
      "est": "02:05",
      "other": "ICN",
@@ -283,8 +283,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Scheduled",
-       "statusCode": "SH",
+       "status": "Early",
+       "statusCode": "EA",
        "sched": "05:20",
        "est": "04:54",
        "other": "ICN",
@@ -383,8 +383,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Early",
+     "statusCode": "EA",
      "sched": "05:20",
      "est": "04:54",
      "other": "ICN",
@@ -564,7 +564,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-01T21:46:51+00:00",
+  "checked_at_utc": "2026-08-01T22:03:38+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -597,8 +597,8 @@
      "other": "ICN"
     },
     "QR858@2026-08-02": {
-     "status": "Check In Open",
-     "statusCode": "CO",
+     "status": "Go to Gate",
+     "statusCode": "GO",
      "sched": "02:05",
      "est": "02:05",
      "other": "ICN"
@@ -634,8 +634,8 @@
      "other": "ICN"
     },
     "QR859@2026-08-02": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Early",
+     "statusCode": "EA",
      "sched": "05:20",
      "est": "04:54",
      "other": "ICN"
@@ -699,7 +699,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-01T21:51:37+00:00",
+  "checked_at_utc": "2026-08-01T22:08:41+00:00",
   "flags": [],
   "material": false
  }
