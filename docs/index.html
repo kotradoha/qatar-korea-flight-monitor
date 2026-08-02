@@ -56,7 +56,7 @@
   .asrc a { color: var(--accent); text-decoration: none; }
   .asrc a:hover { text-decoration: underline; }
 
-  .langrow { display: flex; justify-content: flex-end; }
+  .langrow { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
   h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
   .titlebar { position: sticky; top: 0; z-index: 50; background: var(--page); border-bottom: 1px solid var(--hairline); padding: 7px 0 8px; margin-bottom: 4px; }
   .title-en { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-top: 2px; letter-spacing: -0.01em; }
@@ -64,6 +64,8 @@
   .lang button { font: inherit; font-size: 12.5px; font-weight: 600; padding: 5px 12px;
     border: none; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; }
   .lang button.on { background: var(--accent); color: #fff; }
+    .sitelink { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; color: var(--accent); text-decoration: none; border: 1px solid var(--hairline); border-radius: 8px; padding: 5px 11px; background: var(--surface-1); white-space: nowrap; }
+    .sitelink:hover { border-color: var(--accent); }
   .sub { color: var(--text-secondary); font-size: 13px; margin-top: 4px; line-height: 1.5; }
   .updated { color: var(--text-muted); font-size: 12px; margin-top: 8px; }
   .stale { margin-top: 8px; font-size: 12px; padding: 10px 12px; border-radius: 8px;
@@ -228,6 +230,7 @@
         <button id="langEn" onclick="setLang('en')">English</button>
         <button id="langAr" onclick="setLang('ar')">العربية</button>
       </div>
+      <a class="sitelink" data-i18n="sister" href="https://kotradoha.github.io/qatar-media-monitor/" target="_blank" rel="noopener"></a>
     </div>
 
     <div class="titlebar">
@@ -278,6 +281,7 @@ var QR_ALERTS_URL = "https://www.qatarairways.com/en/travel-alerts.html";
 var I18N = {
   ko: {
     title: "카타르항공 도하 ↔ 서울 운항 현황판",
+    sister: "📰 언론 모니터링 →",
     subtitle: "한-카타르 양국 출장 기업인 등을 위하여 카타르항공 도하–서울 노선의 정상 운항·지연·결항 여부, 카타르 영공 상황을 15분 단위로 <span style='white-space:nowrap'>업데이트하여</span> 보여주는 현황판입니다. 노선별로 직전 도착편, 현재 비행 중인 편, 향후 약 1주일간 예정된 항공편 정보가 제공되며, 표시 시각은 카타르항공 공식 스케줄을 기준으로 하되, 운항이 임박하거나 진행 중인 편은 공항 전광판(하마드·인천)의 실제 운항 시각이 반영됩니다.",
     updated: function(d){ return "마지막 확인: " + d.generated_at_doha + " (카타르) / " + d.generated_at_seoul + " (한국)"; },
     stale_note: "⚠ 실시간 운항 데이터 갱신이 지연되고 있습니다. 아래 상태는 정기 스케줄 기준일 수 있으니, 최신 상태는 카타르항공 공식(fs.qatarairways.com)에서 항공편명으로 확인해 주세요.",
@@ -316,6 +320,7 @@ var I18N = {
   },
   en: {
     title: "Qatar Airways Doha ↔ Seoul Flight Status Board",
+    sister: "📰 Media monitor →",
     subtitle: "Provided for business travelers between Korea and Qatar, and other members of the public, this board automatically retrieves and displays, every 15 minutes, whether Qatar Airways' Doha–Seoul flights are on time, delayed, or cancelled, together with Qatar airspace conditions. For each route, the tables show the most recent completed arrival, any flight currently airborne, and flights scheduled over roughly the coming week. Displayed times are based on Qatar Airways' official schedule; for imminent or in-progress flights, the actual times from the airports' official boards (Hamad and Incheon) are reflected.",
     updated: function(d){ return "Last checked: " + d.generated_at_doha + " (Qatar) / " + d.generated_at_seoul + " (Korea)"; },
     stale_note: "⚠ Live flight data is delayed. The statuses below may reflect the regular schedule; for the latest status, please look up your flight number on the official Qatar Airways site (fs.qatarairways.com).",
@@ -354,6 +359,7 @@ var I18N = {
   },
   ar: {
     title: "لوحة حالة رحلات الخطوط الجوية القطرية بين الدوحة وسيول",
+    sister: "📰 رصد الإعلام →",
     subtitle: "لخدمة مسافري الأعمال بين كوريا وقطر وغيرهم: لوحة تعرض تلقائيًا كل 15 دقيقة حالة رحلات الخطوط الجوية القطرية بين الدوحة وسيول (في الموعد/التأخير/الإلغاء) وأوضاع المجال الجوي القطري. وتعرض الجداول لكل مسار آخر رحلة وصلت، والرحلة الجارية حاليًا، والرحلات المجدولة خلال نحو أسبوع قادم، والأوقات المعروضة مبنية على الجدول الرسمي للخطوط القطرية، مع إدراج الأوقات الفعلية من الشاشات الرسمية للمطارين (حمد وإنتشون) للرحلات الوشيكة أو الجارية.",
     updated: function(d){ return "آخر تحديث: " + d.generated_at_doha + " (قطر) / " + d.generated_at_seoul + " (كوريا)"; },
     stale_note: "⚠ تحديث بيانات الرحلات المباشرة متأخر حاليًا. قد تعكس الحالات أدناه الجدول المعتاد؛ لأحدث حالة يُرجى البحث برقم رحلتكم على الموقع الرسمي للخطوط القطرية (fs.qatarairways.com).",
