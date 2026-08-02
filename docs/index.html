@@ -220,6 +220,12 @@
   html[dir="rtl"] th, html[dir="rtl"] td { text-align: right; }
   html[dir="rtl"] .airstrip, html[dir="rtl"] .badge { direction: rtl; }
   html[dir="rtl"] .fno, html[dir="rtl"] td:nth-child(2), html[dir="rtl"] td:nth-child(3) { direction: ltr; unicode-bidi: embed; }
+
+    /* 자매버튼을 언어버튼과 한 줄에 유지 (언론 모니터링 사이트와 동일한 컴팩트 배치) */
+    .langrow { flex-wrap: nowrap !important; justify-content: space-between !important; gap: 8px !important; }
+    .lang { width: auto !important; gap: 4px !important; }
+    .lang button { flex: 0 0 auto !important; min-height: 0 !important; padding: 6px 10px !important; font-size: 12.5px !important; white-space: nowrap; }
+    .sitelink { flex: 0 0 auto; }
 </style>
 </head>
 <body>
