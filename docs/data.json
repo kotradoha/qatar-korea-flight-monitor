@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-08-03T02:45:23+00:00",
- "generated_at_doha": "2026-08-03 05:45",
- "generated_at_seoul": "2026-08-03 11:45",
- "degraded": false,
+ "generated_at_utc": "2026-08-03T03:00:37+00:00",
+ "generated_at_doha": "2026-08-03 06:00",
+ "generated_at_seoul": "2026-08-03 12:00",
+ "degraded": true,
  "fetch_health": {
-  "ok": 79,
-  "err": 0
+  "ok": 60,
+  "err": 19
  },
  "airspace": {
   "risk_level": "Three",
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-03T02:45:33+00:00",
+  "checked_at_utc": "2026-08-03T04:17:35+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -29,17 +29,7 @@
   "status": "caution",
   "override": null
  },
- "alerts": [
-  {
-   "flight": "QR858",
-   "date": "2026-08-03",
-   "type": "delay",
-   "dep": 4,
-   "arr": 53,
-   "minutes": 53,
-   "state": "expected"
-  }
- ],
+ "alerts": [],
  "travel_updates": [],
  "qr_notices": [
   {
@@ -89,9 +79,8 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "warn",
-    "kind": "delayed",
-    "delay": 53
+    "state": "check",
+    "kind": "checking"
    },
    "days": [
     {
@@ -112,13 +101,11 @@
      "label": "8/3 (월)",
      "label_en": "Mon 8/3",
      "dep": "02:09",
-     "arr": "17:58",
+     "arr": "17:05",
      "kind": "inflight",
      "cls": "good",
-     "delay": 53,
+     "delay": 4,
      "confirmed": true,
-     "delay_dep": 4,
-     "delay_arr": 53,
      "board": {
       "doha": {
        "status": "Departed",
@@ -129,6 +116,7 @@
        "source": "HIA"
       }
      },
+     "delay_dep": 4,
      "board_ok": true
     },
     {
@@ -160,10 +148,10 @@
      "label_en": "Wed 8/5",
      "dep": "02:05",
      "arr": "17:05",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "checking",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
     },
     {
      "date": "2026-08-06",
@@ -171,7 +159,7 @@
      "label_en": "Thu 8/6",
      "dep": "02:05",
      "arr": "17:05",
-     "kind": "plan",
+     "kind": "checking",
      "cls": "plan",
      "delay": 0,
      "confirmed": false
@@ -263,15 +251,15 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "check",
+    "kind": "checking"
    },
    "days": [
     {
      "date": "2026-08-03",
      "label": "8/3 (월)",
      "label_en": "Mon 8/3",
-     "dep": "01:13",
+     "dep": "01:20",
      "arr": "04:31",
      "kind": "landed",
      "cls": "good",
@@ -319,10 +307,10 @@
      "label_en": "Wed 8/5",
      "dep": "01:20",
      "arr": "05:20",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "checking",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
     },
     {
      "date": "2026-08-06",
@@ -330,7 +318,7 @@
      "label_en": "Thu 8/6",
      "dep": "01:20",
      "arr": "05:20",
-     "kind": "plan",
+     "kind": "checking",
      "cls": "plan",
      "delay": 0,
      "confirmed": false
@@ -395,7 +383,7 @@
     "date": "2026-08-03",
     "label": "8/3 (월)",
     "label_en": "Mon 8/3",
-    "dep": "01:13",
+    "dep": "01:20",
     "arr": "04:31",
     "kind": "landed",
     "cls": "good",
@@ -422,8 +410,8 @@
    "note": "매주 목요일 운항",
    "note_en": "Weekly on Thursdays",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "check",
+    "kind": "checking"
    },
    "days": [
     {
@@ -445,7 +433,7 @@
      "label_en": "Thu 8/6",
      "dep": "19:45",
      "arr": "익일 10:30",
-     "kind": "plan",
+     "kind": "checking",
      "cls": "plan",
      "delay": 0,
      "confirmed": false
@@ -556,7 +544,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-03T02:45:23+00:00",
+  "checked_at_utc": "2026-08-03T03:00:37+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -670,8 +658,14 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-03T02:50:47+00:00",
-  "flags": [],
+  "checked_at_utc": "2026-08-03T04:25:23+00:00",
+  "flags": [
+   {
+    "code": "degraded",
+    "severity": "warn",
+    "detail": "실시간 확인된 편이 없어 표시가 스케줄 기준일 수 있음"
+   }
+  ],
   "material": false
  }
 }
