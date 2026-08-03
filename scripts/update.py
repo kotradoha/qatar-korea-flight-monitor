@@ -2068,6 +2068,29 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"[warn] detect_icn_schedule_changes: {e}", file=sys.stderr)
 
+    # 실시간 소스(FlightStats) 일시 장애 대응 — 공항 전광판/발행 스케줄이 살아 있으면 과도한 '확인 중'을 피한다.
+    #   (1) FlightStats 조회가 모두 실패해도 공항 전광판이 편을 확인해 줬으면 'degraded(스케줄 기준)'로 보지 않는다.
+    #   (2) '확인 중'이 된 근접일이라도 전광판/인천/스케줄로 시각이 확보돼 있으면 '운항 예정(예매 가능)'으로 표시.
+    #       — 전역 열화 배너가 실시간 지연을 이미 알리므로, 시각이 있는데도 '확인 중'을 남발하지 않는다.
+    try:
+        board_confirmed = any(
+            day.get("board_ok") or (day.get("confirmed") and day.get("kind") in ("landed", "inflight", "delayed"))
+            for fno in KOREA_FLIGHTS
+            for day in (flights_out.get(fno) or {}).get("days", []))
+        if board_confirmed:
+            degraded = False
+        for fno in KOREA_FLIGHTS:
+            f = flights_out.get(fno)
+            if not isinstance(f, dict):
+                continue
+            for day in f.get("days", []):
+                if day.get("kind") == "checking" and not day.get("confirmed"):
+                    dep, arr = str(day.get("dep") or ""), str(day.get("arr") or "")
+                    if (dep and dep != "—") or (arr and arr != "—"):   # 발행 시각이 있으면 '운항 예정'으로
+                        day["kind"], day["cls"] = "plan", "plan"
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] checking-fallback: {e}", file=sys.stderr)
+
     # 사이드바 '특기사항' 알림을 최종 표시 상태에서 재구성 — 표와 숫자를 일치시키고,
     #   비행 중=지연 예상/도착=확정 구분, 단발 지연은 도착 2h 뒤 자동 소멸(결항·다수편은 유지).
     try:
