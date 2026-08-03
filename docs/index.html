@@ -63,7 +63,7 @@
   .lang { display: flex; gap: 4px; border: 1px solid var(--hairline); border-radius: 8px; padding: 2px; }
   .lang button { font: inherit; font-size: 12.5px; font-weight: 600; padding: 5px 12px;
     border: none; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; }
-  .lang button.on { background: var(--accent); color: #fff; }
+  .lang button.on { background: var(--accent); color: #fff; border-left: 3px solid transparent; border-right: 3px solid transparent; background-clip: padding-box; }
     .sitelink { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; color: var(--accent); text-decoration: none; border: 1px solid var(--hairline); border-radius: 8px; padding: 5px 11px; background: var(--surface-1); white-space: nowrap; }
     .sitelink:hover { border-color: var(--accent); }
   .sub { color: var(--text-secondary); font-size: 13px; margin-top: 4px; line-height: 1.5; }
@@ -221,11 +221,13 @@
   html[dir="rtl"] .airstrip, html[dir="rtl"] .badge { direction: rtl; }
   html[dir="rtl"] .fno, html[dir="rtl"] td:nth-child(2), html[dir="rtl"] td:nth-child(3) { direction: ltr; unicode-bidi: embed; }
 
-    /* 자매버튼을 언어버튼과 한 줄에 유지 (언론 모니터링 사이트와 동일한 컴팩트 배치) */
-    .langrow { flex-wrap: nowrap !important; justify-content: space-between !important; gap: 8px !important; }
-    .lang { width: auto !important; gap: 4px !important; }
-    .lang button { flex: 0 0 auto !important; min-height: 0 !important; padding: 6px 10px !important; font-size: 12.5px !important; white-space: nowrap; }
+    /* 자매버튼 한 줄 유지 + 세 언어버튼 균등폭·크기(언론과 동일) + 사이 곧은 세로선 */
+    .langrow { flex-wrap: nowrap !important; justify-content: space-between !important; gap: 8px !important; align-items: center; }
+    .lang { width: auto !important; gap: 4px !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; flex: 0 1 auto; min-width: 0; }
+    .lang button { position: relative; flex: none !important; min-height: 0 !important; min-width: 0 !important; font-family: inherit !important; line-height: 1.5 !important; font-weight: 600 !important; border-radius: 6px !important; padding: 5px 12px !important; font-size: 12.5px !important; white-space: nowrap; text-align: center; box-sizing: border-box; }
+    .lang button:not(:first-child)::before { content: ""; position: absolute; inset-inline-start: -2px; top: 25%; bottom: 25%; width: 1px; background: var(--hairline); }
     .sitelink { flex: 0 0 auto; }
+    @media (max-width: 520px){ .lang { gap: 6px !important; flex: 0 1 auto !important; min-width: 0 !important; } .lang button { padding: 10px 8px !important; font-size: 14px !important; } .sitelink { flex: 0 0 auto !important; } }
 </style>
 </head>
 <body>
