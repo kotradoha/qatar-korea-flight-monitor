@@ -1,10 +1,10 @@
 {
- "generated_at_utc": "2026-08-04T14:45:27+00:00",
- "generated_at_doha": "2026-08-04 17:45",
- "generated_at_seoul": "2026-08-04 23:45",
+ "generated_at_utc": "2026-08-04T15:00:39+00:00",
+ "generated_at_doha": "2026-08-04 18:00",
+ "generated_at_seoul": "2026-08-05 00:00",
  "degraded": false,
  "fetch_health": {
-  "ok": 80,
+  "ok": 81,
   "err": 0
  },
  "airspace": {
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-04T14:45:34+00:00",
+  "checked_at_utc": "2026-08-04T15:00:56+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -132,9 +132,17 @@
        "est": "02:05",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1705",
+       "est": "1705",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -306,8 +314,16 @@
        "est": "05:20",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Gate Open",
+       "sched": "0120",
+       "est": "0120",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -376,22 +392,33 @@
      "cls": "plan",
      "delay": 0,
      "confirmed": false
+    },
+    {
+     "date": "2026-08-12",
+     "label": "8/12 (수)",
+     "label_en": "Wed 8/12",
+     "dep": "01:20",
+     "arr": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     }
    ],
    "position": null,
    "board": {
     "doha": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
+     "status": "Scheduled",
+     "statusCode": "SH",
      "sched": "05:20",
-     "est": "04:56",
+     "est": "05:20",
      "other": "ICN",
      "source": "HIA"
     },
     "korea": {
-     "status": "Departure",
+     "status": "Gate Open",
      "sched": "0120",
-     "est": "0124",
+     "est": "0120",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -562,7 +589,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-04T14:45:27+00:00",
+  "checked_at_utc": "2026-08-04T15:00:39+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -643,30 +670,30 @@
   "icn": {
    "ok": true,
    "arrivals": {
+    "QR858@2026-08-05": {
+     "status": "",
+     "sched": "1705",
+     "est": "1705",
+     "airport": "DOH"
+    },
     "QR858@2026-08-04": {
      "status": "Arrived",
      "sched": "1705",
      "est": "1735",
      "airport": "DOH"
-    },
-    "QR858@2026-08-03": {
-     "status": "Arrived",
-     "sched": "1705",
-     "est": "1730",
-     "airport": "DOH"
     }
    },
    "departures": {
+    "QR859@2026-08-05": {
+     "status": "Gate Open",
+     "sched": "0120",
+     "est": "0120",
+     "airport": "DOH"
+    },
     "QR859@2026-08-04": {
      "status": "Departure",
      "sched": "0120",
      "est": "0124",
-     "airport": "DOH"
-    },
-    "QR859@2026-08-03": {
-     "status": "Departure",
-     "sched": "0120",
-     "est": "0113",
      "airport": "DOH"
     }
    }
@@ -697,7 +724,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-04T14:50:16+00:00",
+  "checked_at_utc": "2026-08-04T15:05:43+00:00",
   "flags": [],
   "material": false
  }
