@@ -117,17 +117,28 @@ def http_get(url, timeout=25, retries=3):
     raise FetchError(str(last))
 
 
+# FlightStats(비공식) 회로차단기 — 죽었을 때 실행이 수십 분 걸려 갱신이 멈추는 것을 방지.
+_FS_BREAKER = {"fails": 0, "off": False, "limit": 5}
+
+
 def fetch_flight(number, d):
     """FlightStats JSON 조회.
     반환: 편 dict(성공) / None(HTTP는 됐으나 해당일 편 데이터 없음).
     네트워크·HTTP 실패 시 FetchError 발생(호출부에서 '확인 실패'로 처리)."""
+    if _FS_BREAKER["off"]:                       # 이번 실행에서 이미 죽음 판정 → 즉시 실패(빠른 종료)
+        raise FetchError("flightstats unavailable (circuit open)")
     url = (f"https://www.flightstats.com/v2/api-next/flight-tracker/"
            f"QR/{number}/{d.year}/{d.month}/{d.day}")
-    body = http_get(url)             # 네트워크 실패 시 FetchError 전파
     try:
+        body = http_get(url, timeout=10, retries=1)   # 죽어있을 때 실행이 길어지지 않게 짧게
         raw = json.loads(body)
-    except ValueError as e:          # 200이지만 비-JSON(차단·레이트리밋 HTML 등) → 조회 실패로 취급
-        raise FetchError(f"non-JSON response: {e}")
+    except (FetchError, ValueError) as e:        # 네트워크 실패·비-JSON 모두 실패로 집계
+        _FS_BREAKER["fails"] += 1
+        if _FS_BREAKER["fails"] >= _FS_BREAKER["limit"] and not _FS_BREAKER["off"]:
+            _FS_BREAKER["off"] = True
+            print("[warn] FlightStats 연속 실패 — 회로 차단(이후 조회 건너뜀, 전광판·스케줄 대체)", file=sys.stderr)
+        raise e if isinstance(e, FetchError) else FetchError(f"non-JSON response: {e}")
+    _FS_BREAKER["fails"] = 0                      # 성공하면 연속 실패 카운터 초기화
     data = raw.get("data") or {}
     if not data or not data.get("status"):
         return None
@@ -1655,6 +1666,8 @@ def main():
             prev = None
 
     now_utc = datetime.now(timezone.utc)
+    _FS_BREAKER["fails"] = 0                      # 실행마다 회로차단기 초기화
+    _FS_BREAKER["off"] = False
     alerts = []
     health = {"ok": 0, "err": 0}
     flights_out = {}
