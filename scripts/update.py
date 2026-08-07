@@ -225,7 +225,11 @@ def classify(fs, entry, fno, offset, d, alerts):
                        "minutes": worst, "dep": fs["delay_dep"], "arr": fs["delay_arr"]})
         return ("delayed", worst) if offset >= 0 else None
     # 비행 중(A)·도착 완료(L): 기본 상태는 유지하되, 지연이 크면 함께 표기
-    entry["kind"] = {"S": "sched", "A": "inflight", "L": "landed"}.get(code, "sched")
+    _k = {"S": "sched", "A": "inflight", "L": "landed"}.get(code)
+    if _k is None:                             # 미지 상태코드 → '정상'으로 단정하지 않고 '확인 중'
+        entry["kind"], entry["cls"] = "checking", "plan"
+        return None
+    entry["kind"] = _k
     entry["cls"] = "good"
     if delayed_now and code in ("A", "L"):
         entry["delay_dep"], entry["delay_arr"] = fs["delay_dep"], fs["delay_arr"]  # 상태색은 녹색 유지
@@ -574,7 +578,7 @@ def _airspace_open_stated(low):
     'open'은 영공(airspace/FIR/OTDF/overflight) 문맥으로 한정한다."""
     return bool(
         re.search(r"(?:airspace|fir|otdf|overflight)[a-z /()]{0,40}\b(?:remains?|is|are|currently|now|still)\s+open", low)
-        or re.search(r"operating\s+(?:largely\s+|mostly\s+)?normally", low)
+        or re.search(r"(?:airspace|fir|otdf|overflight)[a-z /()]{0,40}\boperating\s+(?:largely\s+|mostly\s+)?normally", low)
     )
 
 
@@ -856,6 +860,10 @@ def _scan_qr_official_page(url):
         r"wi-?fi|lounge|meal|menu|entertainment|fare|installment|card|pricing|stopover|"
         r"마일리지|수하물|라운지|프로모션|카드|할부|비자|기내식|와이파이|요금|운임|좌석|스톱오버|명의|판매",
         re.IGNORECASE)
+    OP_STRONG = re.compile(                          # 명백한 '운항' 신호 — 일반단어가 섞여 있어도 이건 버리지 않는다
+        r"suspen|cancel|resum|diver(?:t|sion)|\bhalt|ground|not\s+operat|will\s+not\s+fly|"
+        r"airspace|no[- ]fly|중단|중지|결항|회항|영공|감편|정상화",
+        re.IGNORECASE)
     try:
         html = http_get(url)
     except FetchError:
@@ -867,7 +875,9 @@ def _scan_qr_official_page(url):
 
     def _add(txt):
         txt = re.sub(r"\s+", " ", txt).strip(" -–—·|:")
-        if not txt or len(txt) > 150 or not OP.search(txt) or GEN.search(txt):
+        if not txt or len(txt) > 150 or not OP.search(txt):
+            return
+        if GEN.search(txt) and not OP_STRONG.search(txt):   # 일반 안내만 제외; 강한 운항신호가 있으면 유지
             return
         key = re.sub(r"\W+", "", txt.lower())[:80]
         if not key or key in seen:
@@ -1076,20 +1086,25 @@ def compute_integrity(out, prev, today_iso, tom_iso):
 
 
 def _map_board_status(status):
-    """전광판 상태 문구(영어) → 내부 kind. 알 수 없으면 None(덮어쓰지 않음)."""
+    """전광판 상태 문구(영어·한국어) → 내부 kind. 알 수 없으면 None(덮어쓰지 않음).
+    인천 API가 현재는 영어 remark를 주지만, 한국어('결항'·'지연' 등)가 와도 놓치지 않도록 함께 매칭한다."""
     s = (status or "").strip().lower()
     if not s:
         return "sched"                       # 빈칸 = 아직 예정(운항 예정)
-    if "cancel" in s:
+    if "cancel" in s or "결항" in s or "취소" in s:
         return "cancelled"
-    if "divert" in s or "return to" in s:
+    if "divert" in s or "return to" in s or "회항" in s:
         return "diverted"
-    if any(w in s for w in ("arriv", "landed", "bag", "delivered")):
+    if any(w in s for w in ("arriv", "landed", "bag", "delivered")) or "도착" in s or "수취" in s:
         return "landed"
-    if any(w in s for w in ("depart", "airborne", "en route", "en-route", "take off", "takeoff")):
+    if any(w in s for w in ("depart", "airborne", "en route", "en-route", "take off", "takeoff")) \
+            or "출발" in s or "이륙" in s:
         return "inflight"
-    if any(w in s for w in ("board", "gate", "on time", "schedul", "estimat", "delay",
-                            "final", "check", "open", "close", "confirm", "wait")):
+    if "delay" in s or "지연" in s:          # 지연은 별도 상태(주의색)로 — 초록으로 묻히지 않게
+        return "delayed"
+    if any(w in s for w in ("board", "gate", "on time", "schedul", "estimat",
+                            "final", "check", "open", "close", "confirm", "wait")) \
+            or any(k in s for k in ("예정", "탑승", "수속")):
         return "sched"
     return None
 
@@ -1162,10 +1177,12 @@ def _board_delay(b, eff_sched):
     if e is not None and s is not None:
         gap = abs(e - s)
         gap = min(gap, 1440 - gap)          # 자정 넘김을 고려한 최소 시차
-        if gap >= 20:                        # 발행 스케줄과 크게 어긋난 예정값 = 낡은 값 → 발행 스케줄 기준 재계산
+        if gap >= 20:                        # 전광판 예정값과 발행 스케줄이 크게 다름(스케줄 변경 국면 — 어느 쪽이 낡았는지 불확실)
             alt = _delay_min(eff_sched, b.get("est"))
-            if alt is not None:
-                return alt
+            # 실제(est)가 두 후보 스케줄 중 하나에라도 근접하면 정시로 본다 → 전광판이든 발행값이든 낡은 쪽에 의한 유령지연 차단
+            if base is not None and alt is not None:
+                return min(base, alt)
+            return alt if alt is not None else base
     return base
 
 
@@ -1759,6 +1776,12 @@ def main():
             continue
         auto = bool(fdict.pop("_susp_auto", False))
         mv = susp_manual.get(fno)
+        if isinstance(mv, dict) and mv.get("until"):    # 만료된 임시 운휴 지정은 무시 — 재개된 편을 '미운영'으로 오표시 방지
+            try:
+                if date.fromisoformat(str(mv["until"])[:10]) < now_utc.astimezone(TZ_DOHA).date():
+                    mv = None
+            except ValueError:
+                pass
         if mv not in (None, False):
             note = note_en = until = url = None
             if isinstance(mv, dict):
@@ -2135,6 +2158,29 @@ def main():
                         day["kind"], day["cls"] = "plan", "plan"
     except Exception as e:  # noqa: BLE001
         print(f"[warn] checking-fallback: {e}", file=sys.stderr)
+
+    # 전광판 반영 후 영공 재교차검증: 공항 전광판이 확정한 결항까지 포함해 다시 센다.
+    #   (FlightStats가 죽어 있어도 전광판이 잡은 결항이 영공 판정에 반영되도록.)
+    #   ★ '주의→폐쇄' 등 '격상'만 하고 절대 강등하지 않는다(거짓 정상 방지). 운영자 override가 있으면 건드리지 않는다.
+    try:
+        if override not in ("closed", "open"):
+            _cf2 = set()
+            for _fno in FLIGHTS:
+                for _day in (flights_out.get(_fno) or {}).get("days", []):
+                    if _day.get("confirmed") and _day.get("kind") in ("cancelled", "diverted") \
+                            and _day.get("date") in (today_iso, tom_iso):
+                        _cf2.add(_fno)
+            if len(_cf2) > cancel_recent:
+                cancel_recent = len(_cf2)
+                airspace["cancel_recent"] = cancel_recent
+            if cancel_recent >= 2 and airspace.get("level") != "closed":
+                if concern:
+                    airspace["level"] = airspace["status"] = "closed"
+                    airspace["closed"] = True
+                elif airspace.get("level") in ("open", "unknown"):
+                    airspace["level"] = airspace["status"] = "caution"
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] airspace re-cross-check(board): {e}", file=sys.stderr)
 
     # 사이드바 '특기사항' 알림을 최종 표시 상태에서 재구성 — 표와 숫자를 일치시키고,
     #   비행 중=지연 예상/도착=확정 구분, 단발 지연은 도착 2h 뒤 자동 소멸(결항·다수편은 유지).

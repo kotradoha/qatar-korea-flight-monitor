@@ -603,8 +603,8 @@ function render() {
     var labels = (LANG === "ko" ? f.labels : f.labels_en) || { dep: "", arr: "" };
     var rows = (f.days || []).map(function(d) {
       var cls = { good: "st-good", plan: "st-plan", warn: "st-warn", crit: "st-crit", susp: "st-susp" }[d.cls] || "st-plan";
-      var depTxt = LANG === "ko" ? d.dep : String(d.dep).replace("익일", "+1d");
-      var arrTxt = LANG === "ko" ? d.arr : String(d.arr).replace("익일", "+1d");
+      var depTxt = (d.dep == null) ? "" : (LANG === "ko" ? d.dep : String(d.dep).replace("익일", "+1d"));
+      var arrTxt = (d.arr == null) ? "" : (LANG === "ko" ? d.arr : String(d.arr).replace("익일", "+1d"));
       return "<tr><td>" + esc(LANG === "ko" ? d.label : d.label_en) + "</td><td>" + esc(depTxt) +
              "</td><td>" + esc(arrTxt) + "</td><td class='" + cls + "'>" + statusHtml(d) + "</td></tr>";
     }).join("");
