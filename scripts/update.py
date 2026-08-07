@@ -64,7 +64,7 @@ FLIGHTS = {
     "QR862": {
         "route": "도하 (DOH) → 서울 (ICN)", "route_en": "Doha (DOH) → Seoul (ICN)",
         "origin_tz": "doha", "arr_tz": "seoul",
-        "sched_dep": "19:45", "sched_arr": "익일 10:30",
+        "sched_dep": "20:25", "sched_arr": "익일 11:25",   # 2026-08 기준 현재 시간표(종전 19:45/10:30에서 변경)
         "labels": {"dep": "출발 (도하)", "arr": "도착 (서울)"},
         "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"},
         "daily": False, "dow": 3,   # 목요일(Mon=0)
@@ -340,6 +340,9 @@ def build_core_flight(fno, cfg, now_utc, alerts, health, sched_ovs=None):
             "label_en": f"{DOW_EN[d.weekday()]} {d.month}/{d.day}",
             # 시각은 카타르항공 스케줄 기준(효력일 반영). 근접(±3일)은 아래 FlightStats 실측으로 대체됨.
             "dep": _eff_dep, "arr": _eff_arr,
+            # 현재 발행 스케줄(HHMM)을 따로 보관 — 전광판 지연 계산이 낡은 예정시각에 속지 않도록 대조에 사용.
+            "sched_dep_eff": _hhmm_norm(_eff_dep),
+            "sched_arr_eff": _hhmm_norm(str(_eff_arr or "").replace("익일", "").strip()),
             "kind": "plan", "cls": "plan", "delay": 0, "confirmed": False,
         }
         near = offset <= 3   # 운휴 감지·확인 실패 판정은 근접일만(먼 미래는 데이터 없어도 '미운항' 아님)
@@ -1097,6 +1100,15 @@ def _hhmm_norm(t):
     return f"{int(m.group(1)):02d}:{m.group(2)}" if m else ""
 
 
+def _hhmm_to_min(t):
+    """'HH:MM'/'HHMM' → 자정 이후 분(0~1439). 형식이 아니면 None."""
+    s = _hhmm_norm(t)
+    if not s:
+        return None
+    h, m = map(int, s.split(":"))
+    return h * 60 + m
+
+
 def _delay_min(sched, est):
     """전광판 sched·est(HHMM)로 지연(분)을 계산. 늦으면 양수, 정시·이르면 0.
     자정을 넘겨 est가 더 작아지는 경우(예: 23:50→00:15)는 +1일로 보정한다.
@@ -1137,6 +1149,26 @@ def _op_dates(d, cfg):
     return d.isoformat(), arr_iso
 
 
+def _board_delay(b, eff_sched):
+    """전광판(b)의 예정(sched)·실제(est)로 지연(분)을 계산한다.
+    단, 전광판의 '예정' 시각이 그 편의 현재 발행 스케줄(eff_sched, HHMM)과 20분 이상 벌어져 있으면 —
+    항공사가 시간표를 바꿨는데 한쪽 공항 전광판이 아직 옛 예정시각을 물고 있는 경우 — 발행 스케줄을
+    기준으로 실제(est)의 지연을 재계산해 '유령 지연'을 막는다. 발행 스케줄 대비 진짜 늦음은 그대로 잡힌다.
+    eff_sched가 없거나 형식이 아니면 전광판 예정 기준을 그대로 사용한다(기존 동작)."""
+    b = b or {}
+    base = _delay_min(b.get("sched"), b.get("est"))
+    e = _hhmm_to_min(eff_sched)
+    s = _hhmm_to_min(b.get("sched"))
+    if e is not None and s is not None:
+        gap = abs(e - s)
+        gap = min(gap, 1440 - gap)          # 자정 넘김을 고려한 최소 시차
+        if gap >= 20:                        # 발행 스케줄과 크게 어긋난 예정값 = 낡은 값 → 발행 스케줄 기준 재계산
+            alt = _delay_min(eff_sched, b.get("est"))
+            if alt is not None:
+                return alt
+    return base
+
+
 def apply_board_display(flights_out):
     """전광판 우선 표시: 각 편의 각 날짜 행에 '날짜별로 정확히 매칭돼 붙은' 전광판(day['board'])이 있으면
     상태·시각을 그 값으로 표시한다. 전광판 레코드가 없으면(연결 실패 또는 조회창 밖) FlightStats 기본값을 그대로 둔다.
@@ -1168,12 +1200,12 @@ def apply_board_display(flights_out):
             touched = False
             if dep_b and _bt(dep_b):
                 day["dep"] = _bt(dep_b); touched = True
-                dm = _delay_min(dep_b.get("sched"), dep_b.get("est"))
+                dm = _board_delay(dep_b, day.get("sched_dep_eff"))   # 낡은 예정시각에 의한 유령 지연 방지
                 if dm is not None:                      # 지연 배지도 전광판 시각과 일치시킴
                     day["delay_dep"] = dm
             if arr_b and _bt(arr_b):
                 v = _bt(arr_b); day["arr"] = ("익일 " + v) if overnight else v; touched = True
-                am = _delay_min(arr_b.get("sched"), arr_b.get("est"))
+                am = _board_delay(arr_b, day.get("sched_arr_eff"))   # 낡은 예정시각에 의한 유령 지연 방지
                 if am is not None:
                     day["delay_arr"] = am
             bkinds = []
