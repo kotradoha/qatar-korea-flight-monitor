@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-08-07T16:30:35+00:00",
- "generated_at_doha": "2026-08-07 19:30",
- "generated_at_seoul": "2026-08-08 01:30",
+ "generated_at_utc": "2026-08-07T16:45:31+00:00",
+ "generated_at_doha": "2026-08-07 19:45",
+ "generated_at_seoul": "2026-08-08 01:45",
  "degraded": false,
  "fetch_health": {
-  "ok": 1,
-  "err": 80
+  "ok": 13,
+  "err": 68
  },
  "airspace": {
   "risk_level": "Three",
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-07T16:31:36+00:00",
+  "checked_at_utc": "2026-08-07T16:48:20+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -151,10 +151,10 @@
      "label_en": "Sun 8/9",
      "dep": "02:05",
      "arr": "17:05",
-     "kind": "plan",
-     "cls": "plan",
+     "kind": "sched",
+     "cls": "good",
      "delay": 0,
-     "confirmed": false
+     "confirmed": true
     },
     {
      "date": "2026-08-10",
@@ -261,8 +261,8 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "check",
-    "kind": "checking"
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
     {
@@ -301,7 +301,7 @@
      "label": "8/8 (토)",
      "label_en": "Sat 8/8",
      "dep": "01:12",
-     "arr": "05:03",
+     "arr": "05:20",
      "kind": "inflight",
      "cls": "good",
      "delay": 0,
@@ -311,7 +311,7 @@
        "status": "Scheduled",
        "statusCode": "SH",
        "sched": "05:20",
-       "est": "05:03",
+       "est": "05:20",
        "other": "ICN",
        "source": "HIA"
       },
@@ -333,10 +333,10 @@
      "label_en": "Sun 8/9",
      "dep": "01:20",
      "arr": "05:20",
-     "kind": "plan",
-     "cls": "plan",
+     "kind": "sched",
+     "cls": "good",
      "delay": 0,
-     "confirmed": false
+     "confirmed": true
     },
     {
      "date": "2026-08-10",
@@ -411,7 +411,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "05:20",
-     "est": "05:03",
+     "est": "05:20",
      "other": "ICN",
      "source": "HIA"
     },
@@ -455,8 +455,8 @@
    "note": "매주 목요일 운항",
    "note_en": "Weekly on Thursdays",
    "badge": {
-    "state": "check",
-    "kind": "checking"
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
     {
@@ -494,8 +494,8 @@
      "date": "2026-08-13",
      "label": "8/13 (목)",
      "label_en": "Thu 8/13",
-     "dep": "19:45",
-     "arr": "익일 10:30",
+     "dep": "20:25",
+     "arr": "익일 11:25",
      "kind": "plan",
      "cls": "plan",
      "delay": 0,
@@ -505,8 +505,8 @@
      "date": "2026-08-20",
      "label": "8/20 (목)",
      "label_en": "Thu 8/20",
-     "dep": "19:45",
-     "arr": "익일 10:30",
+     "dep": "20:25",
+     "arr": "익일 11:25",
      "kind": "plan",
      "cls": "plan",
      "delay": 0,
@@ -563,8 +563,8 @@
    "note": "매주 금요일 운항",
    "note_en": "Weekly on Fridays",
    "badge": {
-    "state": "check",
-    "kind": "checking"
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
     {
@@ -672,7 +672,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-07T16:30:35+00:00",
+  "checked_at_utc": "2026-08-07T16:45:31+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -759,7 +759,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "05:20",
-     "est": "05:03",
+     "est": "05:20",
      "other": "ICN"
     }
    }
@@ -827,7 +827,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-07T16:36:20+00:00",
+  "checked_at_utc": "2026-08-07T16:53:08+00:00",
   "flags": [],
   "material": false
  }
