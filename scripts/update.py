@@ -1337,7 +1337,7 @@ def _slim_done(entry):
     return {k: entry.get(k) for k in _LAST_DONE_KEYS if entry.get(k) is not None}
 
 
-def _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn_dep):
+def _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn_dep, sched_ovs=None):
     """이미 받아 둔 공항 전광판(어제까지 포함)에서 '가장 최근 과거 도착 완료' 편 1개를 복원한다.
     도착 쪽 전광판이 '도착(landed)'으로 확인된 편만 인정하고, 없으면 None.
     (라이브 조회창 밖의 더 오래된 편은 직전 data.json의 last_done 이월로 처리한다.)"""
@@ -1362,8 +1362,11 @@ def _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn
         dep_t = dep_bv or cfg["sched_dep"]       # 전광판 출발값 없으면 스케줄(추정)
         arr_v = _hhmm_norm(arr_b.get("est") or arr_b.get("sched"))
         arr_t = (("익일 " + arr_v) if overnight else arr_v) if arr_v else cfg["sched_arr"]
-        dm = _delay_min((dep_b or {}).get("sched"), (dep_b or {}).get("est"))
-        am = _delay_min(arr_b.get("sched"), arr_b.get("est"))
+        # 지연은 전광판의 '예정' 값이 아니라 그 날짜의 현재 발행 스케줄(운영자 override 반영) 기준으로 계산 —
+        #   인천/FlightStats가 낡은 예정시각을 줘도 유령지연이 생기지 않게(apply_board_display와 동일 원리).
+        _eff_dep, _eff_arr = _eff_sched(cfg, dd, (sched_ovs or {}).get(fno))
+        dm = _board_delay(dep_b, _hhmm_norm(_eff_dep))
+        am = _board_delay(arr_b, _hhmm_norm(str(_eff_arr or "").replace("익일", "").strip()))
         entry = {
             "date": dd.isoformat(),
             "label": f"{dd.month}/{dd.day} ({DOW_KR[dd.weekday()]})",
@@ -1405,7 +1408,7 @@ def _merge_done(rec, prev_done):
     return base
 
 
-def ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, icn_dep):
+def ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, icn_dep, sched_ovs=None):
     """각 편이 '가장 최신 도착 완료(landed)' 편을 최소 1개는 계속 보이도록 유지한다.
     - 표에 이미 도착 완료 편이 있으면 그 최신값을 last_done으로 저장하고 끝.
     - 없으면(오늘 편이 아직 예정·비행 중이거나 주간편 비운항일 등) 공항 전광판으로 직전 도착편을
@@ -1424,7 +1427,7 @@ def ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, 
         if vis_landed:                            # 이미 도착 완료 편 표시 중 → 최신값만 저장
             f["last_done"] = _slim_done(max(vis_landed, key=lambda d: d["date"]))
             continue
-        rec = _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn_dep)
+        rec = _recent_landed_from_boards(fno, cfg, now_utc, ham_dep, ham_arr, icn_arr, icn_dep, sched_ovs)
         prev_done = (prev_fl.get(fno) or {}).get("last_done")
         # 같은 날짜면 전광판값을 우선 보존해 병합(스케줄 추정값의 덮어쓰기 방지), 다른 날짜면 최신 채택
         best = _merge_done(rec, prev_done)
@@ -2109,7 +2112,7 @@ def main():
     # 각 편의 '가장 최신 도착 완료편' 유지: 다음 도착편이 생기기 전까지 직전 도착편을 계속 보여준다.
     #   (오늘 편이 아직 예정·비행 중이거나, 주간편 비운항일이라 표가 향후편만 남는 경우 대비)
     try:
-        ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, icn_dep)
+        ensure_recent_landed(flights_out, prev, now_utc, ham_dep, ham_arr, icn_arr, icn_dep, sched_ovs)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] ensure_recent_landed: {e}", file=sys.stderr)
 
