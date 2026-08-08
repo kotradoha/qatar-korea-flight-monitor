@@ -314,6 +314,7 @@ var I18N = {
     lbl_qr_date: function(md){ return "(" + md + " 공지) "; },
     lbl_qr_count: function(i, n){ return "(" + i + "/" + n + " 공지) "; },
     lbl_news: "관련 뉴스 (자동 감지·미확인, 출처 참고): ",
+    foreign_item: "카타르항공 관련 자동 감지 항목 — 원문 확인",
     go_official: "공식 페이지 열기",
     table_key: "<b>상태 보는 법</b> — <span class='kp'>예매 가능</span>: 예매는 가능하나 운항 미확인(향후편) · <span class='kg'>✓ 운항 예정</span>: 실시간 데이터(Cirium/FlightStats)로 운항 확인 · <span class='kg'>✓ 비행 중·도착 완료</span>: 현재 실시간 상태 · <span class='kw'>⚠ 지연</span>: 출발 또는 도착 20분 이상 · <span class='kr'>✕ 결항·회항</span> · <span style='color:#a2701c;font-weight:600'>⏸ 임시 미운영</span>: 정기편이나 한동안 미운항 · 확인 중: 실시간 조회 일시 불가 · 실시간 시각은 공항 전광판 기준",
     sb_flightnotes: "✈ 한-카타르 노선 특기사항:",
@@ -353,6 +354,7 @@ var I18N = {
     lbl_qr_date: function(md){ return "(notice " + md + ") "; },
     lbl_qr_count: function(i, n){ return "(notice " + i + "/" + n + ") "; },
     lbl_news: "Related news (auto-detected, unverified — see source): ",
+    foreign_item: "Auto-detected Qatar Airways item — see source",
     go_official: "Open official page",
     table_key: "<b>How to read the status</b> — <span class='kp'>Bookable</span>: bookable, operation not yet confirmed (future) · <span class='kg'>✓ Scheduled</span>: operation confirmed in live data (Cirium/FlightStats) · <span class='kg'>✓ In flight·Landed</span>: current live status · <span class='kw'>⚠ Delayed</span>: departure or arrival 20+ min · <span class='kr'>✕ Cancelled·Diverted</span> · <span style='color:#a2701c;font-weight:600'>⏸ Temporarily suspended</span>: scheduled flight, not operating for now · Checking: live lookup temporarily unavailable · Times follow the airports' official boards",
     sb_flightnotes: "✈ Korea–Qatar route notes:",
@@ -392,6 +394,7 @@ var I18N = {
     lbl_qr_date: function(md){ return "(إشعار " + md + ") "; },
     lbl_qr_count: function(i, n){ return "(إشعار " + i + "/" + n + ") "; },
     lbl_news: "أخبار ذات صلة (رصد آلي غير مؤكد — راجع المصدر): ",
+    foreign_item: "عنصر مُكتشف تلقائيًا — راجع المصدر",
     go_official: "فتح الصفحة الرسمية",
     table_key: "<b>كيف تقرأ الحالة</b> — <span class='kp'>متاحة للحجز</span>: متاحة للحجز والتشغيل غير مؤكّد بعد (قادمة) · <span class='kg'>✓ مجدولة</span>: التشغيل مؤكّد في البيانات المباشرة (Cirium/FlightStats) · <span class='kg'>✓ في الجو·وصلت</span>: الحالة المباشرة الآن · <span class='kw'>⚠ تأخير</span>: المغادرة أو الوصول 20 دقيقة فأكثر · <span class='kr'>✕ إلغاء·تحويل</span> · <span style='color:#a2701c;font-weight:600'>⏸ موقوفة مؤقتًا</span>: رحلة منتظمة لكنها متوقفة حاليًا · جارٍ التحقق: تعذّر الجلب المباشر مؤقتًا · الأوقات بحسب الشاشات الرسمية للمطارات",
     sb_flightnotes: "✈ ملاحظات خط كوريا–قطر:",
@@ -522,9 +525,16 @@ function renderStatusBox() {
   lines.push("<span class='sb-basis'>" + t().sb_basis_air + "</span>");
   // 3) 실시간 조회 지연
   if (d.degraded) lines.push(t().stale_note);
+  // 자동감지 항목(뉴스·공식공지)은 원문을 3개 언어 칸에 그대로 복사한다(진짜 번역이 아님).
+  //   보는 언어와 다른 문자(아랍문자)가 그대로 노출되는 것을 막는다 — 비아랍어 화면에서는 중립 라벨로 대체(원문은 링크로 보존).
+  function pickI18nTitle(it){
+    var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
+    if (title && LANG !== "ar" && /[؀-ۿ]/.test(title)) return t().foreign_item;
+    return title;
+  }
   // 4) 카타르항공 Travel Updates 공지(운항 관련) — ✈ 줄, (공지일) + 네모 링크 칩
   var _qn = (d.qr_notices || []).map(function(it){
-    var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
+    var title = pickI18nTitle(it);
     return { title: title, url: it.url };
   }).filter(function(x){ return x.title; });
   if (_qn.length) {
@@ -535,7 +545,7 @@ function renderStatusBox() {
   }
   // 4-B) 제3자 공신력 뉴스(자동 감지) — 공식 공지와 구분해 '📰 관련 뉴스' 줄, 출처 링크 포함
   var _nn = (d.news_notices || []).map(function(it){
-    var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
+    var title = pickI18nTitle(it);
     return { title: title, url: it.url };
   }).filter(function(x){ return x.title; });
   if (_nn.length) {
@@ -546,7 +556,7 @@ function renderStatusBox() {
   }
   // 5) 운영자 긴급 공지(일반 배너) — 있을 때만
   (d.travel_updates || []).forEach(function(it){
-    var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
+    var title = pickI18nTitle(it);
     if (title) lines.push("📌 <a href=\"" + esc(safeUrl(it.url)) +
       "\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline\">" + esc(title) + "</a>");
   });
@@ -558,7 +568,7 @@ function renderStatusBox() {
   var notes = document.getElementById("sbNotes");
   var alerts = (d.alerts || []).filter(function(x){ return x.date; });
   var rnotes = (d.route_notes || []).map(function(it){
-    var title = (LANG === "ko" ? it.title : (LANG === "ar" ? (it.title_ar || it.title_en || it.title) : (it.title_en || it.title))) || "";
+    var title = pickI18nTitle(it);
     return { title: title, url: it.url };
   }).filter(function(x){ return x.title; });
   if (alerts.length || rnotes.length) {
