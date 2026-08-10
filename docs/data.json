@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-10T00:45:24+00:00",
- "generated_at_doha": "2026-08-10 03:45",
- "generated_at_seoul": "2026-08-10 09:45",
+ "generated_at_utc": "2026-08-10T01:00:38+00:00",
+ "generated_at_doha": "2026-08-10 04:00",
+ "generated_at_seoul": "2026-08-10 10:00",
  "degraded": false,
  "fetch_health": {
   "ok": 79,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-10T00:45:31+00:00",
+  "checked_at_utc": "2026-08-10T01:00:44+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -35,8 +35,8 @@
    "date": "2026-08-10",
    "type": "delay",
    "dep": 7,
-   "arr": 54,
-   "minutes": 54,
+   "arr": 65,
+   "minutes": 65,
    "state": "expected"
   }
  ],
@@ -47,14 +47,14 @@
    "title": "Emirates flights to Bahrain and Kuwait remain suspended as Etihad and Qatar Airways resume operations - thenationalnews.com (thenationalnews.com)",
    "title_en": "Emirates flights to Bahrain and Kuwait remain suspended as Etihad and Qatar Airways resume operations - thenationalnews.com (thenationalnews.com)",
    "title_ar": "Emirates flights to Bahrain and Kuwait remain suspended as Etihad and Qatar Airways resume operations - thenationalnews.com (thenationalnews.com)",
-   "date": "2026-08-09",
-   "until": "2026-08-16",
-   "pub": "2026-08-09T17:44:06+00:00",
+   "date": "2026-08-10",
+   "until": "2026-08-17",
+   "pub": "2026-08-09T23:47:17+00:00",
    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPZFA0ak1rRTlzR0ttYjhNcmQzaEtlQzRZV2RxaWZiRW9wMkZnTGJhX1FrY0lXYU5MLW1zSUdtNU01bURwbUpUU1hRVTZmellRMWc2Y2YxbWJCUlB6OE90TjdqaXFJZE1oS2QzTk01dDJ3Y29NV0pORXB1bjE5S28yU1dDOWNEaW50NGNZXzRfNWRwYWppQlZmWmhHS1pnZ1MxTUplcUR3?oc=5",
    "source": "auto-news"
   }
  ],
- "news_scanned_utc": "2026-08-09T19:00:41+00:00",
+ "news_scanned_utc": "2026-08-10T01:00:38+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [
   {
@@ -113,15 +113,15 @@
      "label": "8/10 (월)",
      "label_en": "Mon 8/10",
      "dep": "02:12",
-     "arr": "17:59",
+     "arr": "18:10",
      "sched_dep_eff": "02:05",
      "sched_arr_eff": "17:05",
      "kind": "inflight",
      "cls": "good",
-     "delay": 54,
+     "delay": 65,
      "confirmed": true,
      "delay_dep": 7,
-     "delay_arr": 54,
+     "delay_arr": 65,
      "board": {
       "doha": {
        "status": "Departed",
@@ -134,7 +134,7 @@
       "korea": {
        "status": "Delayed",
        "sched": "1705",
-       "est": "1759",
+       "est": "1810",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -258,7 +258,7 @@
     "korea": {
      "status": "Delayed",
      "sched": "1705",
-     "est": "1759",
+     "est": "1810",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -640,7 +640,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-10T00:45:24+00:00",
+  "checked_at_utc": "2026-08-10T01:00:38+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -731,7 +731,7 @@
     "QR858@2026-08-10": {
      "status": "Delayed",
      "sched": "1705",
-     "est": "1759",
+     "est": "1810",
      "airport": "DOH"
     },
     "QR858@2026-08-09": {
@@ -782,7 +782,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-10T00:50:24+00:00",
+  "checked_at_utc": "2026-08-10T01:05:31+00:00",
   "flags": [],
   "material": false
  }
