@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-11T16:15:26+00:00",
- "generated_at_doha": "2026-08-11 19:15",
- "generated_at_seoul": "2026-08-12 01:15",
+ "generated_at_utc": "2026-08-11T16:21:10+00:00",
+ "generated_at_doha": "2026-08-11 19:21",
+ "generated_at_seoul": "2026-08-12 01:21",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-11T16:15:39+00:00",
+  "checked_at_utc": "2026-08-11T16:21:38+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -32,18 +32,7 @@
  "alerts": [],
  "travel_updates": [],
  "qr_notices": [],
- "news_notices": [
-  {
-   "title": "Emirates flights to Bahrain and Kuwait remain suspended as Etihad and Qatar Airways resume operations - thenationalnews.com (thenationalnews.com)",
-   "title_en": "Emirates flights to Bahrain and Kuwait remain suspended as Etihad and Qatar Airways resume operations - thenationalnews.com (thenationalnews.com)",
-   "title_ar": "Emirates flights to Bahrain and Kuwait remain suspended as Etihad and Qatar Airways resume operations - thenationalnews.com (thenationalnews.com)",
-   "date": "2026-08-11",
-   "until": "2026-08-18",
-   "pub": "2026-08-09T07:00:00+00:00",
-   "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPZFA0ak1rRTlzR0ttYjhNcmQzaEtlQzRZV2RxaWZiRW9wMkZnTGJhX1FrY0lXYU5MLW1zSUdtNU01bURwbUpUU1hRVTZmellRMWc2Y2YxbWJCUlB6OE90TjdqaXFJZE1oS2QzTk01dDJ3Y29NV0pORXB1bjE5S28yU1dDOWNEaW50NGNZXzRfNWRwYWppQlZmWmhHS1pnZ1MxTUplcUR3?oc=5",
-   "source": "auto-news"
-  }
- ],
+ "news_notices": [],
  "news_scanned_utc": "2026-08-11T13:00:42+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [
@@ -104,9 +93,17 @@
        "est": "02:15",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Arrived",
+       "sched": "1705",
+       "est": "1714",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 10,
+     "delay_arr": 9,
      "board_ok": true
     },
     {
@@ -129,9 +126,17 @@
        "est": "02:05",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1705",
+       "est": "1705",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -222,6 +227,13 @@
      "est": "02:15",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Arrived",
+     "sched": "1705",
+     "est": "1714",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -234,6 +246,7 @@
     "cls": "good",
     "delay": 10,
     "delay_dep": 10,
+    "delay_arr": 9,
     "confirmed": true
    }
   },
@@ -262,7 +275,7 @@
      "date": "2026-08-11",
      "label": "8/11 (화)",
      "label_en": "Tue 8/11",
-     "dep": "01:08",
+     "dep": "01:10",
      "arr": "04:39",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
@@ -278,8 +291,16 @@
        "est": "04:39",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Departure",
+       "sched": "0120",
+       "est": "0110",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -287,13 +308,13 @@
      "date": "2026-08-12",
      "label": "8/12 (수)",
      "label_en": "Wed 8/12",
-     "dep": "01:20",
+     "dep": "01:21",
      "arr": "05:20",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
-     "delay": 0,
+     "delay": 1,
      "confirmed": true,
      "board": {
       "doha": {
@@ -303,8 +324,16 @@
        "est": "05:20",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Departure",
+       "sched": "0120",
+       "est": "0121",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 1,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -409,17 +438,25 @@
      "est": "05:20",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0121",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
     "date": "2026-08-11",
     "label": "8/11 (화)",
     "label_en": "Tue 8/11",
-    "dep": "01:08",
+    "dep": "01:10",
     "arr": "04:39",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
+    "delay_dep": 0,
     "delay_arr": 0,
     "confirmed": true
    }
@@ -584,7 +621,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-11T16:15:26+00:00",
+  "checked_at_utc": "2026-08-11T16:21:10+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -663,7 +700,35 @@
    }
   },
   "icn": {
-   "ok": false
+   "ok": true,
+   "arrivals": {
+    "QR858@2026-08-12": {
+     "status": "",
+     "sched": "1705",
+     "est": "1705",
+     "airport": "DOH"
+    },
+    "QR858@2026-08-11": {
+     "status": "Arrived",
+     "sched": "1705",
+     "est": "1714",
+     "airport": "DOH"
+    }
+   },
+   "departures": {
+    "QR859@2026-08-12": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0121",
+     "airport": "DOH"
+    },
+    "QR859@2026-08-11": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0110",
+     "airport": "DOH"
+    }
+   }
   }
  },
  "icn_future": {
@@ -688,7 +753,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-11T16:20:59+00:00",
+  "checked_at_utc": "2026-08-11T16:26:29+00:00",
   "flags": [],
   "material": false
  }
