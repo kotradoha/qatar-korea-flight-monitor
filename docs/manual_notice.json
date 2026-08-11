@@ -10,16 +10,7 @@
   "airspace_status_source": "",
   "suspended_flights": {},
   "items": [],
-  "qr_notices": [
-    {
-      "title": "바레인·쿠웨이트·에르빌(이라크) 여객편 운항 일시 중단 — 8/7까지 연장(종전 7/31)",
-      "title_en": "Passenger flights to Bahrain, Kuwait and Erbil (Iraq) temporarily suspended — extended to 7 Aug (was 31 Jul)",
-      "title_ar": "تعليق مؤقت لرحلات الركاب إلى البحرين والكويت وأربيل (العراق) — تمديد حتى 7 أغسطس (بدلاً من 31 يوليو)",
-      "date": "2026-07-30",
-      "until": "2026-08-07",
-      "url": "https://www.qatarairways.com/en/travel-alerts.html"
-    }
-  ],
+  "qr_notices": [],
   "route_notes": [
     {
       "title": "QR858편(도하→서울) 8/1~8/14 기간에 한해 출발시각 15분 조정(02:20→02:05). 도착시각은 종전과 동일.",

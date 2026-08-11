@@ -923,10 +923,14 @@ def fetch_qr_alerts():
 
 
 # 제3자 뉴스에서 제외할 상시성(가이드·정보성)·동호인·홍보 콘텐츠 패턴(잡음). 이월분 재검증에도 공유한다.
+#   ★ 오탐 제외: 실제 운항 중단 주체가 카타르항공이 아니라 타 항공사(에미레이트·에티하드 등)이고,
+#     'Qatar Airways'는 '운항 재개(resume)' 맥락으로만 등장하는 경쟁사 비교 기사
+#     (예: "Emirates flights ... remain suspended as ... Qatar Airways resume operations")는 노선과 무관하므로 제외.
 _NEWS_EXCL = re.compile(r"what\s+to\s+do|how\s+to|\bguide\b|explained|everything\s+you|\btips\b|\breview\b|"
                         r"ranked|\bbest\b|\bworst\b|rare\s+appearance|spotting|makes\s+\w+\s+appearance|"
                         r"\bphotos?\b|compensation|\brefund\b|\bclaim\b|\bdeal\b|\bsale\b|promo|"
-                        r"everything\s+to\s+know|need\s+to\s+know|\bhack\b|\btricks?\b", re.IGNORECASE)
+                        r"everything\s+to\s+know|need\s+to\s+know|\bhack\b|\btricks?\b|"
+                        r"(?=.*\b(?:emirates|etihad|flydubai|saudia)\b)(?=.*qatar\s+airways?\s+resum)", re.IGNORECASE)
 
 
 def fetch_thirdparty_news(now_utc, news_since, max_items=3, days=10):
