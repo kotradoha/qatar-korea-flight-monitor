@@ -11,16 +11,7 @@
   "suspended_flights": {},
   "items": [],
   "qr_notices": [],
-  "route_notes": [
-    {
-      "title": "QR858편(도하→서울) 도하 출발시각 02:05 운항 중(정기 02:20 대비 15분 이른 출발). 서울 도착시각(17:05)은 종전과 동일. 8/15 이후 예매편도 02:05로 확인됨.",
-      "title_en": "Flight QR858 (Doha→Seoul) currently departs Doha at 02:05 (15 min earlier than the 02:20 base schedule); Seoul arrival (17:05) unchanged. Bookings on/after 15 Aug also show 02:05.",
-      "title_ar": "الرحلة QR858 (الدوحة→سيول): تغادر الدوحة حاليًا الساعة 02:05 (أبكر بـ15 دقيقة من الموعد الأساسي 02:20)؛ ووقت الوصول إلى سيول (17:05) دون تغيير. الحجوزات في 15 أغسطس وما بعده تُظهر أيضًا 02:05.",
-      "date": "2026-07-28",
-      "until": "2026-10-24",
-      "url": ""
-    }
-  ],
+  "route_notes": [],
   "time_overrides": {
     "QR863@2026-07-24": { "dep": "18:25", "note": "인천공항 전광판 실제 출발 18:25(예정 18:30). 인천 API 조회범위(D-3) 밖이라 수동 보정. 7/31 운항 시 자동 교체." }
   },
