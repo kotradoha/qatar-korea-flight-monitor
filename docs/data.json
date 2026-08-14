@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-08-14T10:30:25+00:00",
- "generated_at_doha": "2026-08-14 13:30",
- "generated_at_seoul": "2026-08-14 19:30",
+ "generated_at_utc": "2026-08-14T10:45:21+00:00",
+ "generated_at_doha": "2026-08-14 13:45",
+ "generated_at_seoul": "2026-08-14 19:45",
  "degraded": false,
  "fetch_health": {
-  "ok": 80,
-  "err": 0
+  "ok": 79,
+  "err": 1
  },
  "airspace": {
   "risk_level": "Three",
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-14T10:30:41+00:00",
+  "checked_at_utc": "2026-08-14T10:45:51+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -587,7 +587,7 @@
      "label": "8/14 (금)",
      "label_en": "Fri 8/14",
      "dep": "18:27",
-     "arr": "22:30",
+     "arr": "22:00",
      "sched_dep_eff": "18:30",
      "sched_arr_eff": "22:30",
      "kind": "inflight",
@@ -599,7 +599,7 @@
        "status": "Scheduled",
        "statusCode": "SH",
        "sched": "22:30",
-       "est": "22:30",
+       "est": "22:00",
        "other": "ICN",
        "source": "HIA"
       },
@@ -648,7 +648,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "22:30",
-     "est": "22:30",
+     "est": "22:00",
      "other": "ICN",
      "source": "HIA"
     },
@@ -680,7 +680,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-14T10:30:25+00:00",
+  "checked_at_utc": "2026-08-14T10:45:21+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -760,7 +760,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "22:30",
-     "est": "22:30",
+     "est": "22:00",
      "other": "ICN"
     },
     "QR859@2026-08-15": {
@@ -834,7 +834,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-14T10:35:31+00:00",
+  "checked_at_utc": "2026-08-14T10:50:45+00:00",
   "flags": [],
   "material": false
  }
