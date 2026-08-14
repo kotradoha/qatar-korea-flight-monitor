@@ -2,11 +2,12 @@ name: Update flight data
 
 on:
   # 코드 변경 시 즉시 1회 실행(스케줄 크론이 지연·누락돼도 최소한 배포 때마다 갱신됨).
-  # data.json만 바뀐 봇 커밋은 제외해 무한 루프를 막는다.
+  # data.json·CI 상태파일만 바뀐 봇 커밋은 제외해 무한 루프를 막는다.
   push:
     branches: [main]
     paths-ignore:
       - 'docs/data.json'
+      - '.github/ci_health.json'
   schedule:
     # 15분마다 갱신. 정시(:00)는 전 세계 작업이 몰려 지연이 크므로 피해서 :05/:20/:35/:50에 실행.
     - cron: "5,20,35,50 * * * *"
@@ -23,42 +24,101 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # 수동 체크아웃: actions/checkout·setup-python 같은 마켓플레이스 액션은 실행 전
+      # codeload.github.com 에서 내려받는데, 여기서 나는 일시적 인프라 오류
+      # ("could not download action")는 워크플로 내부 로직으로 못 막고 곧장 '실행 실패'
+      # 메일이 떴다. 액션 다운로드 자체를 없애 그 실패 원인을 원천 차단한다.
+      # (러너에 git·python3(3.12) 내장, update.py 는 표준 라이브러리만 사용.)
+      - name: Checkout (manual, no marketplace action download)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git init -q .
+          git config user.name "qr-monitor-bot"
+          git config user.email "qr-monitor-bot@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch -q --depth=1 origin "${GITHUB_SHA}"
+          git checkout -q FETCH_HEAD
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
+      # 업데이터는 실패해도 여기서 잡스를 곧장 죽이지 않는다(continue-on-error).
+      # 알림 여부는 아래 '연속 실패' 판정 단계가 최종 결정한다.
+      # 한 실행 안에서의 순간적 네트워크 오류는 3회 재시도로 자체 흡수한다.
       - name: Run updater
-        run: python scripts/update.py
+        id: run
+        continue-on-error: true
         env:
           # 인천공항 공식 '여객편 운항현황' API 키(저장소 시크릿). 없으면 인천 대조는 조용히 건너뛴다.
           ICN_API_KEY: ${{ secrets.ICN_API_KEY }}
+        run: |
+          for attempt in 1 2 3; do
+            if python3 scripts/update.py; then
+              exit 0
+            fi
+            echo "updater attempt ${attempt} failed; retrying..." >&2
+            sleep $((attempt * 5))
+          done
+          exit 1
 
-      - name: Commit & push if changed
+      # 성공: 생성된 data.json 커밋·푸시 + 연속 실패 카운터 0으로 리셋.
+      - name: Commit data & clear failure counter (on success)
+        if: steps.run.outcome == 'success'
         run: |
           git config user.name "qr-monitor-bot"
           git config user.email "qr-monitor-bot@users.noreply.github.com"
           # 방금 생성한 data.json 을 '항상 최신 origin 위에' 새로 얹어 커밋한다.
-          # 이전엔 커밋 후 rebase 했는데, 다른 실행이 동시에 data.json 을 바꾸면
-          # 같은 파일 충돌로 rebase 가 실패해 '실행 실패' 알림이 떴다(사이트엔 무해).
-          # reset 방식은 매번 최신 기준으로 다시 얹으므로 충돌이 원천적으로 없다.
+          # (동시 실행이 data.json 을 바꿔도 매번 최신 기준으로 다시 얹어 충돌이 없다.)
           for i in 1 2 3 4 5; do
             git fetch -q origin main
             git reset -q --mixed FETCH_HEAD        # HEAD만 최신 origin으로(생성된 data.json은 작업트리에 유지)
             git add docs/data.json
-            if git diff --cached --quiet; then
-              echo "no data change vs origin; nothing to commit"; exit 0
+            # 직전에 실패가 있었다면 카운터를 0으로 되돌린다(같은 커밋에 포함).
+            if [ -f .github/ci_health.json ] && ! grep -q '"consecutive_fail": 0' .github/ci_health.json; then
+              printf '{"consecutive_fail": 0}\n' > .github/ci_health.json
+              git add -f .github/ci_health.json
             fi
-            git commit -q -m "data: update $(date -u +'%Y-%m-%dT%H:%MZ')"
+            if git diff --cached --quiet; then
+              echo "no change vs origin; nothing to commit"; exit 0
+            fi
+            git commit -q -m "data: update $(date -u +'%Y-%m-%dT%H:%MZ') [skip ci]"
             if git push -q origin HEAD:main; then
               echo "pushed on attempt $i"; exit 0
             fi
             echo "attempt $i lost a race; rebuilding onto latest origin..."; sleep 4
           done
           # 5회 시도 후에도 저장 못한 경우: 이 실행은 '실패'로 처리하지 않는다(=GitHub 실패 메일 없음).
-          #  이유: 마지막 정상 데이터가 그대로 화면에 유지되고, 다음 실행(≤15분)이 자동 복구한다.
-          #  만약 계속(지속적으로) 저장이 안 되면 데이터가 오래되므로, 3시간마다 도는
-          #  '자가점검·복구' 작업이 그때 원인·조치법과 함께 알려준다(복구 안 될 때만 알림).
+          #  마지막 정상 데이터가 그대로 화면에 유지되고, 다음 실행(≤15분)이 자동 복구한다.
           echo "WARN: could not push this run; last-good data stays live and next run recovers."
+          exit 0
+
+      # 실패: 연속 실패 횟수를 세어 '연달아 실패할 때만' 알림(=실행을 실패로 종료 → GitHub 기본 메일).
+      #  - 1회성(일시적) 실패 → 조용히 넘어감(다음 실행이 자동 복구).
+      #  - 2회 연속(발단)에서 1번 알림, 이후에도 계속 실패하면 약 3시간마다 1번씩만 재알림.
+      - name: Alert only on consecutive failures
+        if: steps.run.outcome == 'failure'
+        run: |
+          git config user.name "qr-monitor-bot"
+          git config user.email "qr-monitor-bot@users.noreply.github.com"
+          prev=0
+          if [ -f .github/ci_health.json ]; then
+            prev=$(python3 -c "import json;print(int(json.load(open('.github/ci_health.json')).get('consecutive_fail',0)))" 2>/dev/null || echo 0)
+          fi
+          count=$((prev + 1))
+          now="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          # 카운터를 main 에 best-effort 저장(data.json 과 무관 → 사이트 영향 없음, [skip ci] 로 재실행 방지).
+          for i in 1 2 3; do
+            git fetch -q origin main
+            git reset -q --mixed FETCH_HEAD
+            printf '{"consecutive_fail": %s, "updated_utc": "%s"}\n' "$count" "$now" > .github/ci_health.json
+            git add -f .github/ci_health.json
+            if git diff --cached --quiet; then break; fi
+            git commit -q -m "ci: consecutive_fail=${count} [skip ci]"
+            if git push -q origin HEAD:main; then break; fi
+            sleep 3
+          done
+          # 2회 연속(발단)에서 알림, 그 뒤로는 12회(≈3시간)마다 1번만 재알림. 그 외엔 침묵.
+          if [ "$count" -ge 2 ] && { [ "$count" -eq 2 ] || [ $((count % 12)) -eq 0 ]; }; then
+            echo "::error::update.py가 연속 ${count}회 실패했습니다(연달아 실패 — 점검 필요)."
+            exit 1
+          fi
+          echo "::warning::일시적 실패(연속 ${count}회). 다음 실행에서 자동 복구 예정 — 알림 보내지 않음."
           exit 0
