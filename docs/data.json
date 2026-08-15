@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-15T01:45:19+00:00",
- "generated_at_doha": "2026-08-15 04:45",
- "generated_at_seoul": "2026-08-15 10:45",
+ "generated_at_utc": "2026-08-15T02:00:31+00:00",
+ "generated_at_doha": "2026-08-15 05:00",
+ "generated_at_seoul": "2026-08-15 11:00",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-15T01:45:45+00:00",
+  "checked_at_utc": "2026-08-15T02:00:53+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -269,7 +269,7 @@
      "label": "8/15 (토)",
      "label_en": "Sat 8/15",
      "dep": "01:14",
-     "arr": "05:00",
+     "arr": "04:42",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
      "kind": "landed",
@@ -278,10 +278,10 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Early",
-       "statusCode": "EA",
+       "status": "First Bag",
+       "statusCode": "FB",
        "sched": "05:20",
-       "est": "05:00",
+       "est": "04:42",
        "other": "ICN",
        "source": "HIA"
       }
@@ -396,10 +396,10 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Early",
-     "statusCode": "EA",
+     "status": "First Bag",
+     "statusCode": "FB",
      "sched": "05:20",
-     "est": "05:00",
+     "est": "04:42",
      "other": "ICN",
      "source": "HIA"
     }
@@ -409,7 +409,7 @@
     "label": "8/15 (토)",
     "label_en": "Sat 8/15",
     "dep": "01:14",
-    "arr": "05:00",
+    "arr": "04:42",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
@@ -577,7 +577,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-15T01:45:19+00:00",
+  "checked_at_utc": "2026-08-15T02:00:31+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -654,10 +654,10 @@
      "other": "ICN"
     },
     "QR859@2026-08-15": {
-     "status": "Early",
-     "statusCode": "EA",
+     "status": "First Bag",
+     "statusCode": "FB",
      "sched": "05:20",
-     "est": "05:00",
+     "est": "04:42",
      "other": "ICN"
     },
     "QR859@2026-08-16": {
@@ -691,7 +691,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-15T01:51:09+00:00",
+  "checked_at_utc": "2026-08-15T02:06:26+00:00",
   "flags": [],
   "material": false
  }
