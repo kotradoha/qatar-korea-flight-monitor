@@ -1,10 +1,10 @@
 {
- "generated_at_utc": "2026-08-15T14:54:26+00:00",
- "generated_at_doha": "2026-08-15 17:54",
- "generated_at_seoul": "2026-08-15 23:54",
+ "generated_at_utc": "2026-08-15T15:00:29+00:00",
+ "generated_at_doha": "2026-08-15 18:00",
+ "generated_at_seoul": "2026-08-16 00:00",
  "degraded": false,
  "fetch_health": {
-  "ok": 78,
+  "ok": 79,
   "err": 0
  },
  "airspace": {
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-15T14:54:41+00:00",
+  "checked_at_utc": "2026-08-15T15:00:35+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -367,15 +367,28 @@
      "cls": "plan",
      "delay": 0,
      "confirmed": false
+    },
+    {
+     "date": "2026-08-23",
+     "label": "8/23 (일)",
+     "label_en": "Sun 8/23",
+     "dep": "01:20",
+     "arr": "05:20",
+     "sched_dep_eff": "01:20",
+     "sched_arr_eff": "05:20",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     }
    ],
    "position": null,
    "board": {
     "doha": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
+     "status": "Scheduled",
+     "statusCode": "SH",
      "sched": "05:20",
-     "est": "04:42",
+     "est": "05:20",
      "other": "ICN",
      "source": "HIA"
     }
@@ -553,7 +566,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-15T14:54:26+00:00",
+  "checked_at_utc": "2026-08-15T15:00:29+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -674,7 +687,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-15T15:00:08+00:00",
+  "checked_at_utc": "2026-08-15T15:05:57+00:00",
   "flags": [],
   "material": false
  }
