@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-08-15T01:30:25+00:00",
- "generated_at_doha": "2026-08-15 04:30",
- "generated_at_seoul": "2026-08-15 10:30",
+ "generated_at_utc": "2026-08-15T01:45:19+00:00",
+ "generated_at_doha": "2026-08-15 04:45",
+ "generated_at_seoul": "2026-08-15 10:45",
  "degraded": false,
  "fetch_health": {
-  "ok": 77,
-  "err": 1
+  "ok": 78,
+  "err": 0
  },
  "airspace": {
   "risk_level": "Three",
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-15T01:30:42+00:00",
+  "checked_at_utc": "2026-08-15T01:45:45+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -265,27 +265,14 @@
    },
    "days": [
     {
-     "date": "2026-08-14",
-     "label": "8/14 (금)",
-     "label_en": "Fri 8/14",
-     "dep": "01:15",
-     "arr": "04:47",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 0,
-     "delay_dep": 0,
-     "delay_arr": 0,
-     "confirmed": true
-    },
-    {
      "date": "2026-08-15",
      "label": "8/15 (토)",
      "label_en": "Sat 8/15",
      "dep": "01:14",
-     "arr": "04:50",
+     "arr": "05:00",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
-     "kind": "inflight",
+     "kind": "landed",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
@@ -294,7 +281,7 @@
        "status": "Early",
        "statusCode": "EA",
        "sched": "05:20",
-       "est": "04:50",
+       "est": "05:00",
        "other": "ICN",
        "source": "HIA"
       }
@@ -412,21 +399,20 @@
      "status": "Early",
      "statusCode": "EA",
      "sched": "05:20",
-     "est": "04:50",
+     "est": "05:00",
      "other": "ICN",
      "source": "HIA"
     }
    },
    "last_done": {
-    "date": "2026-08-14",
-    "label": "8/14 (금)",
-    "label_en": "Fri 8/14",
-    "dep": "01:15",
-    "arr": "04:47",
+    "date": "2026-08-15",
+    "label": "8/15 (토)",
+    "label_en": "Sat 8/15",
+    "dep": "01:14",
+    "arr": "05:00",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
-    "delay_dep": 0,
     "delay_arr": 0,
     "confirmed": true
    }
@@ -591,7 +577,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-15T01:30:25+00:00",
+  "checked_at_utc": "2026-08-15T01:45:19+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -671,7 +657,7 @@
      "status": "Early",
      "statusCode": "EA",
      "sched": "05:20",
-     "est": "04:50",
+     "est": "05:00",
      "other": "ICN"
     },
     "QR859@2026-08-16": {
@@ -705,7 +691,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-15T01:36:01+00:00",
+  "checked_at_utc": "2026-08-15T01:51:09+00:00",
   "flags": [],
   "material": false
  }
