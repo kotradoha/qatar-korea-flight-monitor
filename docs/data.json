@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-15T23:30:26+00:00",
- "generated_at_doha": "2026-08-16 02:30",
- "generated_at_seoul": "2026-08-16 08:30",
+ "generated_at_utc": "2026-08-15T23:45:19+00:00",
+ "generated_at_doha": "2026-08-16 02:45",
+ "generated_at_seoul": "2026-08-16 08:45",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-15T23:30:49+00:00",
+  "checked_at_utc": "2026-08-15T23:45:24+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -60,8 +60,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 25
    },
    "days": [
     {
@@ -85,21 +86,22 @@
      "arr": "17:23",
      "sched_dep_eff": "02:05",
      "sched_arr_eff": "17:05",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
-     "delay": 0,
+     "delay": 18,
      "confirmed": true,
+     "delay_dep": 0,
+     "delay_arr": 18,
      "board": {
       "doha": {
-       "status": "Last Call",
-       "statusCode": "LC",
+       "status": "Gate Closed",
+       "statusCode": "GC",
        "sched": "02:05",
        "est": "02:05",
        "other": "ICN",
        "source": "HIA"
       }
      },
-     "delay_dep": 0,
      "board_ok": true
     },
     {
@@ -197,8 +199,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Last Call",
-     "statusCode": "LC",
+     "status": "Gate Closed",
+     "statusCode": "GC",
      "sched": "02:05",
      "est": "02:05",
      "other": "ICN",
@@ -555,7 +557,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-15T23:30:26+00:00",
+  "checked_at_utc": "2026-08-15T23:45:19+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -588,8 +590,8 @@
      "other": "ICN"
     },
     "QR858@2026-08-16": {
-     "status": "Last Call",
-     "statusCode": "LC",
+     "status": "Gate Closed",
+     "statusCode": "GC",
      "sched": "02:05",
      "est": "02:05",
      "other": "ICN"
@@ -662,7 +664,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-15T23:36:05+00:00",
+  "checked_at_utc": "2026-08-15T23:50:34+00:00",
   "flags": [],
   "material": false
  }
