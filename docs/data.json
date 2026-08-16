@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-08-16T12:45:19+00:00",
- "generated_at_doha": "2026-08-16 15:45",
- "generated_at_seoul": "2026-08-16 21:45",
+ "generated_at_utc": "2026-08-16T13:00:30+00:00",
+ "generated_at_doha": "2026-08-16 16:00",
+ "generated_at_seoul": "2026-08-16 22:00",
  "degraded": false,
  "fetch_health": {
-  "ok": 77,
-  "err": 1
+  "ok": 78,
+  "err": 0
  },
  "airspace": {
   "risk_level": "Three",
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-16T12:45:24+00:00",
+  "checked_at_utc": "2026-08-16T13:00:36+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -33,7 +33,7 @@
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
- "news_scanned_utc": "2026-08-16T07:00:31+00:00",
+ "news_scanned_utc": "2026-08-16T13:00:30+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -68,7 +68,7 @@
      "date": "2026-08-16",
      "label": "8/16 (일)",
      "label_en": "Sun 8/16",
-     "dep": "02:29",
+     "dep": "02:30",
      "arr": "18:00",
      "sched_dep_eff": "02:05",
      "sched_arr_eff": "17:05",
@@ -76,9 +76,17 @@
      "cls": "good",
      "delay": 55,
      "confirmed": true,
-     "delay_dep": 24,
+     "delay_dep": 25,
      "delay_arr": 55,
      "board": {
+      "doha": {
+       "status": "Departed",
+       "statusCode": "DP",
+       "sched": "02:05",
+       "est": "02:30",
+       "other": "ICN",
+       "source": "HIA"
+      },
       "korea": {
        "status": "Arrived",
        "sched": "1705",
@@ -100,7 +108,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "02:05",
+       "est": "02:05",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-08-18",
@@ -183,6 +203,14 @@
    ],
    "position": null,
    "board": {
+    "doha": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:05",
+     "est": "02:30",
+     "other": "ICN",
+     "source": "HIA"
+    },
     "korea": {
      "status": "Arrived",
      "sched": "1705",
@@ -195,12 +223,12 @@
     "date": "2026-08-16",
     "label": "8/16 (일)",
     "label_en": "Sun 8/16",
-    "dep": "02:29",
+    "dep": "02:30",
     "arr": "18:00",
     "kind": "landed",
     "cls": "good",
     "delay": 55,
-    "delay_dep": 24,
+    "delay_dep": 25,
     "delay_arr": 55,
     "confirmed": true
    }
@@ -555,10 +583,53 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-16T12:45:19+00:00",
+  "checked_at_utc": "2026-08-16T13:00:30+00:00",
   "hamad": {
    "ok": true,
-   "departures": {},
+   "departures": {
+    "QR858@2026-08-13": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:05",
+     "est": "02:16",
+     "other": "ICN"
+    },
+    "QR862@2026-08-13": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "20:25",
+     "est": "20:30",
+     "other": "ICN"
+    },
+    "QR858@2026-08-14": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:05",
+     "est": "02:20",
+     "other": "ICN"
+    },
+    "QR858@2026-08-15": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:05",
+     "est": "02:30",
+     "other": "ICN"
+    },
+    "QR858@2026-08-16": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "02:05",
+     "est": "02:30",
+     "other": "ICN"
+    },
+    "QR858@2026-08-17": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "02:05",
+     "est": "02:05",
+     "other": "ICN"
+    }
+   },
    "arrivals": {
     "QR859@2026-08-13": {
      "status": "All Bags Delivered",
@@ -661,7 +732,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-16T12:50:07+00:00",
+  "checked_at_utc": "2026-08-16T13:05:37+00:00",
   "flags": [],
   "material": false
  }
