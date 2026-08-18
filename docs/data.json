@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-18T07:56:35+00:00",
- "generated_at_doha": "2026-08-18 10:56",
- "generated_at_seoul": "2026-08-18 16:56",
+ "generated_at_utc": "2026-08-18T08:01:58+00:00",
+ "generated_at_doha": "2026-08-18 11:01",
+ "generated_at_seoul": "2026-08-18 17:01",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-18T07:56:58+00:00",
+  "checked_at_utc": "2026-08-18T08:02:19+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -99,7 +99,7 @@
        "source": "HIA"
       },
       "korea": {
-       "status": "",
+       "status": "Landing",
        "sched": "1705",
        "est": "1711",
        "airport": "DOH",
@@ -225,7 +225,7 @@
      "source": "HIA"
     },
     "korea": {
-     "status": "",
+     "status": "Landing",
      "sched": "1705",
      "est": "1711",
      "airport": "DOH",
@@ -596,7 +596,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-18T07:56:35+00:00",
+  "checked_at_utc": "2026-08-18T08:01:58+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -678,7 +678,7 @@
    "ok": true,
    "arrivals": {
     "QR858@2026-08-18": {
-     "status": "",
+     "status": "Landing",
      "sched": "1705",
      "est": "1711",
      "airport": "DOH"
@@ -731,7 +731,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-18T08:01:49+00:00",
+  "checked_at_utc": "2026-08-18T08:07:11+00:00",
   "flags": [],
   "material": false
  }
