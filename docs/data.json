@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-18T17:30:26+00:00",
- "generated_at_doha": "2026-08-18 20:30",
- "generated_at_seoul": "2026-08-19 02:30",
+ "generated_at_utc": "2026-08-18T17:36:04+00:00",
+ "generated_at_doha": "2026-08-18 20:36",
+ "generated_at_seoul": "2026-08-19 02:36",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-18T17:30:33+00:00",
+  "checked_at_utc": "2026-08-18T17:36:20+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -74,7 +74,7 @@
      "sched_arr_eff": "17:05",
      "kind": "landed",
      "cls": "good",
-     "delay": 0,
+     "delay": 7,
      "confirmed": true,
      "board": {
       "doha": {
@@ -84,9 +84,17 @@
        "est": "02:05",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Arrived",
+       "sched": "1705",
+       "est": "1712",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 0,
+     "delay_arr": 7,
      "board_ok": true
     },
     {
@@ -94,7 +102,7 @@
      "label": "8/19 (수)",
      "label_en": "Wed 8/19",
      "dep": "02:05",
-     "arr": "16:54",
+     "arr": "17:05",
      "sched_dep_eff": "02:05",
      "sched_arr_eff": "17:05",
      "kind": "sched",
@@ -109,9 +117,17 @@
        "est": "02:05",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1705",
+       "est": "1705",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -202,6 +218,13 @@
      "est": "02:05",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Arrived",
+     "sched": "1705",
+     "est": "1712",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -212,8 +235,9 @@
     "arr": "17:12",
     "kind": "landed",
     "cls": "good",
-    "delay": 0,
+    "delay": 7,
     "delay_dep": 0,
+    "delay_arr": 7,
     "confirmed": true
    }
   },
@@ -258,8 +282,16 @@
        "est": "04:44",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Departure",
+       "sched": "0120",
+       "est": "0110",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -283,8 +315,16 @@
        "est": "04:57",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Departure",
+       "sched": "0120",
+       "est": "0116",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -389,6 +429,13 @@
      "est": "04:57",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0116",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -400,6 +447,7 @@
     "kind": "landed",
     "cls": "good",
     "delay": 0,
+    "delay_dep": 0,
     "delay_arr": 0,
     "confirmed": true
    }
@@ -564,7 +612,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-18T17:30:26+00:00",
+  "checked_at_utc": "2026-08-18T17:36:04+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -643,7 +691,35 @@
    }
   },
   "icn": {
-   "ok": false
+   "ok": true,
+   "arrivals": {
+    "QR858@2026-08-19": {
+     "status": "",
+     "sched": "1705",
+     "est": "1705",
+     "airport": "DOH"
+    },
+    "QR858@2026-08-18": {
+     "status": "Arrived",
+     "sched": "1705",
+     "est": "1712",
+     "airport": "DOH"
+    }
+   },
+   "departures": {
+    "QR859@2026-08-19": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0116",
+     "airport": "DOH"
+    },
+    "QR859@2026-08-18": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0110",
+     "airport": "DOH"
+    }
+   }
   }
  },
  "icn_future": {
@@ -671,7 +747,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-18T17:35:56+00:00",
+  "checked_at_utc": "2026-08-18T17:41:02+00:00",
   "flags": [],
   "material": false
  }
