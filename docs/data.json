@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-19T08:47:57+00:00",
- "generated_at_doha": "2026-08-19 11:47",
- "generated_at_seoul": "2026-08-19 17:47",
+ "generated_at_utc": "2026-08-19T08:52:53+00:00",
+ "generated_at_doha": "2026-08-19 11:52",
+ "generated_at_seoul": "2026-08-19 17:52",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-19T08:48:03+00:00",
+  "checked_at_utc": "2026-08-19T08:53:02+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -605,7 +605,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-19T08:47:57+00:00",
+  "checked_at_utc": "2026-08-19T08:52:53+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -746,7 +746,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-19T08:52:45+00:00",
+  "checked_at_utc": "2026-08-19T08:57:40+00:00",
   "flags": [],
   "material": false
  }
