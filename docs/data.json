@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-20T04:45:19+00:00",
- "generated_at_doha": "2026-08-20 07:45",
- "generated_at_seoul": "2026-08-20 13:45",
+ "generated_at_utc": "2026-08-20T04:58:00+00:00",
+ "generated_at_doha": "2026-08-20 07:58",
+ "generated_at_seoul": "2026-08-20 13:58",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-20T04:45:42+00:00",
+  "checked_at_utc": "2026-08-20T04:58:24+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -60,8 +60,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 23
    },
    "days": [
     {
@@ -89,6 +90,8 @@
      "cls": "good",
      "delay": 7,
      "confirmed": true,
+     "delay_dep": 7,
+     "delay_arr": 0,
      "board": {
       "doha": {
        "status": "Departed",
@@ -106,8 +109,6 @@
        "source": "ICN"
       }
      },
-     "delay_dep": 7,
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -653,7 +654,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-20T04:45:19+00:00",
+  "checked_at_utc": "2026-08-20T04:58:00+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -802,7 +803,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-20T04:50:41+00:00",
+  "checked_at_utc": "2026-08-20T05:03:17+00:00",
   "flags": [],
   "material": false
  }
