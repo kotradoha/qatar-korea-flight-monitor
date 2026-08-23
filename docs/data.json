@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-23T05:15:21+00:00",
- "generated_at_doha": "2026-08-23 08:15",
- "generated_at_seoul": "2026-08-23 14:15",
+ "generated_at_utc": "2026-08-23T05:30:25+00:00",
+ "generated_at_doha": "2026-08-23 08:30",
+ "generated_at_seoul": "2026-08-23 14:30",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,21 +21,15 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-23T05:15:41+00:00",
+  "checked_at_utc": "2026-08-23T05:30:35+00:00",
   "ok": true,
   "level": "caution",
-  "cancel_recent": 1,
+  "cancel_recent": 0,
   "closed": false,
   "status": "caution",
   "override": null
  },
- "alerts": [
-  {
-   "flight": "QR858",
-   "date": "2026-08-24",
-   "type": "cancelled"
-  }
- ],
+ "alerts": [],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
@@ -124,14 +118,14 @@
      "arr": "19:05",
      "sched_dep_eff": "02:05",
      "sched_arr_eff": "19:05",
-     "kind": "cancelled",
-     "cls": "crit",
+     "kind": "sched",
+     "cls": "good",
      "delay": 0,
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Cancelled",
-       "statusCode": "CX",
+       "status": "Scheduled",
+       "statusCode": "SH",
        "sched": "04:05",
        "est": "04:05",
        "other": "ICN",
@@ -618,7 +612,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-08-23T05:15:21+00:00",
+  "checked_at_utc": "2026-08-23T05:30:25+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -658,8 +652,8 @@
      "other": "ICN"
     },
     "QR858@2026-08-24": {
-     "status": "Cancelled",
-     "statusCode": "CX",
+     "status": "Scheduled",
+     "statusCode": "SH",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN"
@@ -767,7 +761,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-23T05:20:32+00:00",
+  "checked_at_utc": "2026-08-23T05:35:25+00:00",
   "flags": [],
   "material": false
  }
