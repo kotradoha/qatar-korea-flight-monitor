@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-22T23:50:39+00:00",
- "generated_at_doha": "2026-08-23 02:50",
- "generated_at_seoul": "2026-08-23 08:50",
+ "generated_at_utc": "2026-08-23T00:00:32+00:00",
+ "generated_at_doha": "2026-08-23 03:00",
+ "generated_at_seoul": "2026-08-23 09:00",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,15 +21,21 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-22T23:50:54+00:00",
+  "checked_at_utc": "2026-08-23T00:00:37+00:00",
   "ok": true,
   "level": "caution",
-  "cancel_recent": 0,
+  "cancel_recent": 1,
   "closed": false,
   "status": "caution",
   "override": null
  },
- "alerts": [],
+ "alerts": [
+  {
+   "flight": "QR858",
+   "date": "2026-08-24",
+   "type": "cancelled"
+  }
+ ],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
@@ -110,10 +116,22 @@
      "arr": "19:05",
      "sched_dep_eff": "02:05",
      "sched_arr_eff": "19:05",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "cancelled",
+     "cls": "crit",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Cancelled",
+       "statusCode": "CX",
+       "sched": "04:05",
+       "est": "04:05",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-08-25",
@@ -289,7 +307,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "05:20",
+       "est": "05:20",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-08-25",
@@ -571,7 +601,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-08-22T23:50:39+00:00",
+  "checked_at_utc": "2026-08-23T00:00:32+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -606,6 +636,13 @@
     "QR858@2026-08-23": {
      "status": "Check In Open",
      "statusCode": "CO",
+     "sched": "04:05",
+     "est": "04:05",
+     "other": "ICN"
+    },
+    "QR858@2026-08-24": {
+     "status": "Cancelled",
+     "statusCode": "CX",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN"
@@ -646,6 +683,13 @@
      "sched": "05:20",
      "est": "04:55",
      "other": "ICN"
+    },
+    "QR859@2026-08-24": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "05:20",
+     "est": "05:20",
+     "other": "ICN"
     }
    }
   },
@@ -678,8 +722,14 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-22T23:56:08+00:00",
-  "flags": [],
-  "material": false
+  "checked_at_utc": "2026-08-23T00:06:05+00:00",
+  "flags": [
+   {
+    "code": "new_cancellation",
+    "severity": "high",
+    "detail": "QR858@2026-08-24"
+   }
+  ],
+  "material": true
  }
 }
