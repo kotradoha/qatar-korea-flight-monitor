@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-24T06:45:18+00:00",
- "generated_at_doha": "2026-08-24 09:45",
- "generated_at_seoul": "2026-08-24 15:45",
+ "generated_at_utc": "2026-08-24T07:00:31+00:00",
+ "generated_at_doha": "2026-08-24 10:00",
+ "generated_at_seoul": "2026-08-24 16:00",
  "degraded": false,
  "fetch_health": {
   "ok": 79,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-24T06:45:32+00:00",
+  "checked_at_utc": "2026-08-24T07:00:37+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -33,7 +33,7 @@
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
- "news_scanned_utc": "2026-08-24T01:00:29+00:00",
+ "news_scanned_utc": "2026-08-24T07:00:31+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -82,7 +82,7 @@
      "label": "8/24 (월)",
      "label_en": "Mon 8/24",
      "dep": "04:09",
-     "arr": "18:48",
+     "arr": "18:35",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "inflight",
@@ -97,9 +97,17 @@
        "est": "04:09",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1905",
+       "est": "1835",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 4,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -215,6 +223,13 @@
      "est": "04:09",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "",
+     "sched": "1905",
+     "est": "1835",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -565,7 +580,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-24T06:45:18+00:00",
+  "checked_at_utc": "2026-08-24T07:00:31+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -651,7 +666,16 @@
    }
   },
   "icn": {
-   "ok": false
+   "ok": true,
+   "arrivals": {
+    "QR858@2026-08-24": {
+     "status": "",
+     "sched": "1905",
+     "est": "1835",
+     "airport": "DOH"
+    }
+   },
+   "departures": {}
   }
  },
  "icn_future": {
@@ -679,7 +703,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-24T06:50:54+00:00",
+  "checked_at_utc": "2026-08-24T07:05:50+00:00",
   "flags": [],
   "material": false
  }
