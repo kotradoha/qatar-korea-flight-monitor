@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-25T01:51:03+00:00",
- "generated_at_doha": "2026-08-25 04:51",
- "generated_at_seoul": "2026-08-25 10:51",
+ "generated_at_utc": "2026-08-25T02:00:31+00:00",
+ "generated_at_doha": "2026-08-25 05:00",
+ "generated_at_seoul": "2026-08-25 11:00",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-25T01:51:24+00:00",
+  "checked_at_utc": "2026-08-25T02:00:57+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -104,8 +104,8 @@
      "delay_arr": 79,
      "board": {
       "doha": {
-       "status": "Go to Gate",
-       "statusCode": "GO",
+       "status": "Delayed",
+       "statusCode": "ES",
        "sched": "04:05",
        "est": "06:25",
        "other": "ICN",
@@ -216,8 +216,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Delayed",
+     "statusCode": "ES",
      "sched": "04:05",
      "est": "06:25",
      "other": "ICN",
@@ -595,7 +595,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-25T01:51:03+00:00",
+  "checked_at_utc": "2026-08-25T02:00:31+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -621,8 +621,8 @@
      "other": "ICN"
     },
     "QR858@2026-08-25": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Delayed",
+     "statusCode": "ES",
      "sched": "04:05",
      "est": "06:25",
      "other": "ICN"
@@ -723,7 +723,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-25T01:56:17+00:00",
+  "checked_at_utc": "2026-08-25T02:05:51+00:00",
   "flags": [],
   "material": false
  }
