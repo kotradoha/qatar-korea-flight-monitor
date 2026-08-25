@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-25T03:35:50+00:00",
- "generated_at_doha": "2026-08-25 06:35",
- "generated_at_seoul": "2026-08-25 12:35",
+ "generated_at_utc": "2026-08-25T03:45:18+00:00",
+ "generated_at_doha": "2026-08-25 06:45",
+ "generated_at_seoul": "2026-08-25 12:45",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-25T03:36:13+00:00",
+  "checked_at_utc": "2026-08-25T03:45:29+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -35,7 +35,7 @@
    "date": "2026-08-25",
    "type": "delay",
    "dep": 140,
-   "arr": 79,
+   "arr": 94,
    "minutes": 140,
    "state": "expected"
   }
@@ -93,7 +93,7 @@
      "label": "8/25 (화)",
      "label_en": "Tue 8/25",
      "dep": "06:25",
-     "arr": "20:24",
+     "arr": "20:39",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "delayed",
@@ -101,7 +101,7 @@
      "delay": 140,
      "confirmed": true,
      "delay_dep": 140,
-     "delay_arr": 79,
+     "delay_arr": 94,
      "board": {
       "doha": {
        "status": "Boarding",
@@ -114,7 +114,7 @@
       "korea": {
        "status": "Delayed",
        "sched": "1905",
-       "est": "2024",
+       "est": "2039",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -226,7 +226,7 @@
     "korea": {
      "status": "Delayed",
      "sched": "1905",
-     "est": "2024",
+     "est": "2039",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -595,7 +595,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-25T03:35:50+00:00",
+  "checked_at_utc": "2026-08-25T03:45:18+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -672,7 +672,7 @@
     "QR858@2026-08-25": {
      "status": "Delayed",
      "sched": "1905",
-     "est": "2024",
+     "est": "2039",
      "airport": "DOH"
     },
     "QR858@2026-08-24": {
@@ -723,7 +723,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-25T03:41:02+00:00",
+  "checked_at_utc": "2026-08-25T03:50:15+00:00",
   "flags": [],
   "material": false
  }
