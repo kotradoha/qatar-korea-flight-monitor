@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-26T01:15:19+00:00",
- "generated_at_doha": "2026-08-26 04:15",
- "generated_at_seoul": "2026-08-26 10:15",
+ "generated_at_utc": "2026-08-26T01:30:24+00:00",
+ "generated_at_doha": "2026-08-26 04:30",
+ "generated_at_seoul": "2026-08-26 10:30",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-26T01:15:24+00:00",
+  "checked_at_utc": "2026-08-26T01:30:29+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -81,13 +81,13 @@
      "date": "2026-08-26",
      "label": "8/26 (수)",
      "label_en": "Wed 8/26",
-     "dep": "04:06",
-     "arr": "18:32",
+     "dep": "04:07",
+     "arr": "18:34",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "inflight",
      "cls": "good",
-     "delay": 1,
+     "delay": 2,
      "confirmed": true
     },
     {
@@ -257,7 +257,7 @@
      "date": "2026-08-26",
      "label": "8/26 (수)",
      "label_en": "Wed 8/26",
-     "dep": "01:17",
+     "dep": "01:16",
      "arr": "04:35",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
@@ -589,7 +589,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-26T01:15:19+00:00",
+  "checked_at_utc": "2026-08-26T01:30:24+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -696,7 +696,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-26T01:20:43+00:00",
+  "checked_at_utc": "2026-08-26T01:35:47+00:00",
   "flags": [],
   "material": false
  }
