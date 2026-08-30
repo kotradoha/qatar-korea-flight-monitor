@@ -1521,6 +1521,45 @@ def fetch_icn_future(key, now_utc, days=6, timeout=12):
     return out
 
 
+def apply_force_operating(flights_out, force_map, alerts):
+    """공항 전광판/데이터가 '결항(cancelled)'·'회항(diverted)'으로 잘못 표기한 특정 편@날짜를
+    '정상 운항'으로 되돌린다 — 카타르항공 예매가 정상 확인된 '가짜 결항' 정정용(스케줄 변경 잔재 등).
+    형식: {"QR858": ["2026-08-31", ...]} 또는 {"QR858": "2026-08-31"}.
+    해당 결항/회항 alert 도 함께 제거하고, 그 사유로 걸린 배지도 정상으로 되돌린다.
+    ★ 반드시 예매 사이트에서 실제 운항이 확인된 편에만 사용한다(진짜 결항을 숨기지 않도록)."""
+    if not force_map:
+        return
+    for fno, dates in force_map.items():
+        ds = dates if isinstance(dates, list) else [dates]
+        want = {str(x)[:10] for x in ds if x}
+        f = flights_out.get(fno)
+        if not want or not isinstance(f, dict):
+            continue
+        cleared = set()
+        for day in f.get("days", []):
+            if day.get("date") in want and day.get("kind") in ("cancelled", "diverted"):
+                # 시각은 이미 발행 스케줄(dep/arr)로 채워져 있으므로 상태만 '운항 예정'으로.
+                day["kind"], day["cls"] = "sched", "good"
+                day["delay"] = 0
+                day.pop("delay_dep", None)
+                day.pop("delay_arr", None)
+                b = day.get("board") or {}
+                for leg in ("doha", "korea"):
+                    if isinstance(b.get(leg), dict) and str(b[leg].get("status", "")).lower().startswith("cancel"):
+                        b[leg]["status"] = "Scheduled"
+                        b[leg].pop("statusCode", None)
+                cleared.add(day.get("date"))
+        if not cleared:
+            continue
+        alerts[:] = [a for a in alerts
+                     if not (a.get("flight") == fno and a.get("date") in cleared
+                             and a.get("type") in ("cancelled", "diverted"))]
+        bad = f.get("badge") or {}
+        if bad.get("kind") in ("cancelled", "diverted") and \
+                not any(d.get("kind") in ("cancelled", "diverted") for d in f.get("days", [])):
+            f["badge"] = {"state": "good", "kind": "normal"}
+
+
 def apply_icn_future(flights_out, icn_future, sched_ovs):
     """향후 예정편(아직 근접 실측/전광판이 없는 plan/sched)의 '인천쪽 시각'을 인천 발행 스케줄로 설정한다.
     QR858·QR862 → 도착(인천), QR859·QR863 → 출발(인천). 운영자 override가 그 다리를 지정했으면 그게 최우선.
@@ -1890,6 +1929,7 @@ def main():
     qr_notices = []
     route_notes = []          # 한-카타르 노선 '특기사항'(운영자 지정): 스케줄 임시변경 등 노선 직접 관련 안내
     time_overrides = {}
+    force_operating = {}      # 운영자 지정 '가짜 결항' 정정(편명→날짜 목록)
     _qn_seen = set()
     today_doha_date = now_utc.astimezone(TZ_DOHA).date()
     mn = ROOT / "docs" / "manual_notice.json"
@@ -1897,6 +1937,7 @@ def main():
         try:
             md = json.loads(mn.read_text(encoding="utf-8"))
             time_overrides = md.get("time_overrides") or {}   # 운영자 수동 시각 보정(과거 완료편)
+            force_operating = md.get("force_operating") or {}  # 가짜 결항 정정(예매 정상 확인된 편@날짜)
             # 한-카타르 노선 특기사항(운영자 지정): 사이드바 '특기사항' 박스에 노선 직접 관련 안내로 표시.
             #   until(안내 종료일)이 지나면 자동 제외. Travel Updates(전체 공지)와 분리해 노선 특이사항만 담는다.
             for it in (md.get("route_notes") or []):
@@ -2134,6 +2175,14 @@ def main():
         apply_icn_future(flights_out, icn_future, sched_ovs)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] apply_icn_future: {e}", file=sys.stderr)
+
+    # 운영자 지정 '가짜 결항' 정정: 공항 전광판이 결항으로 잘못 표기했지만 카타르항공 예매가
+    #   정상인 편@날짜를 '운항 예정'으로 되돌린다(스케줄 변경 잔재 등). 아래 영공 재교차검증보다
+    #   먼저 적용해, 지워진 가짜 결항이 영공 폐쇄 집계에 섞이지 않도록 한다.
+    try:
+        apply_force_operating(flights_out, force_operating, alerts)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] apply_force_operating: {e}", file=sys.stderr)
 
     # 인천 발행 스케줄(6일)이 기준 시각과 다르면 '스케줄 변경 의심'으로 기록(매일 점검·알림용).
     #   화면엔 이미 반영되지만, '달라졌다'는 신호를 남겨야 담당자가 하드코딩 기준·override를 갱신할 수 있다.
