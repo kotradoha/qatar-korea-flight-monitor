@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-08-30T01:00:35+00:00",
- "generated_at_doha": "2026-08-30 04:00",
- "generated_at_seoul": "2026-08-30 10:00",
+ "generated_at_utc": "2026-08-30T01:15:21+00:00",
+ "generated_at_doha": "2026-08-30 04:15",
+ "generated_at_seoul": "2026-08-30 10:15",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,21 +21,15 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-08-30T01:00:45+00:00",
+  "checked_at_utc": "2026-08-30T01:15:26+00:00",
   "ok": true,
   "level": "caution",
-  "cancel_recent": 1,
+  "cancel_recent": 0,
   "closed": false,
   "status": "caution",
   "override": null
  },
- "alerts": [
-  {
-   "flight": "QR858",
-   "date": "2026-08-31",
-   "type": "cancelled"
-  }
- ],
+ "alerts": [],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
@@ -87,23 +81,15 @@
      "date": "2026-08-30",
      "label": "8/30 (일)",
      "label_en": "Sun 8/30",
-     "dep": "04:05",
+     "dep": "04:07",
      "arr": "18:28",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
      "board": {
-      "doha": {
-       "status": "Last Call",
-       "statusCode": "LC",
-       "sched": "04:05",
-       "est": "04:05",
-       "other": "ICN",
-       "source": "HIA"
-      },
       "korea": {
        "status": "",
        "sched": "1905",
@@ -112,7 +98,6 @@
        "source": "ICN"
       }
      },
-     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -124,22 +109,10 @@
      "arr": "19:05",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
-     "kind": "cancelled",
-     "cls": "crit",
+     "kind": "sched",
+     "cls": "good",
      "delay": 0,
-     "confirmed": true,
-     "board": {
-      "doha": {
-       "status": "Cancelled",
-       "statusCode": "CX",
-       "sched": "04:05",
-       "est": "04:05",
-       "other": "ICN",
-       "source": "HIA"
-      }
-     },
-     "delay_dep": 0,
-     "board_ok": true
+     "confirmed": true
     },
     {
      "date": "2026-09-01",
@@ -222,14 +195,6 @@
    ],
    "position": null,
    "board": {
-    "doha": {
-     "status": "Last Call",
-     "statusCode": "LC",
-     "sched": "04:05",
-     "est": "04:05",
-     "other": "ICN",
-     "source": "HIA"
-    },
     "korea": {
      "status": "",
      "sched": "1905",
@@ -615,53 +580,10 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-08-30T01:00:35+00:00",
+  "checked_at_utc": "2026-08-30T01:15:21+00:00",
   "hamad": {
    "ok": true,
-   "departures": {
-    "QR858@2026-08-27": {
-     "status": "Departed",
-     "statusCode": "DP",
-     "sched": "04:05",
-     "est": "04:14",
-     "other": "ICN"
-    },
-    "QR862@2026-08-27": {
-     "status": "Departed",
-     "statusCode": "DP",
-     "sched": "20:25",
-     "est": "20:25",
-     "other": "ICN"
-    },
-    "QR858@2026-08-28": {
-     "status": "Departed",
-     "statusCode": "DP",
-     "sched": "04:05",
-     "est": "04:10",
-     "other": "ICN"
-    },
-    "QR858@2026-08-29": {
-     "status": "Departed",
-     "statusCode": "DP",
-     "sched": "04:05",
-     "est": "04:08",
-     "other": "ICN"
-    },
-    "QR858@2026-08-30": {
-     "status": "Last Call",
-     "statusCode": "LC",
-     "sched": "04:05",
-     "est": "04:05",
-     "other": "ICN"
-    },
-    "QR858@2026-08-31": {
-     "status": "Cancelled",
-     "statusCode": "CX",
-     "sched": "04:05",
-     "est": "04:05",
-     "other": "ICN"
-    }
-   },
+   "departures": {},
    "arrivals": {
     "QR859@2026-08-27": {
      "status": "All Bags Delivered",
@@ -764,7 +686,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-08-30T01:05:28+00:00",
+  "checked_at_utc": "2026-08-30T01:20:11+00:00",
   "flags": [],
   "material": false
  }
