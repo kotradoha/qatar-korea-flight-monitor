@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-02T00:30:23+00:00",
- "generated_at_doha": "2026-09-02 03:30",
- "generated_at_seoul": "2026-09-02 09:30",
+ "generated_at_utc": "2026-09-02T00:45:18+00:00",
+ "generated_at_doha": "2026-09-02 03:45",
+ "generated_at_seoul": "2026-09-02 09:45",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-02T00:30:28+00:00",
+  "checked_at_utc": "2026-09-02T00:45:41+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -82,7 +82,7 @@
      "label": "9/2 (수)",
      "label_en": "Wed 9/2",
      "dep": "04:05",
-     "arr": "18:46",
+     "arr": "18:45",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "sched",
@@ -91,8 +91,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Last Call",
-       "statusCode": "LC",
+       "status": "Boarding",
+       "statusCode": "BD",
        "sched": "04:05",
        "est": "04:05",
        "other": "ICN",
@@ -197,8 +197,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Last Call",
-     "statusCode": "LC",
+     "status": "Boarding",
+     "statusCode": "BD",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN",
@@ -577,7 +577,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-02T00:30:23+00:00",
+  "checked_at_utc": "2026-09-02T00:45:18+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -603,8 +603,8 @@
      "other": "ICN"
     },
     "QR858@2026-09-02": {
-     "status": "Last Call",
-     "statusCode": "LC",
+     "status": "Boarding",
+     "statusCode": "BD",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN"
@@ -677,7 +677,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-02T00:35:42+00:00",
+  "checked_at_utc": "2026-09-02T00:50:58+00:00",
   "flags": [],
   "material": false
  }
