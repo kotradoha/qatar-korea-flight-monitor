@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-09-06T18:45:18+00:00",
- "generated_at_doha": "2026-09-06 21:45",
- "generated_at_seoul": "2026-09-07 03:45",
+ "generated_at_utc": "2026-09-06T19:00:31+00:00",
+ "generated_at_doha": "2026-09-06 22:00",
+ "generated_at_seoul": "2026-09-07 04:00",
  "degraded": false,
  "fetch_health": {
-  "ok": 79,
-  "err": 0
+  "ok": 74,
+  "err": 5
  },
  "airspace": {
   "risk_level": "Three",
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-06T18:45:22+00:00",
+  "checked_at_utc": "2026-09-06T19:00:47+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -32,8 +32,39 @@
  "alerts": [],
  "travel_updates": [],
  "qr_notices": [],
- "news_notices": [],
- "news_scanned_utc": "2026-09-06T13:00:30+00:00",
+ "news_notices": [
+  {
+   "title": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
+   "title_en": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
+   "title_ar": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
+   "date": "2026-09-06",
+   "until": "2026-09-13",
+   "pub": "2026-09-06T18:01:20+00:00",
+   "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPdWk1ZUtqeVBRMktET01XYWZOek9XM1NvbkRjN00zb1N2cXU5elFnbDNpWGlaUjFKZlExVUlSSHU3bEVWdy1tM25oa2dBNG00NlVYMFFxRDBSS21OeC1NbzlldUh4Mmh4Skk2WXM2NzhLS0F6dlZuQWVpWGxoVkR2XzFFWVR1c2ZIQnRfTFZZU05hN3NRQ0FmQWJZVnZsc0g1dVhNeVVNMXB4ZU95VEpsZDZJVjdrQ3PSAb8BQVVfeXFMTTIwQVdldVRBR1VjLThMTHJ1NUVqZ0Y5RmNYcG5paVJQY3pmSDZVVTladE4yVHhxWUYwR3hnMWVzbmZSS043TVFFX1VHRjc4VC00XzE0LUI0bnhYdnVQZVJJeUFXYzd5dlc4VzBPYnZ0S1Z4eFhPQnhxcTFDeEdySHMtREFHV0tfeHVzWlU1cHZjUDJWOTNfbUlORGpBTnVobVFZT1F5QThKRGVlZlJQZ3lSeHF4T18wd2VkcFp4ZHc?oc=5",
+   "source": "auto-news"
+  },
+  {
+   "title": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
+   "title_en": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
+   "title_ar": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
+   "date": "2026-09-06",
+   "until": "2026-09-13",
+   "pub": "2026-09-06T18:31:12+00:00",
+   "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNWVRnUDB0Zjd3c05KNDVfb0I3Vzl3Y2NFRjc0RnVISTBfSV9iR1o5LUhqZ3VSVEhOU09uZ1lGbzNXSFNaZzZwRl91WDUtZ3NOQU1uSUNCTkdiZnU1SmRvLUh3TUZhUTQ2RTlZbHNIaW51UFVQeDk0dTd3eHJqZmlNZWtXMlNHNE5TTGpaaEF3ZHNZRGdKd0FkU2pnYlYwbUJpOWFZRDBseUZob2JiZ1pYQ0s4TnFuSHZVX1FWUTE0UTlGOTjSAcgBQVVfeXFMUGo2LXNvTkVVTkExLVRYTGktOTZiRGF4X1ozRWdpX3pEMmItajlyZGVDa05WWURiZkpzdHBQbGpaZ0RIanRaZnVKd1FfX3c1enZkSGtSQ2xtcDBSM0tFOURBTkdTTDU0S3RBeUUwczdoZDRuaDVOUG5ORHdUMXN3eTJpUl9WNkdyaUlIUG1vRGZ0c0pSOG9NM1pUSVpNazlrLXRaNzNrWmlLNGhGT3JyYWJ4TUw4elBZSk9FRk43MDlPbTYya0hiZng?oc=5",
+   "source": "auto-news"
+  },
+  {
+   "title": "Qatar Airways cancels flights between Doha and Jakarta on 7 September 2026 - ILoveQatar.net (ILoveQatar.net)",
+   "title_en": "Qatar Airways cancels flights between Doha and Jakarta on 7 September 2026 - ILoveQatar.net (ILoveQatar.net)",
+   "title_ar": "Qatar Airways cancels flights between Doha and Jakarta on 7 September 2026 - ILoveQatar.net (ILoveQatar.net)",
+   "date": "2026-09-06",
+   "until": "2026-09-13",
+   "pub": "2026-09-06T18:30:00+00:00",
+   "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxONGZpUTdHZzFBUmJ6OXRMTU9IX1dITGI5RVFvVFVUeXZDNmxkR2xobklLeENvbGlUMFl4VldUc3VJRk1mNkllQ0s5b3pVQlhyUzRwZlRZZ2lGUFVaTFFkbkFSRWFtUnJQRzNtd3J0b1Y5ZTB6YVlaU2Jtc2RadmRhaHp3cThVZmNyMnczenAtSVpkSmdzd2NUWVFZMG80bFk?oc=5",
+   "source": "auto-news"
+  }
+ ],
+ "news_scanned_utc": "2026-09-06T19:00:31+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -612,7 +643,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-06T18:45:18+00:00",
+  "checked_at_utc": "2026-09-06T19:00:31+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -737,12 +768,31 @@
   }
  },
  "icn_future": {
+  "QR858": {
+   "2026-09-08": "19:05",
+   "2026-09-09": "19:05",
+   "2026-09-10": "19:05",
+   "2026-09-11": "19:05",
+   "2026-09-12": "19:05",
+   "2026-09-13": "19:05"
+  },
+  "QR862": {
+   "2026-09-11": "11:25"
+  },
   "QR859": {
-   "2026-09-10": "01:20"
+   "2026-09-08": "01:20",
+   "2026-09-09": "01:20",
+   "2026-09-10": "01:20",
+   "2026-09-11": "01:20",
+   "2026-09-12": "01:20",
+   "2026-09-13": "01:20"
+  },
+  "QR863": {
+   "2026-09-11": "18:30"
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-06T18:50:01+00:00",
+  "checked_at_utc": "2026-09-06T19:05:55+00:00",
   "flags": [],
   "material": false
  }
