@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-07T06:45:19+00:00",
- "generated_at_doha": "2026-09-07 09:45",
- "generated_at_seoul": "2026-09-07 15:45",
+ "generated_at_utc": "2026-09-07T07:00:32+00:00",
+ "generated_at_doha": "2026-09-07 10:00",
+ "generated_at_seoul": "2026-09-07 16:00",
  "degraded": false,
  "fetch_health": {
   "ok": 79,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-07T06:45:46+00:00",
+  "checked_at_utc": "2026-09-07T07:01:00+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -44,13 +44,23 @@
    "source": "auto-news"
   },
   {
-   "title": "Qatar Airways cancels flights to Jakarta following volcanic eruption - qatar-tribune.com (qatar-tribune.com)",
-   "title_en": "Qatar Airways cancels flights to Jakarta following volcanic eruption - qatar-tribune.com (qatar-tribune.com)",
-   "title_ar": "Qatar Airways cancels flights to Jakarta following volcanic eruption - qatar-tribune.com (qatar-tribune.com)",
+   "title": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
+   "title_en": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
+   "title_ar": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
    "date": "2026-09-07",
    "until": "2026-09-14",
    "pub": "2026-09-06T18:31:12+00:00",
    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNWVRnUDB0Zjd3c05KNDVfb0I3Vzl3Y2NFRjc0RnVISTBfSV9iR1o5LUhqZ3VSVEhOU09uZ1lGbzNXSFNaZzZwRl91WDUtZ3NOQU1uSUNCTkdiZnU1SmRvLUh3TUZhUTQ2RTlZbHNIaW51UFVQeDk0dTd3eHJqZmlNZWtXMlNHNE5TTGpaaEF3ZHNZRGdKd0FkU2pnYlYwbUJpOWFZRDBseUZob2JiZ1pYQ0s4TnFuSHZVX1FWUTE0UTlGOTjSAcgBQVVfeXFMUGo2LXNvTkVVTkExLVRYTGktOTZiRGF4X1ozRWdpX3pEMmItajlyZGVDa05WWURiZkpzdHBQbGpaZ0RIanRaZnVKd1FfX3c1enZkSGtSQ2xtcDBSM0tFOURBTkdTTDU0S3RBeUUwczdoZDRuaDVOUG5ORHdUMXN3eTJpUl9WNkdyaUlIUG1vRGZ0c0pSOG9NM1pUSVpNazlrLXRaNzNrWmlLNGhGT3JyYWJ4TUw4elBZSk9FRk43MDlPbTYya0hiZng?oc=5",
+   "source": "auto-news"
+  },
+  {
+   "title": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
+   "title_en": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
+   "title_ar": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
+   "date": "2026-09-07",
+   "until": "2026-09-14",
+   "pub": "2026-09-07T04:24:35+00:00",
+   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNdk8wMklGT3ppR1JQQ0Y3S1N0WlpJZG5Wc3I0SURWelMxU2lVVnBiU3lLbzh0aHI5T3A5UE9rMkdpT3NoZXhMdjZ2T29rd05DX3dmcmdKVTVhX24xZE5XS2ZSWkJreVVKM3Q4dzNBLTgxOWtkTmpBM3JIRHlpTkZmOGtpZU1wN1hCTEVVWGlfbkRsNXllNWtSREdHQlBJcUhLRUZ6NHk2NUtiM1RIX3JDLXBPV1ZIdE1oYi000gHDAUFVX3lxTE1QbVQ1SkZud1pKd0R2RGpaREdJNFBldW5VN2c4MXJJSHF2eVFqazlTak9jQk55Szc0Nk5yMHB2aFlreUJUTHJGaGJaMm1pN20zU2luMjJwVFQ0WEhHUFpveGxXdC1rVFQxbWZTcTdmMjNpVGpoTFB2QTBGNVpmdXV0c2M1b3VEeXluV1g0V0kxRlhBOFNTOU9iNGFrRHN5MXVEWExXemxTMjlEUElfbmc2YngzaHlNdTNncnpYMXA0WFNMbw?oc=5",
    "source": "auto-news"
   },
   {
@@ -64,7 +74,7 @@
    "source": "auto-news"
   }
  ],
- "news_scanned_utc": "2026-09-07T01:01:05+00:00",
+ "news_scanned_utc": "2026-09-07T07:00:32+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -627,7 +637,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-07T06:45:19+00:00",
+  "checked_at_utc": "2026-09-07T07:00:32+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -769,7 +779,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-07T06:50:45+00:00",
+  "checked_at_utc": "2026-09-07T07:05:49+00:00",
   "flags": [],
   "material": false
  }
