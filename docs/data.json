@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-07T12:45:18+00:00",
- "generated_at_doha": "2026-09-07 15:45",
- "generated_at_seoul": "2026-09-07 21:45",
+ "generated_at_utc": "2026-09-07T13:00:32+00:00",
+ "generated_at_doha": "2026-09-07 16:00",
+ "generated_at_seoul": "2026-09-07 22:00",
  "degraded": false,
  "fetch_health": {
   "ok": 79,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-07T12:45:25+00:00",
+  "checked_at_utc": "2026-09-07T13:00:54+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -34,13 +34,23 @@
  "qr_notices": [],
  "news_notices": [
   {
+   "title": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
+   "title_en": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
+   "title_ar": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
+   "date": "2026-09-07",
+   "until": "2026-09-14",
+   "pub": "2026-09-07T04:24:35+00:00",
+   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNdk8wMklGT3ppR1JQQ0Y3S1N0WlpJZG5Wc3I0SURWelMxU2lVVnBiU3lLbzh0aHI5T3A5UE9rMkdpT3NoZXhMdjZ2T29rd05DX3dmcmdKVTVhX24xZE5XS2ZSWkJreVVKM3Q4dzNBLTgxOWtkTmpBM3JIRHlpTkZmOGtpZU1wN1hCTEVVWGlfbkRsNXllNWtSREdHQlBJcUhLRUZ6NHk2NUtiM1RIX3JDLXBPV1ZIdE1oYi000gHDAUFVX3lxTE1QbVQ1SkZud1pKd0R2RGpaREdJNFBldW5VN2c4MXJJSHF2eVFqazlTak9jQk55Szc0Nk5yMHB2aFlreUJUTHJGaGJaMm1pN20zU2luMjJwVFQ0WEhHUFpveGxXdC1rVFQxbWZTcTdmMjNpVGpoTFB2QTBGNVpmdXV0c2M1b3VEeXluV1g0V0kxRlhBOFNTOU9iNGFrRHN5MXVEWExXemxTMjlEUElfbmc2YngzaHlNdTNncnpYMXA0WFNMbw?oc=5",
+   "source": "auto-news"
+  },
+  {
    "title": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
    "title_en": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
    "title_ar": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
    "date": "2026-09-07",
    "until": "2026-09-14",
    "pub": "2026-09-06T18:01:20+00:00",
-   "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPdWk1ZUtqeVBRMktET01XYWZOek9XM1NvbkRjN00zb1N2cXU5elFnbDNpWGlaUjFKZlExVUlSSHU3bEVWdy1tM25oa2dBNG00NlVYMFFxRDBSS21OeC1NbzlldUh4Mmh4Skk2WXM2NzhLS0F6dlZuQWVpWGxoVkR2XzFFWVR1c2ZIQnRfTFZZU05hN3NRQ0FmQWJZVnZsc0g1dVhNeVVNMXB4ZU95VEpsZDZJVjdrQ3PSAb8BQVVfeXFMTTIwQVdldVRBR1VjLThMTHJ1NUVqZ0Y5RmNYcG5paVJQY3pmSDZVVTladE4yVHhxWUYwR3hnMWVzbmZSS043TVFFX1VHRjc4VC00XzE0LUI0bnhYdnVQZVJJeUFXYzd5dlc4VzBPYnZ0S1Z4eFhPQnhxcTFDeEdySHMtREFHV0tfeHVzWlU1cHZjUDJWOTNfbUlORGpBTnVobVFZT1F5QThKRGVlZlJQZ3lSeHF4T18wd2VkcFp4ZHc?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPdWk1ZUtqeVBRMktET01XYWZOek9XM1NvbkRjN00zb1N2cXU5elFnbDNpWGlaUjFKZlExVUlSSHU3bEVWdy1tM25oa2dBNG00NlVYMFFxRDBSS21OeC1NbzlldUh4Mmh4Skk2WXM2NzhLS0F6dlZuQWVpWGxoVkR2XzFFWVR1c2ZIQnRfTFZZU05hN3NRQ0FmQWJZVnZsc0g1dVhNeVVNMXB4ZU95VEpsZDZJVjdrQ3M?oc=5",
    "source": "auto-news"
   },
   {
@@ -54,16 +64,6 @@
    "source": "auto-news"
   },
   {
-   "title": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
-   "title_en": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
-   "title_ar": "Emirates, Qatar Airways, others cancel Jakarta flights today after volcano eruption - Khaleej Times (Khaleej Times)",
-   "date": "2026-09-07",
-   "until": "2026-09-14",
-   "pub": "2026-09-07T04:24:35+00:00",
-   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNdk8wMklGT3ppR1JQQ0Y3S1N0WlpJZG5Wc3I0SURWelMxU2lVVnBiU3lLbzh0aHI5T3A5UE9rMkdpT3NoZXhMdjZ2T29rd05DX3dmcmdKVTVhX24xZE5XS2ZSWkJreVVKM3Q4dzNBLTgxOWtkTmpBM3JIRHlpTkZmOGtpZU1wN1hCTEVVWGlfbkRsNXllNWtSREdHQlBJcUhLRUZ6NHk2NUtiM1RIX3JDLXBPV1ZIdE1oYi000gHDAUFVX3lxTE1QbVQ1SkZud1pKd0R2RGpaREdJNFBldW5VN2c4MXJJSHF2eVFqazlTak9jQk55Szc0Nk5yMHB2aFlreUJUTHJGaGJaMm1pN20zU2luMjJwVFQ0WEhHUFpveGxXdC1rVFQxbWZTcTdmMjNpVGpoTFB2QTBGNVpmdXV0c2M1b3VEeXluV1g0V0kxRlhBOFNTOU9iNGFrRHN5MXVEWExXemxTMjlEUElfbmc2YngzaHlNdTNncnpYMXA0WFNMbw?oc=5",
-   "source": "auto-news"
-  },
-  {
    "title": "Qatar Airways cancels flights between Doha and Jakarta on 7 September 2026 - ILoveQatar.net (ILoveQatar.net)",
    "title_en": "Qatar Airways cancels flights between Doha and Jakarta on 7 September 2026 - ILoveQatar.net (ILoveQatar.net)",
    "title_ar": "Qatar Airways cancels flights between Doha and Jakarta on 7 September 2026 - ILoveQatar.net (ILoveQatar.net)",
@@ -74,7 +74,7 @@
    "source": "auto-news"
   }
  ],
- "news_scanned_utc": "2026-09-07T07:00:32+00:00",
+ "news_scanned_utc": "2026-09-07T13:00:32+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -109,14 +109,26 @@
      "date": "2026-09-07",
      "label": "9/7 (월)",
      "label_en": "Mon 9/7",
-     "dep": "04:08",
+     "dep": "04:09",
      "arr": "18:39",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "landed",
      "cls": "good",
-     "delay": 3,
-     "confirmed": true
+     "delay": 4,
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Departed",
+       "statusCode": "DP",
+       "sched": "04:05",
+       "est": "04:09",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 4,
+     "board_ok": true
     },
     {
      "date": "2026-09-08",
@@ -129,7 +141,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "04:05",
+       "est": "04:05",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-09-09",
@@ -211,15 +235,26 @@
     }
    ],
    "position": null,
+   "board": {
+    "doha": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "04:05",
+     "est": "04:09",
+     "other": "ICN",
+     "source": "HIA"
+    }
+   },
    "last_done": {
     "date": "2026-09-07",
     "label": "9/7 (월)",
     "label_en": "Mon 9/7",
-    "dep": "04:08",
+    "dep": "04:09",
     "arr": "18:39",
     "kind": "landed",
     "cls": "good",
-    "delay": 3,
+    "delay": 4,
+    "delay_dep": 4,
     "confirmed": true
    }
   },
@@ -249,13 +284,25 @@
      "label": "9/7 (월)",
      "label_en": "Mon 9/7",
      "dep": "01:08",
-     "arr": "04:46",
+     "arr": "04:41",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
      "kind": "landed",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "All Bags Delivered",
+       "statusCode": "ABD",
+       "sched": "05:20",
+       "est": "04:41",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-09-08",
@@ -268,7 +315,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "05:20",
+       "est": "05:20",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-09-09",
@@ -350,15 +409,26 @@
     }
    ],
    "position": null,
+   "board": {
+    "doha": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:41",
+     "other": "ICN",
+     "source": "HIA"
+    }
+   },
    "last_done": {
     "date": "2026-09-07",
     "label": "9/7 (월)",
     "label_en": "Mon 9/7",
     "dep": "01:08",
-    "arr": "04:46",
+    "arr": "04:41",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
+    "delay_arr": 0,
     "confirmed": true
    }
   },
@@ -522,9 +592,90 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-07T12:45:18+00:00",
+  "checked_at_utc": "2026-09-07T13:00:32+00:00",
   "hamad": {
-   "ok": false
+   "ok": true,
+   "departures": {
+    "QR858@2026-09-04": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "04:05",
+     "est": "04:11",
+     "other": "ICN"
+    },
+    "QR858@2026-09-05": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "04:05",
+     "est": "04:06",
+     "other": "ICN"
+    },
+    "QR858@2026-09-06": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "04:05",
+     "est": "04:07",
+     "other": "ICN"
+    },
+    "QR858@2026-09-07": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "04:05",
+     "est": "04:09",
+     "other": "ICN"
+    },
+    "QR858@2026-09-08": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "04:05",
+     "est": "04:05",
+     "other": "ICN"
+    }
+   },
+   "arrivals": {
+    "QR859@2026-09-04": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:39",
+     "other": "ICN"
+    },
+    "QR863@2026-09-04": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "22:30",
+     "est": "22:00",
+     "other": "ICN"
+    },
+    "QR859@2026-09-05": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:38",
+     "other": "ICN"
+    },
+    "QR859@2026-09-06": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:51",
+     "other": "ICN"
+    },
+    "QR859@2026-09-07": {
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
+     "sched": "05:20",
+     "est": "04:41",
+     "other": "ICN"
+    },
+    "QR859@2026-09-08": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "05:20",
+     "est": "05:20",
+     "other": "ICN"
+    }
+   }
   },
   "icn": {
    "ok": false
@@ -555,7 +706,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-07T12:50:38+00:00",
+  "checked_at_utc": "2026-09-07T13:06:18+00:00",
   "flags": [],
   "material": false
  }
