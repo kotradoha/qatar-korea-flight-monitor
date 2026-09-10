@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-10T00:45:19+00:00",
- "generated_at_doha": "2026-09-10 03:45",
- "generated_at_seoul": "2026-09-10 09:45",
+ "generated_at_utc": "2026-09-10T01:00:31+00:00",
+ "generated_at_doha": "2026-09-10 04:00",
+ "generated_at_seoul": "2026-09-10 10:00",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-10T00:45:41+00:00",
+  "checked_at_utc": "2026-09-10T01:00:46+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -34,13 +34,33 @@
  "qr_notices": [],
  "news_notices": [
   {
+   "title": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
+   "title_en": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
+   "title_ar": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
+   "date": "2026-09-10",
+   "until": "2026-09-17",
+   "pub": "2026-09-09T19:31:00+00:00",
+   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcDA5dHZuV0hReUh3T2dHaWtmTXFvc0pDd1VKVnNnRkgxMTFyeW9rR1dwZGNFT3o2U3RvVXdBX05Tb1JpMlY2cVptQWtEMDd3c3NaZXlDbHVaZXVtaVBkMkk3SjVjVTF2c3JHbDZFS2c5MTlwYUtlUTFNUkRqTmpnUmlKd2hTQWRickdfRVI1eHFKbUdGOW1mR2hyX0djdw?oc=5",
+   "source": "auto-news"
+  },
+  {
    "title": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
    "title_en": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
    "title_ar": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
-   "date": "2026-09-09",
-   "until": "2026-09-16",
+   "date": "2026-09-10",
+   "until": "2026-09-17",
    "pub": "2026-09-08T19:55:00+00:00",
    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPY3dBV1lJQ1BCTHVqX3NUS3l5N2oyb1FuQU5Fc0JHWTQ4dXc4cC1BR29Dc3V6V09oUXRwanlHRGVFcVdzRFh2dHVLbDlZQWhXYVRwRU4tSS1rZzBIWF9URFlQaVhHTjBjdXplbkdQUEZEX2trODJWUXYwQ19YS3FnLW9qTnhPYkU5aUNNbXRrNVpCSWhERDdVdGZSQVRuN2xYelpIU1ltOFlYLTdCdkhSTW1KQk1DZlV1MGZlaThsMzM2dFgw?oc=5",
+   "source": "auto-news"
+  },
+  {
+   "title": "Qatar Airways COO: Crisis planning safeguarded 16,400 passengers during 28 Feb airspace closure - ILoveQatar.net (ILoveQatar.net)",
+   "title_en": "Qatar Airways COO: Crisis planning safeguarded 16,400 passengers during 28 Feb airspace closure - ILoveQatar.net (ILoveQatar.net)",
+   "title_ar": "Qatar Airways COO: Crisis planning safeguarded 16,400 passengers during 28 Feb airspace closure - ILoveQatar.net (ILoveQatar.net)",
+   "date": "2026-09-10",
+   "until": "2026-09-17",
+   "pub": "2026-09-09T19:56:00+00:00",
+   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPTGFoX3A2eG1sR1NjTG9TSUNFNjZFYS1hWnY5aEQ1Ny1ZMFpwU2FDVUN6X1F4Z3AyN0l2OURDUFdlR01ZS1AtU21kWTNXbjFiUDNWY1hBeUdWVjlwUnhSWlFwTHhlOTFqMEtqSTJ0VFpRa01zci1HU3JSVjBoMjctRjlULWZ4aDhsa2dXVmEybTRBSTFaTmdxTU54TVMxYmVTVDVBVDRnTUlaeVFoel9YbURjM25FWFRZRWJz?oc=5",
    "source": "auto-news"
   },
   {
@@ -72,29 +92,9 @@
    "pub": "2026-09-08T20:21:32+00:00",
    "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQaDJUUUUyT2pqMVN5ZklhNUtTOUlBQmVEdFFlQWJBcWotc3gzbnBlMjZ0TzFGZlpaNE1DaEZveHR3TDJtcUxBMlFTcVF5aDBWb1NxNldXVjBNMVZOUWsyVlRhSjFKQjBSSFRXNDZXSDFLV3MtTTNFUXVmTDN3bVhDNkdoa0NmQllkVDlJTXpPOUhCSm0xRVpXZGszU2FnYXZLcWhRREdZUml1VWNNblZIcU95dUlwX1kycGx6WWpBTlVXVnFyNzdxR1ZjNW4zdld3YXhoYtIB2gFBVV95cUxPRGxoaTR4YmN4SkdYVGNLYld3Tmh4X19DTmVwX3lRSTh4ckR1M2hFcEtiRmRsU3loUlBLMEtuWG1rTTRoZmlPQUNoRzItaHBwT0JYZUVHcGtfT3VjUXBWVFhZYm9RZENWUlhROG1lTHlYYk5JT3RKMlYxVE9OSzRqYVBaTDFETFhreVk3enJJWmFyUW5fcW9ycVd4U0RZWDBZY0JXZkVIcnIyLVREYi1DNTdETnFubFZSN1RGQlZhNC1xRnctU1hFbHRYYW05TzJObUhpc2RlWkt4UQ?oc=5",
    "source": "auto-news"
-  },
-  {
-   "title": "Qatar Airways warns of flight disruptions after UK air traffic control system failure - The Peninsula Qatar (The Peninsula Qatar)",
-   "title_en": "Qatar Airways warns of flight disruptions after UK air traffic control system failure - The Peninsula Qatar (The Peninsula Qatar)",
-   "title_ar": "Qatar Airways warns of flight disruptions after UK air traffic control system failure - The Peninsula Qatar (The Peninsula Qatar)",
-   "date": "2026-09-08",
-   "until": "2026-09-15",
-   "pub": "2026-09-08T18:46:34+00:00",
-   "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPMXJFWW02SXV2Zk15clJnaUpTTkJiZ3pQLVRUMXFwTWpINklOM3Zxd0lUc2RfcGVKT1JyemVJaHIzSGFYd0hxVm5yaVJBV3V4cmRTS1hQbjVlMUZUdFV4UFFUSEFFdlZQWi0wRlJlTERidGtrNEZNa1MyOWYwdmQzS2dTMUdTV0pZQU5MdV9uVU40TXMtU04zcHdRVmNuN3VGcGpaazE4MWRrdGpwZEc4b2trbUFsdHlJWmVwbjJCbTRiWTdydGdUR3dVSmQ1VTg?oc=5",
-   "source": "auto-news"
-  },
-  {
-   "title": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
-   "title_en": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
-   "title_ar": "Qatar Airways cancels flights to Jakarta following volcanic eruption - Qatar Tribune (Qatar Tribune)",
-   "date": "2026-09-08",
-   "until": "2026-09-15",
-   "pub": "2026-09-06T18:31:12+00:00",
-   "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNWVRnUDB0Zjd3c05KNDVfb0I3Vzl3Y2NFRjc0RnVISTBfSV9iR1o5LUhqZ3VSVEhOU09uZ1lGbzNXSFNaZzZwRl91WDUtZ3NOQU1uSUNCTkdiZnU1SmRvLUh3TUZhUTQ2RTlZbHNIaW51UFVQeDk0dTd3eHJqZmlNZWtXMlNHNE5TTGpaaEF3ZHNZRGdKd0FkU2pnYlYwbUJpOWFZRDBseUZob2JiZ1pYQ0s4TnFuSHZVX1FWUTE0UTlGOTjSAcgBQVVfeXFMUGo2LXNvTkVVTkExLVRYTGktOTZiRGF4X1ozRWdpX3pEMmItajlyZGVDa05WWURiZkpzdHBQbGpaZ0RIanRaZnVKd1FfX3c1enZkSGtSQ2xtcDBSM0tFOURBTkdTTDU0S3RBeUUwczdoZDRuaDVOUG5ORHdUMXN3eTJpUl9WNkdyaUlIUG1vRGZ0c0pSOG9NM1pUSVpNazlrLXRaNzNrWmlLNGhGT3JyYWJ4TUw4elBZSk9FRk43MDlPbTYya0hiZng?oc=5",
-   "source": "auto-news"
   }
  ],
- "news_scanned_utc": "2026-09-09T19:00:35+00:00",
+ "news_scanned_utc": "2026-09-10T01:00:31+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -143,24 +143,13 @@
      "label": "9/10 (목)",
      "label_en": "Thu 9/10",
      "dep": "04:05",
-     "arr": "19:05",
+     "arr": "18:43",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true,
-     "board": {
-      "korea": {
-       "status": "",
-       "sched": "1905",
-       "est": "1905",
-       "airport": "DOH",
-       "source": "ICN"
-      }
-     },
-     "delay_arr": 0,
-     "board_ok": true
+     "confirmed": true
     },
     {
      "date": "2026-09-11",
@@ -268,12 +257,13 @@
    ],
    "position": null,
    "board": {
-    "korea": {
-     "status": "",
-     "sched": "1905",
-     "est": "1905",
-     "airport": "DOH",
-     "source": "ICN"
+    "doha": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "04:05",
+     "est": "04:05",
+     "other": "ICN",
+     "source": "HIA"
     }
    },
    "last_done": {
@@ -695,7 +685,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-10T00:45:19+00:00",
+  "checked_at_utc": "2026-09-10T01:00:31+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -781,22 +771,7 @@
    }
   },
   "icn": {
-   "ok": true,
-   "arrivals": {
-    "QR858@2026-09-10": {
-     "status": "",
-     "sched": "1905",
-     "est": "1905",
-     "airport": "DOH"
-    },
-    "QR858@2026-09-09": {
-     "status": "Arrived",
-     "sched": "1905",
-     "est": "1838",
-     "airport": "DOH"
-    }
-   },
-   "departures": {}
+   "ok": false
   }
  },
  "icn_future": {
@@ -824,7 +799,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-10T00:50:45+00:00",
+  "checked_at_utc": "2026-09-10T01:06:06+00:00",
   "flags": [],
   "material": false
  }
