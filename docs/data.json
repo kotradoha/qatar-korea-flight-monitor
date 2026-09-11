@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-11T06:45:18+00:00",
- "generated_at_doha": "2026-09-11 09:45",
- "generated_at_seoul": "2026-09-11 15:45",
+ "generated_at_utc": "2026-09-11T07:00:33+00:00",
+ "generated_at_doha": "2026-09-11 10:00",
+ "generated_at_seoul": "2026-09-11 16:00",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-11T06:45:25+00:00",
+  "checked_at_utc": "2026-09-11T07:00:37+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -34,16 +34,6 @@
  "qr_notices": [],
  "news_notices": [
   {
-   "title": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
-   "title_en": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
-   "title_ar": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
-   "date": "2026-09-11",
-   "until": "2026-09-18",
-   "pub": "2026-09-09T19:31:00+00:00",
-   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcDA5dHZuV0hReUh3T2dHaWtmTXFvc0pDd1VKVnNnRkgxMTFyeW9rR1dwZGNFT3o2U3RvVXdBX05Tb1JpMlY2cVptQWtEMDd3c3NaZXlDbHVaZXVtaVBkMkk3SjVjVTF2c3JHbDZFS2c5MTlwYUtlUTFNUkRqTmpnUmlKd2hTQWRickdfRVI1eHFKbUdGOW1mR2hyX0djdw?oc=5",
-   "source": "auto-news"
-  },
-  {
    "title": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
    "title_en": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
    "title_ar": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
@@ -54,9 +44,19 @@
    "source": "auto-news"
   },
   {
-   "title": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
-   "title_en": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
-   "title_ar": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
+   "title": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
+   "title_en": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
+   "title_ar": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
+   "date": "2026-09-11",
+   "until": "2026-09-18",
+   "pub": "2026-09-09T19:31:00+00:00",
+   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcDA5dHZuV0hReUh3T2dHaWtmTXFvc0pDd1VKVnNnRkgxMTFyeW9rR1dwZGNFT3o2U3RvVXdBX05Tb1JpMlY2cVptQWtEMDd3c3NaZXlDbHVaZXVtaVBkMkk3SjVjVTF2c3JHbDZFS2c5MTlwYUtlUTFNUkRqTmpnUmlKd2hTQWRickdfRVI1eHFKbUdGOW1mR2hyX0djdw?oc=5",
+   "source": "auto-news"
+  },
+  {
+   "title": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - khaleejtimes.com (khaleejtimes.com)",
+   "title_en": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - khaleejtimes.com (khaleejtimes.com)",
+   "title_ar": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - khaleejtimes.com (khaleejtimes.com)",
    "date": "2026-09-11",
    "until": "2026-09-18",
    "pub": "2026-09-06T18:01:20+00:00",
@@ -94,7 +94,7 @@
    "source": "auto-news"
   }
  ],
- "news_scanned_utc": "2026-09-11T01:00:29+00:00",
+ "news_scanned_utc": "2026-09-11T07:00:33+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -143,7 +143,7 @@
      "label": "9/11 (금)",
      "label_en": "Fri 9/11",
      "dep": "04:08",
-     "arr": "18:43",
+     "arr": "18:33",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "inflight",
@@ -158,9 +158,17 @@
        "est": "04:08",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1905",
+       "est": "1833",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 3,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -276,6 +284,13 @@
      "est": "04:08",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "",
+     "sched": "1905",
+     "est": "1833",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -333,8 +348,16 @@
        "est": "04:50",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Departure",
+       "sched": "0120",
+       "est": "0115",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -451,6 +474,13 @@
      "est": "04:50",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0115",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -462,6 +492,7 @@
     "kind": "landed",
     "cls": "good",
     "delay": 0,
+    "delay_dep": 0,
     "delay_arr": 0,
     "confirmed": true
    }
@@ -508,9 +539,17 @@
        "est": "20:26",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Arrived",
+       "sched": "1125",
+       "est": "1110",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 1,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -549,6 +588,13 @@
      "est": "20:26",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Arrived",
+     "sched": "1125",
+     "est": "1110",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -561,6 +607,7 @@
     "cls": "good",
     "delay": 1,
     "delay_dep": 1,
+    "delay_arr": 0,
     "confirmed": true
    }
   },
@@ -619,8 +666,16 @@
        "est": "22:30",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1830",
+       "est": "1830",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -660,6 +715,13 @@
      "est": "22:30",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "",
+     "sched": "1830",
+     "est": "1830",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -682,7 +744,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-11T06:45:18+00:00",
+  "checked_at_utc": "2026-09-11T07:00:33+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -775,7 +837,47 @@
    }
   },
   "icn": {
-   "ok": false
+   "ok": true,
+   "arrivals": {
+    "QR862@2026-09-11": {
+     "status": "Arrived",
+     "sched": "1125",
+     "est": "1110",
+     "airport": "DOH"
+    },
+    "QR858@2026-09-11": {
+     "status": "",
+     "sched": "1905",
+     "est": "1833",
+     "airport": "DOH"
+    },
+    "QR858@2026-09-10": {
+     "status": "Arrived",
+     "sched": "1905",
+     "est": "1846",
+     "airport": "DOH"
+    }
+   },
+   "departures": {
+    "QR859@2026-09-11": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0115",
+     "airport": "DOH"
+    },
+    "QR863@2026-09-11": {
+     "status": "",
+     "sched": "1830",
+     "est": "1830",
+     "airport": "DOH"
+    },
+    "QR859@2026-09-10": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0114",
+     "airport": "DOH"
+    }
+   }
   }
  },
  "icn_future": {
@@ -796,7 +898,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-11T06:50:46+00:00",
+  "checked_at_utc": "2026-09-11T07:05:15+00:00",
   "flags": [],
   "material": false
  }
