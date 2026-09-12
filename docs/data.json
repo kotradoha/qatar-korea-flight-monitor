@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-12T00:45:18+00:00",
- "generated_at_doha": "2026-09-12 03:45",
- "generated_at_seoul": "2026-09-12 09:45",
+ "generated_at_utc": "2026-09-12T01:00:33+00:00",
+ "generated_at_doha": "2026-09-12 04:00",
+ "generated_at_seoul": "2026-09-12 10:00",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-12T00:45:32+00:00",
+  "checked_at_utc": "2026-09-12T01:00:59+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -34,31 +34,31 @@
  "qr_notices": [],
  "news_notices": [
   {
-   "title": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
-   "title_en": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
-   "title_ar": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
-   "date": "2026-09-11",
-   "until": "2026-09-18",
-   "pub": "2026-09-08T19:55:00+00:00",
-   "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPY3dBV1lJQ1BCTHVqX3NUS3l5N2oyb1FuQU5Fc0JHWTQ4dXc4cC1BR29Dc3V6V09oUXRwanlHRGVFcVdzRFh2dHVLbDlZQWhXYVRwRU4tSS1rZzBIWF9URFlQaVhHTjBjdXplbkdQUEZEX2trODJWUXYwQ19YS3FnLW9qTnhPYkU5aUNNbXRrNVpCSWhERDdVdGZSQVRuN2xYelpIU1ltOFlYLTdCdkhSTW1KQk1DZlV1MGZlaThsMzM2dFgw?oc=5",
-   "source": "auto-news"
-  },
-  {
    "title": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
    "title_en": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
    "title_ar": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
-   "date": "2026-09-11",
-   "until": "2026-09-18",
+   "date": "2026-09-12",
+   "until": "2026-09-19",
    "pub": "2026-09-09T19:31:00+00:00",
    "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcDA5dHZuV0hReUh3T2dHaWtmTXFvc0pDd1VKVnNnRkgxMTFyeW9rR1dwZGNFT3o2U3RvVXdBX05Tb1JpMlY2cVptQWtEMDd3c3NaZXlDbHVaZXVtaVBkMkk3SjVjVTF2c3JHbDZFS2c5MTlwYUtlUTFNUkRqTmpnUmlKd2hTQWRickdfRVI1eHFKbUdGOW1mR2hyX0djdw?oc=5",
+   "source": "auto-news"
+  },
+  {
+   "title": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
+   "title_en": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
+   "title_ar": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
+   "date": "2026-09-12",
+   "until": "2026-09-19",
+   "pub": "2026-09-08T19:55:00+00:00",
+   "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPY3dBV1lJQ1BCTHVqX3NUS3l5N2oyb1FuQU5Fc0JHWTQ4dXc4cC1BR29Dc3V6V09oUXRwanlHRGVFcVdzRFh2dHVLbDlZQWhXYVRwRU4tSS1rZzBIWF9URFlQaVhHTjBjdXplbkdQUEZEX2trODJWUXYwQ19YS3FnLW9qTnhPYkU5aUNNbXRrNVpCSWhERDdVdGZSQVRuN2xYelpIU1ltOFlYLTdCdkhSTW1KQk1DZlV1MGZlaThsMzM2dFgw?oc=5",
    "source": "auto-news"
   },
   {
    "title": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
    "title_en": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
    "title_ar": "Qatar Airways cancels four flights to Jakarta amid volcanic ash disruption - Khaleej Times (Khaleej Times)",
-   "date": "2026-09-11",
-   "until": "2026-09-18",
+   "date": "2026-09-12",
+   "until": "2026-09-19",
    "pub": "2026-09-06T18:01:20+00:00",
    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPdWk1ZUtqeVBRMktET01XYWZOek9XM1NvbkRjN00zb1N2cXU5elFnbDNpWGlaUjFKZlExVUlSSHU3bEVWdy1tM25oa2dBNG00NlVYMFFxRDBSS21OeC1NbzlldUh4Mmh4Skk2WXM2NzhLS0F6dlZuQWVpWGxoVkR2XzFFWVR1c2ZIQnRfTFZZU05hN3NRQ0FmQWJZVnZsc0g1dVhNeVVNMXB4ZU95VEpsZDZJVjdrQ3PSAb8BQVVfeXFMTTIwQVdldVRBR1VjLThMTHJ1NUVqZ0Y5RmNYcG5paVJQY3pmSDZVVTladE4yVHhxWUYwR3hnMWVzbmZSS043TVFFX1VHRjc4VC00XzE0LUI0bnhYdnVQZVJJeUFXYzd5dlc4VzBPYnZ0S1Z4eFhPQnhxcTFDeEdySHMtREFHV0tfeHVzWlU1cHZjUDJWOTNfbUlORGpBTnVobVFZT1F5QThKRGVlZlJQZ3lSeHF4T18wd2VkcFp4ZHc?oc=5",
    "source": "auto-news"
@@ -94,7 +94,7 @@
    "source": "auto-news"
   }
  ],
- "news_scanned_utc": "2026-09-11T19:00:34+00:00",
+ "news_scanned_utc": "2026-09-12T01:00:33+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -152,8 +152,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Go to Gate",
-       "statusCode": "GO",
+       "status": "Gate Closed",
+       "statusCode": "GC",
        "sched": "04:05",
        "est": "04:05",
        "other": "ICN",
@@ -278,8 +278,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Gate Closed",
+     "statusCode": "GC",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN",
@@ -670,7 +670,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-12T00:45:18+00:00",
+  "checked_at_utc": "2026-09-12T01:00:33+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -703,8 +703,8 @@
      "other": "ICN"
     },
     "QR858@2026-09-12": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Gate Closed",
+     "statusCode": "GC",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN"
@@ -825,7 +825,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-12T00:50:15+00:00",
+  "checked_at_utc": "2026-09-12T01:05:49+00:00",
   "flags": [],
   "material": false
  }
