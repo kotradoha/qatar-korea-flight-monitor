@@ -933,6 +933,9 @@ _NEWS_EXCL = re.compile(r"what\s+to\s+do|how\s+to|\bguide\b|explained|everything
                         r"ranked|\bbest\b|\bworst\b|rare\s+appearance|spotting|makes\s+\w+\s+appearance|"
                         r"\bphotos?\b|compensation|\brefund\b|\bclaim\b|\bdeal\b|\bsale\b|promo|"
                         r"everything\s+to\s+know|need\s+to\s+know|\bhack\b|\btricks?\b|"
+                        r"\bC[EOF]O\b|chief\s+(?:executive|operating|financial|commercial)\s+officer|\binterview\b|"
+                        r"crisis\s+planning|\bsafeguard|\bresilience\b|\bindexbox\b|news\s+and\s+statistics|"
+                        r"market\s+(?:report|size|analysis|share)|\bappointed?\b|\bawards?\b|"
                         r"(?=.*\b(?:emirates|etihad|flydubai|saudia)\b)(?=.*qatar\s+airways?\s+resum)", re.IGNORECASE)
 
 
