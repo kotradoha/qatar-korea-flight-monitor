@@ -938,6 +938,18 @@ _NEWS_EXCL = re.compile(r"what\s+to\s+do|how\s+to|\bguide\b|explained|everything
                         r"market\s+(?:report|size|analysis|share)|\bappointed?\b|\bawards?\b|"
                         r"(?=.*\b(?:emirates|etihad|flydubai|saudia)\b)(?=.*qatar\s+airways?\s+resum)", re.IGNORECASE)
 
+# 한국 노선과 무관한 목적지·지역 한정 뉴스(예: 자카르타 화산, 영국 관제)를 제외하기 위한 '관련성' 필터.
+#   채택하려면 아래 중 하나라도 걸려야 한다: (a) 한국 노선 직접 언급, 또는 (b) 도하 허브 전체에
+#   영향을 주는 '영공/중동 정세' 사건(카타르 영공 폐쇄·이란/이스라엘 등) — 이는 도하 경유 한국편에
+#   직접 영향을 주므로 유지한다. 특정 타 목적지(자카르타·영국 등) 한정 차질은 여기에 걸리지 않아 제외된다.
+#   ※ 'doha'·'gulf' 단독은 넣지 않는다("Doha–UK 편 차질" 같은 타 목적지 기사가 허브사건으로 오인되지 않도록).
+_NEWS_KOREA_REL = re.compile(
+    r"korea|korean|seoul|incheon|\bICN\b|gimpo|qr\s?8(?:5[89]|6[23])|"          # 한국 노선
+    r"airspace|no[- ]fly|closed?\s+airspace|"                                    # 영공(허브 전체 영향)
+    r"missile|airstrike|air\s+strike|\bwar\b|warfare|sanction|evacuat|"          # 무력·정세
+    r"\biran\b|israel|hormuz|strait\s+of\s+hormuz|regional\s+conflict",          # 중동 정세 주체
+    re.IGNORECASE)
+
 
 def fetch_thirdparty_news(now_utc, news_since, max_items=3, days=10):
     """공신력 뉴스 집계(구글 뉴스 RSS)에서 카타르항공 '운항 결항·중단·영공/정세' 관련 고신호 항목만 감지.
@@ -982,9 +994,10 @@ def fetch_thirdparty_news(now_utc, news_since, max_items=3, days=10):
         title = _clean(tm.group(1))
         if not title or len(title) > 180:
             continue
-        # 채택 조건: 'qatar' + 고신호 + 운항맥락 + (운항에 직접 걸린 표현 OR 정세) + 잡음 제외
+        # 채택 조건: 'qatar' + 고신호 + 운항맥락 + (운항에 직접 걸린 표현 OR 정세) + 잡음 제외 + 한국노선 관련성
         if not (re.search(r"qatar", title, re.IGNORECASE) and HI.search(title)
-                and CTX.search(title) and OPS.search(title)) or EXCL.search(title):
+                and CTX.search(title) and OPS.search(title) and _NEWS_KOREA_REL.search(title)) \
+                or EXCL.search(title):
             continue
         pm = re.search(r"<pubDate>(.*?)</pubDate>", block, re.IGNORECASE | re.DOTALL)
         pub = None
@@ -2038,6 +2051,8 @@ def main():
         for a in (_fresh + _prev_news):
             title = (a.get("title") or "")
             if _NEWS_EXCL.search(title):        # 이월분도 잡음 제외 재검증(필터 강화 시 기존 캐시 즉시 정리)
+                continue
+            if not _NEWS_KOREA_REL.search(title):   # 한국 노선 무관(타 목적지 한정) 뉴스 제외 — 이월분도 즉시 정리
                 continue
             _ntw = _topic_words(title)          # 공식 공지와 동일 주제면 제외(이월분도 즉시 정리)
             if _ntw and any(len(_ntw & qt) >= 2 for qt in _qr_topics if qt):
