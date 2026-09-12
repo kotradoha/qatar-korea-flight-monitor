@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-12T12:30:29+00:00",
- "generated_at_doha": "2026-09-12 15:30",
- "generated_at_seoul": "2026-09-12 21:30",
+ "generated_at_utc": "2026-09-12T12:36:33+00:00",
+ "generated_at_doha": "2026-09-12 15:36",
+ "generated_at_seoul": "2026-09-12 21:36",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-12T12:30:56+00:00",
+  "checked_at_utc": "2026-09-12T12:36:57+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -33,16 +33,6 @@
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [
-  {
-   "title": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
-   "title_en": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
-   "title_ar": "Qatar Airways COO on Handling Airspace Closure Crisis | 2026 Update - News and Statistics - IndexBox (IndexBox)",
-   "date": "2026-09-12",
-   "until": "2026-09-19",
-   "pub": "2026-09-09T19:31:00+00:00",
-   "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcDA5dHZuV0hReUh3T2dHaWtmTXFvc0pDd1VKVnNnRkgxMTFyeW9rR1dwZGNFT3o2U3RvVXdBX05Tb1JpMlY2cVptQWtEMDd3c3NaZXlDbHVaZXVtaVBkMkk3SjVjVTF2c3JHbDZFS2c5MTlwYUtlUTFNUkRqTmpnUmlKd2hTQWRickdfRVI1eHFKbUdGOW1mR2hyX0djdw?oc=5",
-   "source": "auto-news"
-  },
   {
    "title": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
    "title_en": "Dubai and Doha flights disrupted by UK air traffic control failure as Emirates, Qatar Airways issue alerts - Arabian Business (Arabian Business)",
@@ -71,16 +61,6 @@
    "until": "2026-09-17",
    "pub": "2026-09-07T04:24:35+00:00",
    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNdk8wMklGT3ppR1JQQ0Y3S1N0WlpJZG5Wc3I0SURWelMxU2lVVnBiU3lLbzh0aHI5T3A5UE9rMkdpT3NoZXhMdjZ2T29rd05DX3dmcmdKVTVhX24xZE5XS2ZSWkJreVVKM3Q4dzNBLTgxOWtkTmpBM3JIRHlpTkZmOGtpZU1wN1hCTEVVWGlfbkRsNXllNWtSREdHQlBJcUhLRUZ6NHk2NUtiM1RIX3JDLXBPV1ZIdE1oYi000gHDAUFVX3lxTE1QbVQ1SkZud1pKd0R2RGpaREdJNFBldW5VN2c4MXJJSHF2eVFqazlTak9jQk55Szc0Nk5yMHB2aFlreUJUTHJGaGJaMm1pN20zU2luMjJwVFQ0WEhHUFpveGxXdC1rVFQxbWZTcTdmMjNpVGpoTFB2QTBGNVpmdXV0c2M1b3VEeXluV1g0V0kxRlhBOFNTOU9iNGFrRHN5MXVEWExXemxTMjlEUElfbmc2YngzaHlNdTNncnpYMXA0WFNMbw?oc=5",
-   "source": "auto-news"
-  },
-  {
-   "title": "Qatar Airways COO: Crisis planning safeguarded 16,400 passengers during 28 Feb airspace closure - ILoveQatar.net (ILoveQatar.net)",
-   "title_en": "Qatar Airways COO: Crisis planning safeguarded 16,400 passengers during 28 Feb airspace closure - ILoveQatar.net (ILoveQatar.net)",
-   "title_ar": "Qatar Airways COO: Crisis planning safeguarded 16,400 passengers during 28 Feb airspace closure - ILoveQatar.net (ILoveQatar.net)",
-   "date": "2026-09-10",
-   "until": "2026-09-17",
-   "pub": "2026-09-09T19:56:00+00:00",
-   "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPTGFoX3A2eG1sR1NjTG9TSUNFNjZFYS1hWnY5aEQ1Ny1ZMFpwU2FDVUN6X1F4Z3AyN0l2OURDUFdlR01ZS1AtU21kWTNXbjFiUDNWY1hBeUdWVjlwUnhSWlFwTHhlOTFqMEtqSTJ0VFpRa01zci1HU3JSVjBoMjctRjlULWZ4aDhsa2dXVmEybTRBSTFaTmdxTU54TVMxYmVTVDVBVDRnTUlaeVFoel9YbURjM25FWFRZRWJz?oc=5",
    "source": "auto-news"
   },
   {
@@ -145,9 +125,17 @@
        "est": "04:05",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Arrived",
+       "sched": "1905",
+       "est": "1835",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -263,6 +251,13 @@
      "est": "04:05",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Arrived",
+     "sched": "1905",
+     "est": "1835",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
@@ -275,6 +270,7 @@
     "cls": "good",
     "delay": 0,
     "delay_dep": 0,
+    "delay_arr": 0,
     "confirmed": true
    }
   },
@@ -303,7 +299,7 @@
      "date": "2026-09-12",
      "label": "9/12 (토)",
      "label_en": "Sat 9/12",
-     "dep": "01:10",
+     "dep": "01:11",
      "arr": "04:45",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
@@ -319,8 +315,16 @@
        "est": "04:45",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Departure",
+       "sched": "0120",
+       "est": "0111",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -437,17 +441,25 @@
      "est": "04:45",
      "other": "ICN",
      "source": "HIA"
+    },
+    "korea": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0111",
+     "airport": "DOH",
+     "source": "ICN"
     }
    },
    "last_done": {
     "date": "2026-09-12",
     "label": "9/12 (토)",
     "label_en": "Sat 9/12",
-    "dep": "01:10",
+    "dep": "01:11",
     "arr": "04:45",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
+    "delay_dep": 0,
     "delay_arr": 0,
     "confirmed": true
    }
@@ -612,7 +624,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-12T12:30:29+00:00",
+  "checked_at_utc": "2026-09-12T12:36:33+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -705,7 +717,47 @@
    }
   },
   "icn": {
-   "ok": false
+   "ok": true,
+   "arrivals": {
+    "QR858@2026-09-12": {
+     "status": "Arrived",
+     "sched": "1905",
+     "est": "1835",
+     "airport": "DOH"
+    },
+    "QR862@2026-09-11": {
+     "status": "Arrived",
+     "sched": "1125",
+     "est": "1110",
+     "airport": "DOH"
+    },
+    "QR858@2026-09-11": {
+     "status": "Arrived",
+     "sched": "1905",
+     "est": "1836",
+     "airport": "DOH"
+    }
+   },
+   "departures": {
+    "QR859@2026-09-12": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0111",
+     "airport": "DOH"
+    },
+    "QR859@2026-09-11": {
+     "status": "Departure",
+     "sched": "0120",
+     "est": "0115",
+     "airport": "DOH"
+    },
+    "QR863@2026-09-11": {
+     "status": "Departure",
+     "sched": "1830",
+     "est": "1833",
+     "airport": "DOH"
+    }
+   }
   }
  },
  "icn_future": {
@@ -733,7 +785,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-12T12:36:25+00:00",
+  "checked_at_utc": "2026-09-12T12:41:46+00:00",
   "flags": [],
   "material": false
  }
