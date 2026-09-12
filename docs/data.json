@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-12T01:15:19+00:00",
- "generated_at_doha": "2026-09-12 04:15",
- "generated_at_seoul": "2026-09-12 10:15",
+ "generated_at_utc": "2026-09-12T01:30:26+00:00",
+ "generated_at_doha": "2026-09-12 04:30",
+ "generated_at_seoul": "2026-09-12 10:30",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-12T01:15:29+00:00",
+  "checked_at_utc": "2026-09-12T01:30:40+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -153,7 +153,7 @@
      "board": {
       "doha": {
        "status": "Departed",
-       "statusCode": "OB",
+       "statusCode": "DP",
        "sched": "04:05",
        "est": "04:05",
        "other": "ICN",
@@ -279,7 +279,7 @@
    "board": {
     "doha": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN",
@@ -670,7 +670,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-12T01:15:19+00:00",
+  "checked_at_utc": "2026-09-12T01:30:26+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -704,7 +704,7 @@
     },
     "QR858@2026-09-12": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN"
@@ -825,7 +825,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-12T01:20:08+00:00",
+  "checked_at_utc": "2026-09-12T01:35:25+00:00",
   "flags": [],
   "material": false
  }
