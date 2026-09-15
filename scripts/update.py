@@ -1576,6 +1576,35 @@ def apply_force_operating(flights_out, force_map, alerts):
             f["badge"] = {"state": "good", "kind": "normal"}
 
 
+def normalize_stale_delays(flights_out, alerts):
+    """'지연(0분)' 같은 모순 정정: 전광판이 정시로 재확인해 유효 지연이 경보 임계(DELAY_ALERT_MIN) 미만이
+    됐는데도 kind가 'delayed'로 남은 행을, 출발·도착 최댓값 기준으로 다시 판정한다.
+    (FlightStats가 예측한 지연으로 'delayed'가 붙은 뒤, 더 최신 공항 전광판이 정시를 확인해 지연이 0으로
+     재계산됐지만 '상태 강등 금지' 규칙 때문에 'delayed' 라벨만 남는 경우.)
+    임계 미만이면 '운항 예정'으로 되돌리고, 남아 있던 지연 alert 도 제거한다. 임계 이상 실지연은 그대로 둔다."""
+    for fno, f in flights_out.items():
+        if not isinstance(f, dict):
+            continue
+        fixed = set()
+        for day in f.get("days", []):
+            if day.get("kind") != "delayed":
+                continue
+            worst = max(int(day.get("delay_dep") or 0), int(day.get("delay_arr") or 0), int(day.get("delay") or 0))
+            if worst < DELAY_ALERT_MIN:
+                confirmed = bool(day.get("confirmed"))
+                day["kind"] = "sched" if confirmed else "plan"
+                day["cls"] = "good" if confirmed else "plan"
+                day["delay"] = 0
+                fixed.add(day.get("date"))
+        if not fixed:
+            continue
+        alerts[:] = [a for a in alerts
+                     if not (a.get("flight") == fno and a.get("date") in fixed and a.get("type") == "delay")]
+        bad = f.get("badge") or {}
+        if bad.get("kind") == "delayed" and not any(d.get("kind") == "delayed" for d in f.get("days", [])):
+            f["badge"] = {"state": "good", "kind": "normal"}
+
+
 def apply_icn_future(flights_out, icn_future, sched_ovs):
     """향후 예정편(아직 근접 실측/전광판이 없는 plan/sched)의 '인천쪽 시각'을 인천 발행 스케줄로 설정한다.
     QR858·QR862 → 도착(인천), QR859·QR863 → 출발(인천). 운영자 override가 그 다리를 지정했으면 그게 최우선.
@@ -2201,6 +2230,12 @@ def main():
         apply_force_operating(flights_out, force_operating, alerts)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] apply_force_operating: {e}", file=sys.stderr)
+
+    # '지연(0분)' 모순 정정: 전광판이 정시로 재확인해 유효 지연이 임계 미만이 됐는데도 남은 'delayed' 라벨 정리.
+    try:
+        normalize_stale_delays(flights_out, alerts)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] normalize_stale_delays: {e}", file=sys.stderr)
 
     # 인천 발행 스케줄(6일)이 기준 시각과 다르면 '스케줄 변경 의심'으로 기록(매일 점검·알림용).
     #   화면엔 이미 반영되지만, '달라졌다'는 신호를 남겨야 담당자가 하드코딩 기준·override를 갱신할 수 있다.
