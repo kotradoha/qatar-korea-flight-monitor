@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-16T03:15:23+00:00",
- "generated_at_doha": "2026-09-16 06:15",
- "generated_at_seoul": "2026-09-16 12:15",
+ "generated_at_utc": "2026-09-16T03:30:27+00:00",
+ "generated_at_doha": "2026-09-16 06:30",
+ "generated_at_seoul": "2026-09-16 12:30",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-16T03:15:45+00:00",
+  "checked_at_utc": "2026-09-16T03:30:49+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -35,8 +35,8 @@
    "date": "2026-09-16",
    "type": "delay",
    "dep": 41,
-   "arr": 45,
-   "minutes": 45,
+   "arr": 44,
+   "minutes": 44,
    "state": "actual"
   }
  ],
@@ -282,21 +282,21 @@
      "label": "9/16 (수)",
      "label_en": "Wed 9/16",
      "dep": "02:01",
-     "arr": "06:05",
+     "arr": "06:04",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
      "kind": "landed",
      "cls": "good",
-     "delay": 45,
+     "delay": 44,
      "confirmed": true,
      "delay_dep": 41,
-     "delay_arr": 45,
+     "delay_arr": 44,
      "board": {
       "doha": {
-       "status": "Delayed",
-       "statusCode": "ES",
+       "status": "Bags On Belt",
+       "statusCode": "BB",
        "sched": "05:20",
-       "est": "06:05",
+       "est": "06:04",
        "other": "ICN",
        "source": "HIA"
       },
@@ -417,10 +417,10 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Delayed",
-     "statusCode": "ES",
+     "status": "Bags On Belt",
+     "statusCode": "BB",
      "sched": "05:20",
-     "est": "06:05",
+     "est": "06:04",
      "other": "ICN",
      "source": "HIA"
     },
@@ -437,12 +437,12 @@
     "label": "9/16 (수)",
     "label_en": "Wed 9/16",
     "dep": "02:01",
-    "arr": "06:05",
+    "arr": "06:04",
     "kind": "landed",
     "cls": "good",
-    "delay": 45,
+    "delay": 44,
     "delay_dep": 41,
-    "delay_arr": 45,
+    "delay_arr": 44,
     "confirmed": true
    }
   },
@@ -628,7 +628,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-16T03:15:23+00:00",
+  "checked_at_utc": "2026-09-16T03:30:27+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -698,10 +698,10 @@
      "other": "ICN"
     },
     "QR859@2026-09-16": {
-     "status": "Delayed",
-     "statusCode": "ES",
+     "status": "Bags On Belt",
+     "statusCode": "BB",
      "sched": "05:20",
-     "est": "06:05",
+     "est": "06:04",
      "other": "ICN"
     },
     "QR859@2026-09-17": {
@@ -770,7 +770,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-16T03:20:27+00:00",
+  "checked_at_utc": "2026-09-16T03:35:32+00:00",
   "flags": [],
   "material": false
  }
