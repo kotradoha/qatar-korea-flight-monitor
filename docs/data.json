@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-21T23:00:37+00:00",
- "generated_at_doha": "2026-09-22 02:00",
- "generated_at_seoul": "2026-09-22 08:00",
+ "generated_at_utc": "2026-09-21T23:15:20+00:00",
+ "generated_at_doha": "2026-09-22 02:15",
+ "generated_at_seoul": "2026-09-22 08:15",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-21T23:00:56+00:00",
+  "checked_at_utc": "2026-09-21T23:15:42+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -258,24 +258,24 @@
      "label": "9/22 (화)",
      "label_en": "Tue 9/22",
      "dep": "01:20",
-     "arr": "05:22",
+     "arr": "05:00",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
      "kind": "inflight",
      "cls": "good",
-     "delay": 2,
+     "delay": 0,
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Scheduled",
-       "statusCode": "SH",
+       "status": "Early",
+       "statusCode": "EA",
        "sched": "05:20",
-       "est": "05:22",
+       "est": "05:00",
        "other": "ICN",
        "source": "HIA"
       }
      },
-     "delay_arr": 2,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -373,10 +373,10 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Early",
+     "statusCode": "EA",
      "sched": "05:20",
-     "est": "05:22",
+     "est": "05:00",
      "other": "ICN",
      "source": "HIA"
     }
@@ -555,7 +555,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-21T23:00:37+00:00",
+  "checked_at_utc": "2026-09-21T23:15:20+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -611,10 +611,10 @@
      "other": "ICN"
     },
     "QR859@2026-09-22": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Early",
+     "statusCode": "EA",
      "sched": "05:20",
-     "est": "05:22",
+     "est": "05:00",
      "other": "ICN"
     }
    }
@@ -648,7 +648,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-21T23:06:15+00:00",
+  "checked_at_utc": "2026-09-21T23:21:00+00:00",
   "flags": [],
   "material": false
  }
