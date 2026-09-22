@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-22T00:15:20+00:00",
- "generated_at_doha": "2026-09-22 03:15",
- "generated_at_seoul": "2026-09-22 09:15",
+ "generated_at_utc": "2026-09-22T00:30:30+00:00",
+ "generated_at_doha": "2026-09-22 03:30",
+ "generated_at_seoul": "2026-09-22 09:30",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-22T00:15:26+00:00",
+  "checked_at_utc": "2026-09-22T00:30:52+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 1,
@@ -88,7 +88,7 @@
      "label": "9/22 (화)",
      "label_en": "Tue 9/22",
      "dep": "04:05",
-     "arr": "18:21",
+     "arr": "18:46",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "sched",
@@ -97,23 +97,15 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Go to Gate",
-       "statusCode": "GO",
+       "status": "Last Call",
+       "statusCode": "LC",
        "sched": "04:05",
        "est": "04:05",
        "other": "ICN",
        "source": "HIA"
-      },
-      "korea": {
-       "status": "",
-       "sched": "1905",
-       "est": "1821",
-       "airport": "DOH",
-       "source": "ICN"
       }
      },
      "delay_dep": 0,
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -223,19 +215,12 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Last Call",
+     "statusCode": "LC",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN",
      "source": "HIA"
-    },
-    "korea": {
-     "status": "",
-     "sched": "1905",
-     "est": "1821",
-     "airport": "DOH",
-     "source": "ICN"
     }
    },
    "last_done": {
@@ -306,16 +291,8 @@
        "est": "05:00",
        "other": "ICN",
        "source": "HIA"
-      },
-      "korea": {
-       "status": "Departure",
-       "sched": "0120",
-       "est": "0120",
-       "airport": "DOH",
-       "source": "ICN"
       }
      },
-     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -330,7 +307,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "05:20",
+       "est": "05:20",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-09-24",
@@ -420,13 +409,6 @@
      "est": "05:00",
      "other": "ICN",
      "source": "HIA"
-    },
-    "korea": {
-     "status": "Departure",
-     "sched": "0120",
-     "est": "0120",
-     "airport": "DOH",
-     "source": "ICN"
     }
    },
    "last_done": {
@@ -603,7 +585,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-22T00:15:20+00:00",
+  "checked_at_utc": "2026-09-22T00:30:30+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -629,8 +611,8 @@
      "other": "ICN"
     },
     "QR858@2026-09-22": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Last Call",
+     "statusCode": "LC",
      "sched": "04:05",
      "est": "04:05",
      "other": "ICN"
@@ -671,39 +653,18 @@
      "sched": "05:20",
      "est": "05:00",
      "other": "ICN"
+    },
+    "QR859@2026-09-23": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "05:20",
+     "est": "05:20",
+     "other": "ICN"
     }
    }
   },
   "icn": {
-   "ok": true,
-   "arrivals": {
-    "QR858@2026-09-22": {
-     "status": "",
-     "sched": "1905",
-     "est": "1821",
-     "airport": "DOH"
-    },
-    "QR858@2026-09-21": {
-     "status": "Arrived",
-     "sched": "1905",
-     "est": "1849",
-     "airport": "DOH"
-    }
-   },
-   "departures": {
-    "QR859@2026-09-22": {
-     "status": "Departure",
-     "sched": "0120",
-     "est": "0120",
-     "airport": "DOH"
-    },
-    "QR859@2026-09-21": {
-     "status": "Departure",
-     "sched": "0120",
-     "est": "0103",
-     "airport": "DOH"
-    }
-   }
+   "ok": false
   }
  },
  "icn_future": {
@@ -731,7 +692,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-22T00:20:05+00:00",
+  "checked_at_utc": "2026-09-22T00:36:17+00:00",
   "flags": [],
   "material": false
  }
