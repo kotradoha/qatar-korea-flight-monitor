@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-30T02:00:35+00:00",
- "generated_at_doha": "2026-09-30 05:00",
- "generated_at_seoul": "2026-09-30 11:00",
+ "generated_at_utc": "2026-09-30T02:15:58+00:00",
+ "generated_at_doha": "2026-09-30 05:15",
+ "generated_at_seoul": "2026-09-30 11:15",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,15 +21,21 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-30T02:01:02+00:00",
+  "checked_at_utc": "2026-09-30T02:16:25+00:00",
   "ok": true,
   "level": "caution",
-  "cancel_recent": 0,
+  "cancel_recent": 1,
   "closed": false,
   "status": "caution",
   "override": null
  },
- "alerts": [],
+ "alerts": [
+  {
+   "flight": "QR858",
+   "date": "2026-10-01",
+   "type": "cancelled"
+  }
+ ],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
@@ -60,8 +66,8 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "crit",
+    "kind": "cancelled"
    },
    "days": [
     {
@@ -118,8 +124,8 @@
      "arr": "18:30",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "cancelled",
+     "cls": "crit",
      "delay": 0,
      "confirmed": true,
      "board": {
@@ -268,36 +274,23 @@
    },
    "days": [
     {
-     "date": "2026-09-29",
-     "label": "9/29 (화)",
-     "label_en": "Tue 9/29",
-     "dep": "01:16",
-     "arr": "05:12",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 0,
-     "delay_dep": 0,
-     "delay_arr": 0,
-     "confirmed": true
-    },
-    {
      "date": "2026-09-30",
      "label": "9/30 (수)",
      "label_en": "Wed 9/30",
      "dep": "01:14",
-     "arr": "05:12",
+     "arr": "05:15",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
-     "kind": "inflight",
+     "kind": "landed",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "On Time",
-       "statusCode": "OT",
+       "status": "Landed",
+       "statusCode": "LD",
        "sched": "05:20",
-       "est": "05:12",
+       "est": "05:15",
        "other": "ICN",
        "source": "HIA"
       },
@@ -420,10 +413,10 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "On Time",
-     "statusCode": "OT",
+     "status": "Landed",
+     "statusCode": "LD",
      "sched": "05:20",
-     "est": "05:12",
+     "est": "05:15",
      "other": "ICN",
      "source": "HIA"
     },
@@ -436,11 +429,11 @@
     }
    },
    "last_done": {
-    "date": "2026-09-29",
-    "label": "9/29 (화)",
-    "label_en": "Tue 9/29",
-    "dep": "01:16",
-    "arr": "05:12",
+    "date": "2026-09-30",
+    "label": "9/30 (수)",
+    "label_en": "Wed 9/30",
+    "dep": "01:14",
+    "arr": "05:15",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
@@ -631,7 +624,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-30T02:00:35+00:00",
+  "checked_at_utc": "2026-09-30T02:15:58+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -701,10 +694,10 @@
      "other": "ICN"
     },
     "QR859@2026-09-30": {
-     "status": "On Time",
-     "statusCode": "OT",
+     "status": "Landed",
+     "statusCode": "LD",
      "sched": "05:20",
-     "est": "05:12",
+     "est": "05:15",
      "other": "ICN"
     },
     "QR859@2026-10-01": {
@@ -773,8 +766,14 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-30T02:05:50+00:00",
-  "flags": [],
-  "material": false
+  "checked_at_utc": "2026-09-30T02:21:10+00:00",
+  "flags": [
+   {
+    "code": "new_cancellation",
+    "severity": "high",
+    "detail": "QR858@2026-10-01"
+   }
+  ],
+  "material": true
  }
 }
