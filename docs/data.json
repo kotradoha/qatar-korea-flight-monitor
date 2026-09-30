@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-09-30T08:15:22+00:00",
- "generated_at_doha": "2026-09-30 11:15",
- "generated_at_seoul": "2026-09-30 17:15",
+ "generated_at_utc": "2026-09-30T08:30:29+00:00",
+ "generated_at_doha": "2026-09-30 11:30",
+ "generated_at_seoul": "2026-09-30 17:30",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-09-30T08:15:50+00:00",
+  "checked_at_utc": "2026-09-30T08:30:35+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 1,
@@ -88,7 +88,7 @@
      "label": "9/30 (수)",
      "label_en": "Wed 9/30",
      "dep": "04:08",
-     "arr": "18:20",
+     "arr": "18:27",
      "sched_dep_eff": "04:05",
      "sched_arr_eff": "19:05",
      "kind": "inflight",
@@ -107,7 +107,7 @@
       "korea": {
        "status": "",
        "sched": "1905",
-       "est": "1820",
+       "est": "1827",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -233,7 +233,7 @@
     "korea": {
      "status": "",
      "sched": "1905",
-     "est": "1820",
+     "est": "1827",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -318,6 +318,8 @@
      "cls": "good",
      "delay": 0,
      "confirmed": true,
+     "delay_dep": 0,
+     "delay_arr": 0,
      "board": {
       "doha": {
        "status": "Scheduled",
@@ -328,7 +330,6 @@
        "source": "HIA"
       }
      },
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -624,7 +625,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-09-30T08:15:22+00:00",
+  "checked_at_utc": "2026-09-30T08:30:29+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -715,7 +716,7 @@
     "QR858@2026-09-30": {
      "status": "",
      "sched": "1905",
-     "est": "1820",
+     "est": "1827",
      "airport": "DOH"
     },
     "QR858@2026-09-29": {
@@ -766,7 +767,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-09-30T08:20:33+00:00",
+  "checked_at_utc": "2026-09-30T08:35:22+00:00",
   "flags": [],
   "material": false
  }
