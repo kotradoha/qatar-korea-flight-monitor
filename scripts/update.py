@@ -46,10 +46,10 @@ FLIGHTS = {
     "QR858": {
         "route": "도하 (DOH) → 서울 (ICN)", "route_en": "Doha (DOH) → Seoul (ICN)",
         "origin_tz": "doha", "arr_tz": "seoul",
-        # 카타르항공 예매·공항 전광판 기준 현재 정기 스케줄(도하 04:05 출발 / 서울 19:05 도착).
-        # 예전 02:20→02:05→04:05 로 두 차례 변경됨. 근접편은 FlightStats 실측으로 자동 반영되고,
+        # 카타르항공 예매·공항 전광판 기준 정기 스케줄(도하 03:45 출발 / 서울 18:45 도착, 10/6~).
+        # 02:20→02:05→04:05→(03:30)→03:45 로 여러 차례 변경됨. 근접편은 FlightStats 실측으로 자동 반영되고,
         # 이 하드코딩 기준값은 향후편 폴백 및 스케줄 변경 감지(schedule_review)의 비교 기준이다.
-        "sched_dep": "04:05", "sched_arr": "19:05",
+        "sched_dep": "03:45", "sched_arr": "18:45",
         "labels": {"dep": "출발 (도하)", "arr": "도착 (서울)"},
         "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Seoul)"},
         "daily": True,
