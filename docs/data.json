@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-02T16:00:40+00:00",
- "generated_at_doha": "2026-10-02 19:00",
- "generated_at_seoul": "2026-10-03 01:00",
+ "generated_at_utc": "2026-10-02T16:15:23+00:00",
+ "generated_at_doha": "2026-10-02 19:15",
+ "generated_at_seoul": "2026-10-03 01:15",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-02T16:01:04+00:00",
+  "checked_at_utc": "2026-10-02T16:15:51+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -258,8 +258,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 29
    },
    "days": [
     {
@@ -299,11 +300,11 @@
      "date": "2026-10-03",
      "label": "10/3 (토)",
      "label_en": "Sat 10/3",
-     "dep": "01:20",
+     "dep": "01:08",
      "arr": "05:20",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
@@ -319,9 +320,9 @@
        "source": "HIA"
       },
       "korea": {
-       "status": "Gate Closed",
+       "status": "Departure",
        "sched": "0120",
-       "est": "0120",
+       "est": "0108",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -431,9 +432,9 @@
      "source": "HIA"
     },
     "korea": {
-     "status": "Gate Closed",
+     "status": "Departure",
      "sched": "0120",
-     "est": "0120",
+     "est": "0108",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -700,7 +701,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-10-02T16:00:40+00:00",
+  "checked_at_utc": "2026-10-02T16:15:23+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -816,9 +817,9 @@
    },
    "departures": {
     "QR859@2026-10-03": {
-     "status": "Gate Closed",
+     "status": "Departure",
      "sched": "0120",
-     "est": "0120",
+     "est": "0108",
      "airport": "DOH"
     },
     "QR859@2026-10-02": {
@@ -855,7 +856,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-02T16:05:56+00:00",
+  "checked_at_utc": "2026-10-02T16:20:40+00:00",
   "flags": [],
   "material": false
  }
