@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-02T19:54:45+00:00",
- "generated_at_doha": "2026-10-02 22:54",
- "generated_at_seoul": "2026-10-03 04:54",
+ "generated_at_utc": "2026-10-02T20:00:36+00:00",
+ "generated_at_doha": "2026-10-02 23:00",
+ "generated_at_seoul": "2026-10-03 05:00",
  "degraded": false,
  "fetch_health": {
   "ok": 81,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-02T19:55:00+00:00",
+  "checked_at_utc": "2026-10-02T20:00:42+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -585,9 +585,8 @@
    "note": "매주 금요일 운항",
    "note_en": "Weekly on Fridays",
    "badge": {
-    "state": "warn",
-    "kind": "delayed",
-    "delay": 21
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
     {
@@ -602,12 +601,10 @@
      "cls": "good",
      "delay": 13,
      "confirmed": true,
-     "delay_dep": 2,
-     "delay_arr": 13,
      "board": {
       "doha": {
-       "status": "Arrived",
-       "statusCode": "OB",
+       "status": "Bags On Belt",
+       "statusCode": "BB",
        "sched": "22:30",
        "est": "22:43",
        "other": "ICN",
@@ -621,6 +618,8 @@
        "source": "ICN"
       }
      },
+     "delay_dep": 2,
+     "delay_arr": 13,
      "board_ok": true
     },
     {
@@ -653,8 +652,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Arrived",
-     "statusCode": "OB",
+     "status": "Bags On Belt",
+     "statusCode": "BB",
      "sched": "22:30",
      "est": "22:43",
      "other": "ICN",
@@ -688,7 +687,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-10-02T19:54:45+00:00",
+  "checked_at_utc": "2026-10-02T20:00:36+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -765,8 +764,8 @@
      "other": "ICN"
     },
     "QR863@2026-10-02": {
-     "status": "Arrived",
-     "statusCode": "OB",
+     "status": "Bags On Belt",
+     "statusCode": "BB",
      "sched": "22:30",
      "est": "22:43",
      "other": "ICN"
@@ -848,7 +847,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-02T19:59:40+00:00",
+  "checked_at_utc": "2026-10-02T20:05:21+00:00",
   "flags": [],
   "material": false
  }
