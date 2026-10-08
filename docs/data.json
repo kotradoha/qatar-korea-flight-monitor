@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-07T23:45:25+00:00",
- "generated_at_doha": "2026-10-08 02:45",
- "generated_at_seoul": "2026-10-08 08:45",
+ "generated_at_utc": "2026-10-08T00:00:38+00:00",
+ "generated_at_doha": "2026-10-08 03:00",
+ "generated_at_seoul": "2026-10-08 09:00",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-07T23:45:45+00:00",
+  "checked_at_utc": "2026-10-08T00:00:43+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -91,8 +91,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Go to Gate",
-       "statusCode": "GO",
+       "status": "Boarding",
+       "statusCode": "BD",
        "sched": "03:45",
        "est": "03:45",
        "other": "ICN",
@@ -121,7 +121,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "03:30",
+       "est": "03:30",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-10-10",
@@ -205,8 +217,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Boarding",
+     "statusCode": "BD",
      "sched": "03:45",
      "est": "03:45",
      "other": "ICN",
@@ -312,7 +324,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "05:20",
+       "est": "05:20",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-10-10",
@@ -583,7 +607,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "22:30",
+       "est": "22:30",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-10-16",
@@ -600,6 +636,16 @@
     }
    ],
    "position": null,
+   "board": {
+    "doha": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "22:30",
+     "est": "22:30",
+     "other": "ICN",
+     "source": "HIA"
+    }
+   },
    "last_done": {
     "date": "2026-10-02",
     "label": "10/2 (금)",
@@ -628,7 +674,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-07T23:45:25+00:00",
+  "checked_at_utc": "2026-10-08T00:00:38+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -654,8 +700,8 @@
      "other": "ICN"
     },
     "QR858@2026-10-08": {
-     "status": "Go to Gate",
-     "statusCode": "GO",
+     "status": "Boarding",
+     "statusCode": "BD",
      "sched": "03:45",
      "est": "03:45",
      "other": "ICN"
@@ -665,6 +711,13 @@
      "statusCode": "SH",
      "sched": "20:25",
      "est": "20:25",
+     "other": "ICN"
+    },
+    "QR858@2026-10-09": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "03:30",
+     "est": "03:30",
      "other": "ICN"
     }
    },
@@ -695,6 +748,20 @@
      "statusCode": "EA",
      "sched": "05:20",
      "est": "04:45",
+     "other": "ICN"
+    },
+    "QR859@2026-10-09": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "05:20",
+     "est": "05:20",
+     "other": "ICN"
+    },
+    "QR863@2026-10-09": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "22:30",
+     "est": "22:30",
      "other": "ICN"
     }
    }
@@ -752,7 +819,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-07T23:50:24+00:00",
+  "checked_at_utc": "2026-10-08T00:05:21+00:00",
   "flags": [],
   "material": false
  }
