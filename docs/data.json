@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-11T01:00:37+00:00",
- "generated_at_doha": "2026-10-11 04:00",
- "generated_at_seoul": "2026-10-11 10:00",
+ "generated_at_utc": "2026-10-11T01:15:21+00:00",
+ "generated_at_doha": "2026-10-11 04:15",
+ "generated_at_seoul": "2026-10-11 10:15",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-11T01:00:42+00:00",
+  "checked_at_utc": "2026-10-11T01:15:26+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -72,7 +72,7 @@
    "badge": {
     "state": "warn",
     "kind": "delayed",
-    "delay": 24
+    "delay": 30
    },
    "days": [
     {
@@ -96,16 +96,16 @@
      "arr": "18:26",
      "sched_dep_eff": "03:45",
      "sched_arr_eff": "18:45",
-     "kind": "delayed",
-     "cls": "warn",
+     "kind": "inflight",
+     "cls": "good",
      "delay": 30,
      "confirmed": true,
      "delay_dep": 30,
      "delay_arr": 0,
      "board": {
       "doha": {
-       "status": "Gate Closed",
-       "statusCode": "GC",
+       "status": "Departed",
+       "statusCode": "OB",
        "sched": "03:30",
        "est": "04:00",
        "other": "ICN",
@@ -228,8 +228,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Gate Closed",
-     "statusCode": "GC",
+     "status": "Departed",
+     "statusCode": "OB",
      "sched": "03:30",
      "est": "04:00",
      "other": "ICN",
@@ -274,8 +274,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 25
    },
    "days": [
     {
@@ -303,6 +304,8 @@
      "cls": "good",
      "delay": 7,
      "confirmed": true,
+     "delay_dep": 7,
+     "delay_arr": 0,
      "board": {
       "doha": {
        "status": "On Time",
@@ -320,8 +323,6 @@
        "source": "ICN"
       }
      },
-     "delay_dep": 7,
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -628,7 +629,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-11T01:00:37+00:00",
+  "checked_at_utc": "2026-10-11T01:15:21+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -661,8 +662,8 @@
      "other": "ICN"
     },
     "QR858@2026-10-11": {
-     "status": "Gate Closed",
-     "statusCode": "GC",
+     "status": "Departed",
+     "statusCode": "OB",
      "sched": "03:30",
      "est": "04:00",
      "other": "ICN"
@@ -777,7 +778,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-11T01:05:18+00:00",
+  "checked_at_utc": "2026-10-11T01:20:06+00:00",
   "flags": [],
   "material": false
  }
