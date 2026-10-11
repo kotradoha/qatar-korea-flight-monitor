@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-11T23:30:29+00:00",
- "generated_at_doha": "2026-10-12 02:30",
- "generated_at_seoul": "2026-10-12 08:30",
+ "generated_at_utc": "2026-10-11T23:45:21+00:00",
+ "generated_at_doha": "2026-10-12 02:45",
+ "generated_at_seoul": "2026-10-12 08:45",
  "degraded": false,
  "fetch_health": {
   "ok": 79,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-11T23:30:35+00:00",
+  "checked_at_utc": "2026-10-11T23:45:47+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -29,7 +29,17 @@
   "status": "caution",
   "override": null
  },
- "alerts": [],
+ "alerts": [
+  {
+   "flight": "QR858",
+   "date": "2026-10-12",
+   "type": "delay",
+   "dep": 115,
+   "arr": 0,
+   "minutes": 115,
+   "state": "expected"
+  }
+ ],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
@@ -60,8 +70,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 115
    },
    "days": [
     {
@@ -85,10 +96,12 @@
      "arr": "18:30",
      "sched_dep_eff": "03:45",
      "sched_arr_eff": "18:45",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "delayed",
+     "cls": "warn",
      "delay": 115,
      "confirmed": true,
+     "delay_dep": 115,
+     "delay_arr": 0,
      "board": {
       "doha": {
        "status": "Go to Gate",
@@ -106,8 +119,6 @@
        "source": "ICN"
       }
      },
-     "delay_dep": 115,
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -593,7 +604,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-11T23:30:29+00:00",
+  "checked_at_utc": "2026-10-11T23:45:21+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -721,7 +732,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-11T23:35:08+00:00",
+  "checked_at_utc": "2026-10-11T23:50:26+00:00",
   "flags": [],
   "material": false
  }
