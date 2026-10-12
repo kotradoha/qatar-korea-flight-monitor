@@ -15,7 +15,7 @@
     --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
     --good: #0ca30c; --warning: #fab219; --critical: #d03b3b;
     --good-text: #006300; --crit-text: #b4211f; --accent: #2a78d6;
-    --banner-bg: #fdf6e3; --good-bg: #eaf6ea; --crit-bg: #fbeceb; --note-bg: #fbeceb;
+    --banner-bg: #fdf6e3; --good-bg: #eaf6ea; --crit-bg: #fbeceb; --note-bg: #f1f4f9; --notice-text: #2b4170;
     --warn-bg: #fdf1dd; --warn-text: #9a6300;
   }
   @media (prefers-color-scheme: dark) {
@@ -25,7 +25,7 @@
       --text-primary: #ffffff; --text-secondary: #c3c2b7;
       --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
       --good-text: #0ca30c; --crit-text: #ff6b6a; --accent: #3987e5;
-      --banner-bg: #26221a; --good-bg: #14261a; --crit-bg: #2a1615; --note-bg: #2a1615;
+      --banner-bg: #26221a; --good-bg: #14261a; --crit-bg: #2a1615; --note-bg: #1a2130; --notice-text: #b3c4e6;
       --warn-bg: #2a2113; --warn-text: #f0aa2e;
     }
   }
@@ -175,8 +175,8 @@
   .footer b { color: var(--text-primary); }
   .footer a { color: var(--accent); }
   .notice-emph { margin-top: 12px; padding: 12px 14px; border-radius: 10px;
-    background: var(--note-bg); border: 1px solid rgba(208,59,59,0.35);
-    color: var(--crit-text); font-weight: 600; font-size: 12.5px; line-height: 1.6; }
+    background: var(--note-bg); border: 1px solid rgba(43,65,112,0.18);
+    color: var(--notice-text); font-weight: 600; font-size: 12.5px; line-height: 1.6; }
   .notice-emph a { display: inline-block; color: var(--accent); background: rgba(42,120,214,0.10);
     border: 1px solid rgba(42,120,214,0.55); border-radius: 6px; padding: 0 8px; margin: 1px 1px;
     font-weight: 700; text-decoration: none; white-space: nowrap; }
@@ -184,7 +184,7 @@
   .notice-emph a:hover { background: rgba(42,120,214,0.22); }
   .notice-emph a .fs-sm { font-size: 0.82em; font-weight: 600; }
   .notice-sign { text-align: right; margin-top: 10px; font-weight: 400; font-size: 12px;
-    color: var(--crit-text); opacity: 0.85; }
+    color: var(--notice-text); opacity: 0.85; }
   .foot-sub { display: block; margin-top: 0; padding-left: 11px; font-size: 0.94em; opacity: 0.82; }
   .notice-sign a { display: inline; background: none; border: none; padding: 0; }
   .notice-sign a::after { content: ""; }
