@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-14T00:45:21+00:00",
- "generated_at_doha": "2026-10-14 03:45",
- "generated_at_seoul": "2026-10-14 09:45",
+ "generated_at_utc": "2026-10-14T01:00:38+00:00",
+ "generated_at_doha": "2026-10-14 04:00",
+ "generated_at_seoul": "2026-10-14 10:00",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-14T00:45:47+00:00",
+  "checked_at_utc": "2026-10-14T01:00:59+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -37,14 +37,14 @@
    "title": "Qatar Airways suspends its flights to Riyadh and Dammam - The Times of Israel (The Times of Israel)",
    "title_en": "Qatar Airways suspends its flights to Riyadh and Dammam - The Times of Israel (The Times of Israel)",
    "title_ar": "Qatar Airways suspends its flights to Riyadh and Dammam - The Times of Israel (The Times of Israel)",
-   "date": "2026-10-13",
-   "until": "2026-10-20",
+   "date": "2026-10-14",
+   "until": "2026-10-21",
    "pub": "2026-10-13T00:38:01+00:00",
    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOOUNMdWNXRTRDVDNieVhIMlhHT3hzQmt2Yk9ieGVockUzUm1VWV9TMXNSMzI0b2dpNXpvaWFlcFZ1dmZQQ2tSNzhJREJ0aG9WOFNqSzhqWnZvXzY0MUhibUdZOHNoX2t2Sk1mTDBqVmxMeWt5bGVYUVNlcE54cnJPOWViT0xpdUhuM3N3WDhFcGZZelRxNDhQMngyVzlndEFFRHc0?oc=5",
    "source": "auto-news"
   }
  ],
- "news_scanned_utc": "2026-10-13T19:00:40+00:00",
+ "news_scanned_utc": "2026-10-14T01:00:38+00:00",
  "news_since_utc": "2026-07-30T14:02:28+00:00",
  "route_notes": [],
  "order": [
@@ -93,7 +93,7 @@
      "label": "10/14 (수)",
      "label_en": "Wed 10/14",
      "dep": "03:28",
-     "arr": "17:42",
+     "arr": "18:13",
      "sched_dep_eff": "03:45",
      "sched_arr_eff": "18:45",
      "kind": "inflight",
@@ -103,7 +103,7 @@
      "board": {
       "doha": {
        "status": "Departed",
-       "statusCode": "OB",
+       "statusCode": "DP",
        "sched": "03:30",
        "est": "03:28",
        "other": "ICN",
@@ -112,7 +112,7 @@
       "korea": {
        "status": "",
        "sched": "1830",
-       "est": "1742",
+       "est": "1813",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -229,7 +229,7 @@
    "board": {
     "doha": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "03:30",
      "est": "03:28",
      "other": "ICN",
@@ -238,7 +238,7 @@
     "korea": {
      "status": "",
      "sched": "1830",
-     "est": "1742",
+     "est": "1813",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -650,7 +650,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-14T00:45:21+00:00",
+  "checked_at_utc": "2026-10-14T01:00:38+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -677,7 +677,7 @@
     },
     "QR858@2026-10-14": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "03:30",
      "est": "03:28",
      "other": "ICN"
@@ -741,7 +741,7 @@
     "QR858@2026-10-14": {
      "status": "",
      "sched": "1830",
-     "est": "1742",
+     "est": "1813",
      "airport": "DOH"
     },
     "QR858@2026-10-13": {
@@ -792,7 +792,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-14T00:50:28+00:00",
+  "checked_at_utc": "2026-10-14T01:05:41+00:00",
   "flags": [],
   "material": false
  }
