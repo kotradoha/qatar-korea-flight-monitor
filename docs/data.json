@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-15T21:15:25+00:00",
- "generated_at_doha": "2026-10-16 00:15",
- "generated_at_seoul": "2026-10-16 06:15",
+ "generated_at_utc": "2026-10-15T21:30:33+00:00",
+ "generated_at_doha": "2026-10-16 00:30",
+ "generated_at_seoul": "2026-10-16 06:30",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-15T21:15:31+00:00",
+  "checked_at_utc": "2026-10-15T21:30:58+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -93,7 +93,7 @@
      "label": "10/16 (금)",
      "label_en": "Fri 10/16",
      "dep": "03:30",
-     "arr": "18:30",
+     "arr": "17:39",
      "sched_dep_eff": "03:45",
      "sched_arr_eff": "18:45",
      "kind": "sched",
@@ -102,8 +102,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Scheduled",
-       "statusCode": "SH",
+       "status": "Check In Open",
+       "statusCode": "CO",
        "sched": "03:30",
        "est": "03:30",
        "other": "ICN",
@@ -112,7 +112,7 @@
       "korea": {
        "status": "",
        "sched": "1830",
-       "est": "1830",
+       "est": "1739",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -216,8 +216,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Check In Open",
+     "statusCode": "CO",
      "sched": "03:30",
      "est": "03:30",
      "other": "ICN",
@@ -226,7 +226,7 @@
     "korea": {
      "status": "",
      "sched": "1830",
-     "est": "1830",
+     "est": "1739",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -705,7 +705,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-15T21:15:25+00:00",
+  "checked_at_utc": "2026-10-15T21:30:33+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -738,8 +738,8 @@
      "other": "ICN"
     },
     "QR858@2026-10-16": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Check In Open",
+     "statusCode": "CO",
      "sched": "03:30",
      "est": "03:30",
      "other": "ICN"
@@ -795,7 +795,7 @@
     "QR858@2026-10-16": {
      "status": "",
      "sched": "1830",
-     "est": "1830",
+     "est": "1739",
      "airport": "DOH"
     },
     "QR858@2026-10-15": {
@@ -852,7 +852,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-15T21:20:08+00:00",
+  "checked_at_utc": "2026-10-15T21:35:34+00:00",
   "flags": [],
   "material": false
  }
