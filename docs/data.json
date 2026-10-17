@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-17T02:21:26+00:00",
- "generated_at_doha": "2026-10-17 05:21",
- "generated_at_seoul": "2026-10-17 11:21",
+ "generated_at_utc": "2026-10-17T02:27:53+00:00",
+ "generated_at_doha": "2026-10-17 05:27",
+ "generated_at_seoul": "2026-10-17 11:27",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-17T02:21:32+00:00",
+  "checked_at_utc": "2026-10-17T02:28:15+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -280,38 +280,25 @@
    },
    "days": [
     {
-     "date": "2026-10-16",
-     "label": "10/16 (금)",
-     "label_en": "Fri 10/16",
-     "dep": "01:23",
-     "arr": "06:04",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 44,
-     "delay_dep": 3,
-     "delay_arr": 44,
-     "confirmed": true
-    },
-    {
      "date": "2026-10-17",
      "label": "10/17 (토)",
      "label_en": "Sat 10/17",
      "dep": "01:13",
-     "arr": "05:20",
+     "arr": "05:26",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
-     "kind": "inflight",
+     "kind": "landed",
      "cls": "good",
-     "delay": 0,
+     "delay": 6,
      "confirmed": true,
      "delay_dep": 0,
-     "delay_arr": 0,
+     "delay_arr": 6,
      "board": {
       "doha": {
-       "status": "Early",
-       "statusCode": "EA",
+       "status": "Landed",
+       "statusCode": "LD",
        "sched": "05:20",
-       "est": "05:03",
+       "est": "05:26",
        "other": "ICN",
        "source": "HIA"
       },
@@ -432,10 +419,10 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Early",
-     "statusCode": "EA",
+     "status": "Landed",
+     "statusCode": "LD",
      "sched": "05:20",
-     "est": "05:03",
+     "est": "05:26",
      "other": "ICN",
      "source": "HIA"
     },
@@ -448,16 +435,16 @@
     }
    },
    "last_done": {
-    "date": "2026-10-16",
-    "label": "10/16 (금)",
-    "label_en": "Fri 10/16",
-    "dep": "01:23",
-    "arr": "06:04",
+    "date": "2026-10-17",
+    "label": "10/17 (토)",
+    "label_en": "Sat 10/17",
+    "dep": "01:13",
+    "arr": "05:26",
     "kind": "landed",
     "cls": "good",
-    "delay": 44,
-    "delay_dep": 3,
-    "delay_arr": 44,
+    "delay": 6,
+    "delay_dep": 0,
+    "delay_arr": 6,
     "confirmed": true
    }
   },
@@ -621,7 +608,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-10-17T02:21:26+00:00",
+  "checked_at_utc": "2026-10-17T02:27:53+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -698,10 +685,10 @@
      "other": "ICN"
     },
     "QR859@2026-10-17": {
-     "status": "Early",
-     "statusCode": "EA",
+     "status": "Landed",
+     "statusCode": "LD",
      "sched": "05:20",
-     "est": "05:03",
+     "est": "05:26",
      "other": "ICN"
     },
     "QR859@2026-10-18": {
@@ -776,7 +763,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-17T02:26:13+00:00",
+  "checked_at_utc": "2026-10-17T02:33:16+00:00",
   "flags": [],
   "material": false
  }
