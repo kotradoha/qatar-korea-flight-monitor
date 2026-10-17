@@ -46,10 +46,10 @@ FLIGHTS = {
     "QR858": {
         "route": "도하 (DOH) → 인천 (ICN)", "route_en": "Doha (DOH) → Incheon (ICN)",
         "origin_tz": "doha", "arr_tz": "seoul",
-        # 카타르항공 예매·공항 전광판 기준 정기 스케줄(도하 03:45 출발 / 서울 18:45 도착, 10/6~).
+        # 하마드공항 전광판 기준 정기 스케줄(도하 03:30 출발 / 서울 18:30 도착).
         # 02:20→02:05→04:05→(03:30)→03:45 로 여러 차례 변경됨. 근접편은 FlightStats 실측으로 자동 반영되고,
         # 이 하드코딩 기준값은 향후편 폴백 및 스케줄 변경 감지(schedule_review)의 비교 기준이다.
-        "sched_dep": "03:45", "sched_arr": "18:45",
+        "sched_dep": "03:30", "sched_arr": "18:30",
         "labels": {"dep": "출발 (도하)", "arr": "도착 (인천)"},
         "labels_en": {"dep": "Departure (Doha)", "arr": "Arrival (Incheon)"},
         "daily": True,
@@ -1605,6 +1605,44 @@ def normalize_stale_delays(flights_out, alerts):
             f["badge"] = {"state": "good", "kind": "normal"}
 
 
+def floor_display_to_schedule(flights_out):
+    """표시 시각을 공항 전광판과 일치시킨다. 하마드/인천 공개 페이지는 정시·조기 편을
+    '예정시각 + On Time'으로 표기하는데, 전광판 데이터 피드는 조기 추정(est<sched, status 'Early')을 준다.
+    아직 '일어나지 않은 다리'(출발 전 출발, 도착 전 도착)의 표시 시각이 '그 공항 전광판의 예정시각'보다
+    이르면 예정시각으로 되돌려, 공항 공개 표시와 어긋나는 '유령 조기 도착'을 막는다.
+      - 기준은 반드시 '그 다리의 전광판 예정(board sched)' — 운영자 override(sched_*_eff)가 아니다.
+        (override가 공항과 다를 수 있으므로, 공항 일치 1순위를 지키려면 전광판 값을 쓴다.)
+      - 전광판이 없는 행(먼 향후편 등)은 손대지 않는다.
+      - 실제 지연(늦음)·도착 완료(실제시각)·이미 출발한 편의 출발은 그대로 둔다.
+      - 익일/+N일 등 날짜가 붙은 시각은 날짜 경계 비교가 모호하여 건너뛴다."""
+    def _tm(s):
+        s = re.sub(r"^(익일|\+\d+\s*일)\s*", "", str(s or "").strip())
+        if re.search(r"익일|\+\d+\s*일", str(s)):
+            return None
+        m = re.match(r"^(\d{1,2}):?(\d{2})$", s)
+        return int(m.group(1)) * 60 + int(m.group(2)) if m else None
+    for fno, f in flights_out.items():
+        if not isinstance(f, dict):
+            continue
+        cfg = FLIGHTS.get(fno) or {}
+        origin_doha = cfg.get("origin_tz") == "doha"
+        for day in f.get("days", []):
+            k = day.get("kind")
+            board = day.get("board") or {}
+            doha_b, korea_b = board.get("doha"), board.get("korea")
+            dep_b, arr_b = (doha_b, korea_b) if origin_doha else (korea_b, doha_b)
+            # 도착: 아직 도착 전(landed 아님) + 익일표기 아님 + 전광판 예정 있음 + 표시가 더 이름 → 예정으로
+            if k != "landed" and isinstance(arr_b, dict) and "익일" not in str(day.get("arr")):
+                s, a = _tm(arr_b.get("sched")), _tm(day.get("arr"))
+                if s is not None and a is not None and a < s:
+                    day["arr"] = _hhmm_norm(arr_b.get("sched")) or day["arr"]
+            # 출발: 아직 출발 전(예정·플랜) + 전광판 예정 있음 + 표시가 더 이름 → 예정으로
+            if k not in ("landed", "inflight", "delayed") and isinstance(dep_b, dict):
+                s, dpt = _tm(dep_b.get("sched")), _tm(day.get("dep"))
+                if s is not None and dpt is not None and dpt < s:
+                    day["dep"] = _hhmm_norm(dep_b.get("sched")) or day["dep"]
+
+
 def apply_icn_future(flights_out, icn_future, sched_ovs):
     """향후 예정편(아직 근접 실측/전광판이 없는 plan/sched)의 '인천쪽 시각'을 인천 발행 스케줄로 설정한다.
     QR858·QR862 → 도착(인천), QR859·QR863 → 출발(인천). 운영자 override가 그 다리를 지정했으면 그게 최우선.
@@ -2236,6 +2274,12 @@ def main():
         normalize_stale_delays(flights_out, alerts)
     except Exception as e:  # noqa: BLE001
         print(f"[warn] normalize_stale_delays: {e}", file=sys.stderr)
+
+    # 공항 전광판과 표시 시각 일치: 아직 도착/출발 전인 다리의 '조기 추정'을 예정시각으로 되돌린다.
+    try:
+        floor_display_to_schedule(flights_out)
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] floor_display_to_schedule: {e}", file=sys.stderr)
 
     # 인천 발행 스케줄(6일)이 기준 시각과 다르면 '스케줄 변경 의심'으로 기록(매일 점검·알림용).
     #   화면엔 이미 반영되지만, '달라졌다'는 신호를 남겨야 담당자가 하드코딩 기준·override를 갱신할 수 있다.
