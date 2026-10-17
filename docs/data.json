@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-17T02:27:53+00:00",
- "generated_at_doha": "2026-10-17 05:27",
- "generated_at_seoul": "2026-10-17 11:27",
+ "generated_at_utc": "2026-10-17T06:15:33+00:00",
+ "generated_at_doha": "2026-10-17 09:15",
+ "generated_at_seoul": "2026-10-17 15:15",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-17T02:28:15+00:00",
+  "checked_at_utc": "2026-10-17T06:15:54+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -274,9 +274,8 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "warn",
-    "kind": "delayed",
-    "delay": 24
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
     {
@@ -291,12 +290,10 @@
      "cls": "good",
      "delay": 6,
      "confirmed": true,
-     "delay_dep": 0,
-     "delay_arr": 6,
      "board": {
       "doha": {
-       "status": "Landed",
-       "statusCode": "LD",
+       "status": "Last Bag",
+       "statusCode": "LB",
        "sched": "05:20",
        "est": "05:26",
        "other": "ICN",
@@ -310,6 +307,8 @@
        "source": "ICN"
       }
      },
+     "delay_dep": 0,
+     "delay_arr": 6,
      "board_ok": true
     },
     {
@@ -419,8 +418,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Landed",
-     "statusCode": "LD",
+     "status": "Last Bag",
+     "statusCode": "LB",
      "sched": "05:20",
      "est": "05:26",
      "other": "ICN",
@@ -608,7 +607,7 @@
   "schedule_review": []
  },
  "boards": {
-  "checked_at_utc": "2026-10-17T02:27:53+00:00",
+  "checked_at_utc": "2026-10-17T06:15:33+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -685,8 +684,8 @@
      "other": "ICN"
     },
     "QR859@2026-10-17": {
-     "status": "Landed",
-     "statusCode": "LD",
+     "status": "Last Bag",
+     "statusCode": "LB",
      "sched": "05:20",
      "est": "05:26",
      "other": "ICN"
@@ -763,7 +762,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-17T02:33:16+00:00",
+  "checked_at_utc": "2026-10-17T06:20:36+00:00",
   "flags": [],
   "material": false
  }
