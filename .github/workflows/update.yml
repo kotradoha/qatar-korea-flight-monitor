@@ -9,8 +9,10 @@ on:
       - 'docs/data.json'
       - '.github/ci_health.json'
   schedule:
-    # 15분마다 갱신. 정시(:00)는 전 세계 작업이 몰려 지연이 크므로 피해서 :05/:20/:35/:50에 실행.
-    - cron: "5,20,35,50 * * * *"
+    # 매시간 1회. (이전 15분 간격은 GitHub Actions 공정사용 제한에 걸려 실행이 2~3시간마다로 억제됨 →
+    #  부하를 1/4로 낮춰 제한을 풀기 위함.) 정시(:00)는 전 세계 작업이 몰려 지연이 크므로 :43에 실행.
+    #  추가로 매시간 Claude Routine이 workflow_dispatch로도 깨운다(이중화).
+    - cron: "43 * * * *"
   workflow_dispatch: {}
 
 permissions:
