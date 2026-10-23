@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-23T07:56:05+00:00",
- "generated_at_doha": "2026-10-23 10:56",
- "generated_at_seoul": "2026-10-23 16:56",
+ "generated_at_utc": "2026-10-23T13:48:58+00:00",
+ "generated_at_doha": "2026-10-23 16:48",
+ "generated_at_seoul": "2026-10-23 22:48",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-23T07:56:10+00:00",
+  "checked_at_utc": "2026-10-23T13:49:26+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -29,17 +29,7 @@
   "status": "caution",
   "override": null
  },
- "alerts": [
-  {
-   "flight": "QR858",
-   "date": "2026-10-23",
-   "type": "delay",
-   "dep": 3,
-   "arr": 22,
-   "minutes": 22,
-   "state": "expected"
-  }
- ],
+ "alerts": [],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [
@@ -81,38 +71,22 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "warn",
-    "kind": "delayed",
-    "delay": 22
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
-    {
-     "date": "2026-10-22",
-     "label": "10/22 (목)",
-     "label_en": "Thu 10/22",
-     "dep": "04:00",
-     "arr": "18:45",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 30,
-     "delay_dep": 30,
-     "delay_arr": 15,
-     "confirmed": true
-    },
     {
      "date": "2026-10-23",
      "label": "10/23 (금)",
      "label_en": "Fri 10/23",
      "dep": "03:33",
-     "arr": "18:52",
+     "arr": "18:47",
      "sched_dep_eff": "03:30",
      "sched_arr_eff": "18:30",
-     "kind": "inflight",
+     "kind": "landed",
      "cls": "good",
-     "delay": 22,
+     "delay": 3,
      "confirmed": true,
-     "delay_dep": 3,
-     "delay_arr": 22,
      "board": {
       "doha": {
        "status": "Departed",
@@ -123,6 +97,7 @@
        "source": "HIA"
       }
      },
+     "delay_dep": 3,
      "board_ok": true
     },
     {
@@ -229,16 +204,15 @@
     }
    },
    "last_done": {
-    "date": "2026-10-22",
-    "label": "10/22 (목)",
-    "label_en": "Thu 10/22",
-    "dep": "04:00",
-    "arr": "18:45",
+    "date": "2026-10-23",
+    "label": "10/23 (금)",
+    "label_en": "Fri 10/23",
+    "dep": "03:33",
+    "arr": "18:47",
     "kind": "landed",
     "cls": "good",
-    "delay": 30,
-    "delay_dep": 30,
-    "delay_arr": 15,
+    "delay": 3,
+    "delay_dep": 3,
     "confirmed": true
    }
   },
@@ -300,6 +274,8 @@
      "cls": "good",
      "delay": 0,
      "confirmed": true,
+     "delay_dep": 0,
+     "delay_arr": 0,
      "board": {
       "doha": {
        "status": "Scheduled",
@@ -310,7 +286,6 @@
        "source": "HIA"
       }
      },
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -532,8 +507,9 @@
    "note": "매주 금요일 운항",
    "note_en": "Weekly on Fridays",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 44
    },
    "days": [
     {
@@ -553,22 +529,22 @@
      "date": "2026-10-23",
      "label": "10/23 (금)",
      "label_en": "Fri 10/23",
-     "dep": "18:30",
+     "dep": "18:31",
      "arr": "22:30",
      "sched_dep_eff": "18:30",
      "sched_arr_eff": "22:30",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
-     "delay": 0,
+     "delay": 1,
      "confirmed": true,
-     "delay_dep": 0,
+     "delay_dep": 1,
      "delay_arr": 0,
      "board": {
       "doha": {
        "status": "Scheduled",
        "statusCode": "SH",
        "sched": "22:30",
-       "est": "22:30",
+       "est": "22:00",
        "other": "ICN",
        "source": "HIA"
       }
@@ -608,7 +584,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "22:30",
-     "est": "22:30",
+     "est": "22:00",
      "other": "ICN",
      "source": "HIA"
     }
@@ -642,7 +618,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-23T07:56:05+00:00",
+  "checked_at_utc": "2026-10-23T13:48:58+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -715,7 +691,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "22:30",
-     "est": "22:30",
+     "est": "22:00",
      "other": "ICN"
     },
     "QR859@2026-10-24": {
@@ -749,7 +725,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-23T08:01:27+00:00",
+  "checked_at_utc": "2026-10-23T13:54:56+00:00",
   "flags": [],
   "material": false
  }
