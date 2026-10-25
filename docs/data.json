@@ -1,10 +1,10 @@
 {
- "generated_at_utc": "2026-10-25T12:46:07+00:00",
- "generated_at_doha": "2026-10-25 15:46",
- "generated_at_seoul": "2026-10-25 21:46",
+ "generated_at_utc": "2026-10-25T17:13:20+00:00",
+ "generated_at_doha": "2026-10-25 20:13",
+ "generated_at_seoul": "2026-10-26 02:13",
  "degraded": false,
  "fetch_health": {
-  "ok": 78,
+  "ok": 79,
   "err": 0
  },
  "airspace": {
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-25T12:46:29+00:00",
+  "checked_at_utc": "2026-10-25T17:13:48+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -117,9 +117,17 @@
        "est": "02:40",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "",
+       "sched": "1715",
+       "est": "1631",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -250,8 +258,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 27
    },
    "days": [
     {
@@ -291,11 +300,11 @@
      "date": "2026-10-26",
      "label": "10/26 (월)",
      "label_en": "Mon 10/26",
-     "dep": "00:20",
+     "dep": "00:15",
      "arr": "04:50",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
@@ -306,9 +315,16 @@
        "status": "Scheduled",
        "statusCode": "SH",
        "sched": "04:50",
-       "est": "04:50",
+       "est": "05:02",
        "other": "ICN",
        "source": "HIA"
+      },
+      "korea": {
+       "status": "Departure",
+       "sched": "0020",
+       "est": "0015",
+       "airport": "DOH",
+       "source": "ICN"
       }
      },
      "board_ok": true
@@ -390,22 +406,35 @@
      "cls": "plan",
      "delay": 0,
      "confirmed": false
+    },
+    {
+     "date": "2026-11-02",
+     "label": "11/2 (월)",
+     "label_en": "Mon 11/2",
+     "dep": "00:20",
+     "arr": "04:50",
+     "sched_dep_eff": "00:20",
+     "sched_arr_eff": "04:50",
+     "kind": "plan",
+     "cls": "plan",
+     "delay": 0,
+     "confirmed": false
     }
    ],
    "position": null,
    "board": {
     "doha": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
-     "sched": "05:20",
-     "est": "06:02",
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "04:50",
+     "est": "05:02",
      "other": "ICN",
      "source": "HIA"
     },
     "korea": {
      "status": "Departure",
-     "sched": "0120",
-     "est": "0116",
+     "sched": "0020",
+     "est": "0015",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -600,7 +629,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-25T12:46:07+00:00",
+  "checked_at_utc": "2026-10-25T17:13:20+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -680,7 +709,7 @@
      "status": "Scheduled",
      "statusCode": "SH",
      "sched": "04:50",
-     "est": "04:50",
+     "est": "05:02",
      "other": "ICN"
     }
    }
@@ -688,6 +717,12 @@
   "icn": {
    "ok": true,
    "arrivals": {
+    "QR858@2026-10-26": {
+     "status": "",
+     "sched": "1715",
+     "est": "1631",
+     "airport": "DOH"
+    },
     "QR858@2026-10-25": {
      "status": "Arrived",
      "sched": "1715",
@@ -696,16 +731,16 @@
     }
    },
    "departures": {
+    "QR859@2026-10-26": {
+     "status": "Departure",
+     "sched": "0020",
+     "est": "0015",
+     "airport": "DOH"
+    },
     "QR859@2026-10-25": {
      "status": "Departure",
      "sched": "0120",
      "est": "0116",
-     "airport": "DOH"
-    },
-    "QR859@2026-10-24": {
-     "status": "Departure",
-     "sched": "0120",
-     "est": "0113",
      "airport": "DOH"
     }
    }
@@ -713,14 +748,12 @@
  },
  "icn_future": {
   "QR858": {
-   "2026-10-25": "17:15",
    "2026-10-26": "17:15",
    "2026-10-27": "17:15",
    "2026-10-28": "17:15",
    "2026-10-29": "17:15"
   },
   "QR859": {
-   "2026-10-25": "01:20",
    "2026-10-26": "00:20",
    "2026-10-27": "00:20",
    "2026-10-28": "00:20",
@@ -728,7 +761,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-25T12:51:26+00:00",
+  "checked_at_utc": "2026-10-25T17:18:31+00:00",
   "flags": [],
   "material": false
  }
