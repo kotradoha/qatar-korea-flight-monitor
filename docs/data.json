@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-29T14:37:07+00:00",
- "generated_at_doha": "2026-10-29 17:37",
- "generated_at_seoul": "2026-10-29 23:37",
+ "generated_at_utc": "2026-10-29T14:52:08+00:00",
+ "generated_at_doha": "2026-10-29 17:52",
+ "generated_at_seoul": "2026-10-29 23:52",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-29T14:37:25+00:00",
+  "checked_at_utc": "2026-10-29T14:52:21+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -472,8 +472,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Scheduled",
-       "statusCode": "SH",
+       "status": "Check In Open",
+       "statusCode": "CO",
        "sched": "19:55",
        "est": "19:55",
        "other": "ICN",
@@ -513,8 +513,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Check In Open",
+     "statusCode": "CO",
      "sched": "19:55",
      "est": "19:55",
      "other": "ICN",
@@ -656,7 +656,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-29T14:37:07+00:00",
+  "checked_at_utc": "2026-10-29T14:52:08+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -689,8 +689,8 @@
      "other": "ICN"
     },
     "QR862@2026-10-29": {
-     "status": "Scheduled",
-     "statusCode": "SH",
+     "status": "Check In Open",
+     "statusCode": "CO",
      "sched": "19:55",
      "est": "19:55",
      "other": "ICN"
@@ -805,7 +805,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-29T14:42:35+00:00",
+  "checked_at_utc": "2026-10-29T14:56:59+00:00",
   "flags": [],
   "material": false
  }
