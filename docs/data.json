@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-30T01:22:07+00:00",
- "generated_at_doha": "2026-10-30 04:22",
- "generated_at_seoul": "2026-10-30 10:22",
+ "generated_at_utc": "2026-10-30T01:37:07+00:00",
+ "generated_at_doha": "2026-10-30 04:37",
+ "generated_at_seoul": "2026-10-30 10:37",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-30T01:22:30+00:00",
+  "checked_at_utc": "2026-10-30T01:37:30+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -426,35 +426,22 @@
    },
    "days": [
     {
-     "date": "2026-10-22",
-     "label": "10/22 (목)",
-     "label_en": "Thu 10/22",
-     "dep": "20:30",
-     "arr": "익일 11:32",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 7,
-     "delay_dep": 5,
-     "delay_arr": 7,
-     "confirmed": true
-    },
-    {
      "date": "2026-10-29",
      "label": "10/29 (목)",
      "label_en": "Thu 10/29",
      "dep": "20:04",
-     "arr": "익일 10:30",
+     "arr": "익일 10:28",
      "sched_dep_eff": "20:25",
      "sched_arr_eff": "11:25",
-     "kind": "inflight",
+     "kind": "landed",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
      "board": {
       "korea": {
-       "status": "Landing",
+       "status": "Arrived",
        "sched": "1030",
-       "est": "1029",
+       "est": "1028",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -492,24 +479,23 @@
    "position": null,
    "board": {
     "korea": {
-     "status": "Landing",
+     "status": "Arrived",
      "sched": "1030",
-     "est": "1029",
+     "est": "1028",
      "airport": "DOH",
      "source": "ICN"
     }
    },
    "last_done": {
-    "date": "2026-10-22",
-    "label": "10/22 (목)",
-    "label_en": "Thu 10/22",
-    "dep": "20:30",
-    "arr": "익일 11:32",
+    "date": "2026-10-29",
+    "label": "10/29 (목)",
+    "label_en": "Thu 10/29",
+    "dep": "20:04",
+    "arr": "익일 10:28",
     "kind": "landed",
     "cls": "good",
-    "delay": 7,
-    "delay_dep": 5,
-    "delay_arr": 7,
+    "delay": 0,
+    "delay_arr": 0,
     "confirmed": true
    }
   },
@@ -645,7 +631,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-30T01:22:07+00:00",
+  "checked_at_utc": "2026-10-30T01:37:07+00:00",
   "hamad": {
    "ok": false
   },
@@ -653,9 +639,9 @@
    "ok": true,
    "arrivals": {
     "QR862@2026-10-30": {
-     "status": "Landing",
+     "status": "Arrived",
      "sched": "1030",
-     "est": "1029",
+     "est": "1028",
      "airport": "DOH"
     },
     "QR858@2026-10-30": {
@@ -712,7 +698,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-30T01:27:03+00:00",
+  "checked_at_utc": "2026-10-30T01:42:12+00:00",
   "flags": [],
   "material": false
  }
