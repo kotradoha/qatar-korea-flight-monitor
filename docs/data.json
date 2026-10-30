@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-30T23:37:07+00:00",
- "generated_at_doha": "2026-10-31 02:37",
- "generated_at_seoul": "2026-10-31 08:37",
+ "generated_at_utc": "2026-10-30T23:52:07+00:00",
+ "generated_at_doha": "2026-10-31 02:52",
+ "generated_at_seoul": "2026-10-31 08:52",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-30T23:37:30+00:00",
+  "checked_at_utc": "2026-10-30T23:52:29+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -81,18 +81,18 @@
      "date": "2026-10-31",
      "label": "10/31 (토)",
      "label_en": "Sat 10/31",
-     "dep": "02:40",
+     "dep": "02:30",
      "arr": "17:15",
      "sched_dep_eff": "03:30",
      "sched_arr_eff": "18:30",
-     "kind": "sched",
+     "kind": "inflight",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Gate Closed",
-       "statusCode": "GC",
+       "status": "Departed",
+       "statusCode": "DP",
        "sched": "02:40",
        "est": "02:30",
        "other": "ICN",
@@ -101,7 +101,7 @@
       "korea": {
        "status": "",
        "sched": "1715",
-       "est": "1618",
+       "est": "1632",
        "airport": "DOH",
        "source": "ICN"
       }
@@ -205,8 +205,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Gate Closed",
-     "statusCode": "GC",
+     "status": "Departed",
+     "statusCode": "DP",
      "sched": "02:40",
      "est": "02:30",
      "other": "ICN",
@@ -215,7 +215,7 @@
     "korea": {
      "status": "",
      "sched": "1715",
-     "est": "1618",
+     "est": "1632",
      "airport": "DOH",
      "source": "ICN"
     }
@@ -602,7 +602,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-30T23:37:07+00:00",
+  "checked_at_utc": "2026-10-30T23:52:07+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -635,8 +635,8 @@
      "other": "ICN"
     },
     "QR858@2026-10-31": {
-     "status": "Gate Closed",
-     "statusCode": "GC",
+     "status": "Departed",
+     "statusCode": "DP",
      "sched": "02:40",
      "est": "02:30",
      "other": "ICN"
@@ -686,7 +686,7 @@
     "QR858@2026-10-31": {
      "status": "",
      "sched": "1715",
-     "est": "1618",
+     "est": "1632",
      "airport": "DOH"
     },
     "QR862@2026-10-30": {
@@ -749,7 +749,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-30T23:42:15+00:00",
+  "checked_at_utc": "2026-10-30T23:57:19+00:00",
   "flags": [],
   "material": false
  }
