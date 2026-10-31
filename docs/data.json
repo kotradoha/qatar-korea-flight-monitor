@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-10-31T02:22:07+00:00",
- "generated_at_doha": "2026-10-31 05:22",
- "generated_at_seoul": "2026-10-31 11:22",
+ "generated_at_utc": "2026-10-31T02:37:07+00:00",
+ "generated_at_doha": "2026-10-31 05:37",
+ "generated_at_seoul": "2026-10-31 11:37",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-10-31T02:22:29+00:00",
+  "checked_at_utc": "2026-10-31T02:37:34+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -263,24 +263,10 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "warn",
-    "kind": "delayed",
-    "delay": 46
+    "state": "good",
+    "kind": "normal"
    },
    "days": [
-    {
-     "date": "2026-10-30",
-     "label": "10/30 (금)",
-     "label_en": "Fri 10/30",
-     "dep": "00:18",
-     "arr": "05:12",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 0,
-     "delay_dep": 0,
-     "delay_arr": 0,
-     "confirmed": true
-    },
     {
      "date": "2026-10-31",
      "label": "10/31 (토)",
@@ -289,7 +275,7 @@
      "arr": "04:50",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
-     "kind": "inflight",
+     "kind": "landed",
      "cls": "good",
      "delay": 7,
      "confirmed": true,
@@ -437,16 +423,16 @@
     }
    },
    "last_done": {
-    "date": "2026-10-30",
-    "label": "10/30 (금)",
-    "label_en": "Fri 10/30",
-    "dep": "00:18",
-    "arr": "05:12",
+    "date": "2026-10-31",
+    "label": "10/31 (토)",
+    "label_en": "Sat 10/31",
+    "dep": "00:23",
+    "arr": "05:27",
     "kind": "landed",
     "cls": "good",
-    "delay": 0,
+    "delay": 7,
     "delay_dep": 0,
-    "delay_arr": 0,
+    "delay_arr": 7,
     "confirmed": true
    }
   },
@@ -626,7 +612,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-10-31T02:22:07+00:00",
+  "checked_at_utc": "2026-10-31T02:37:07+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -787,7 +773,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-10-31T02:27:20+00:00",
+  "checked_at_utc": "2026-10-31T02:42:26+00:00",
   "flags": [],
   "material": false
  }
