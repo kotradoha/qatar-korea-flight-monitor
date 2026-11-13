@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-13T00:37:07+00:00",
- "generated_at_doha": "2026-11-13 03:37",
- "generated_at_seoul": "2026-11-13 09:37",
+ "generated_at_utc": "2026-11-13T00:52:07+00:00",
+ "generated_at_doha": "2026-11-13 03:52",
+ "generated_at_seoul": "2026-11-13 09:52",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-13T00:37:23+00:00",
+  "checked_at_utc": "2026-11-13T00:52:35+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -472,27 +472,14 @@
    },
    "days": [
     {
-     "date": "2026-11-05",
-     "label": "11/5 (목)",
-     "label_en": "Thu 11/5",
-     "dep": "19:43",
-     "arr": "익일 10:10",
-     "kind": "landed",
-     "cls": "good",
-     "delay": 0,
-     "delay_dep": 0,
-     "delay_arr": 0,
-     "confirmed": true
-    },
-    {
      "date": "2026-11-12",
      "label": "11/12 (목)",
      "label_en": "Thu 11/12",
      "dep": "19:29",
-     "arr": "익일 10:30",
+     "arr": "익일 09:52",
      "sched_dep_eff": "20:25",
      "sched_arr_eff": "11:25",
-     "kind": "inflight",
+     "kind": "landed",
      "cls": "good",
      "delay": 0,
      "confirmed": true,
@@ -506,7 +493,7 @@
        "source": "HIA"
       },
       "korea": {
-       "status": "",
+       "status": "Arrived",
        "sched": "1030",
        "est": "0952",
        "airport": "DOH",
@@ -555,7 +542,7 @@
      "source": "HIA"
     },
     "korea": {
-     "status": "",
+     "status": "Arrived",
      "sched": "1030",
      "est": "0952",
      "airport": "DOH",
@@ -563,11 +550,11 @@
     }
    },
    "last_done": {
-    "date": "2026-11-05",
-    "label": "11/5 (목)",
-    "label_en": "Thu 11/5",
-    "dep": "19:43",
-    "arr": "익일 10:10",
+    "date": "2026-11-12",
+    "label": "11/12 (목)",
+    "label_en": "Thu 11/12",
+    "dep": "19:29",
+    "arr": "익일 09:52",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
@@ -725,7 +712,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-13T00:37:07+00:00",
+  "checked_at_utc": "2026-11-13T00:52:07+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -821,7 +808,7 @@
    "ok": true,
    "arrivals": {
     "QR862@2026-11-13": {
-     "status": "",
+     "status": "Arrived",
      "sched": "1030",
      "est": "0952",
      "airport": "DOH"
@@ -880,7 +867,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-13T00:42:20+00:00",
+  "checked_at_utc": "2026-11-13T00:57:36+00:00",
   "flags": [],
   "material": false
  }
