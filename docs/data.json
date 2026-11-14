@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-11-14T10:52:06+00:00",
- "generated_at_doha": "2026-11-14 13:52",
- "generated_at_seoul": "2026-11-14 19:52",
+ "generated_at_utc": "2026-11-14T11:07:07+00:00",
+ "generated_at_doha": "2026-11-14 14:07",
+ "generated_at_seoul": "2026-11-14 20:07",
  "degraded": false,
  "fetch_health": {
-  "ok": 78,
-  "err": 0
+  "ok": 76,
+  "err": 2
  },
  "airspace": {
   "risk_level": "Three",
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-14T10:52:17+00:00",
+  "checked_at_utc": "2026-11-14T11:07:43+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -266,8 +266,6 @@
      "cls": "good",
      "delay": 0,
      "confirmed": true,
-     "delay_dep": 0,
-     "delay_arr": 0,
      "board": {
       "doha": {
        "status": "All Bags Delivered",
@@ -285,6 +283,8 @@
        "source": "ICN"
       }
      },
+     "delay_dep": 0,
+     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -293,8 +293,8 @@
      "label_en": "Sun 11/15",
      "dep": "00:15",
      "arr": "04:45",
-     "sched_dep_eff": "00:15",
-     "sched_arr_eff": "04:45",
+     "sched_dep_eff": "01:20",
+     "sched_arr_eff": "05:20",
      "kind": "sched",
      "cls": "good",
      "delay": 0,
@@ -317,14 +317,14 @@
      "date": "2026-11-16",
      "label": "11/16 (월)",
      "label_en": "Mon 11/16",
-     "dep": "00:15",
+     "dep": "00:20",
      "arr": "04:45",
      "sched_dep_eff": "00:15",
      "sched_arr_eff": "04:45",
-     "kind": "sched",
-     "cls": "good",
+     "kind": "plan",
+     "cls": "plan",
      "delay": 0,
-     "confirmed": true
+     "confirmed": false
     },
     {
      "date": "2026-11-17",
@@ -369,7 +369,7 @@
      "date": "2026-11-20",
      "label": "11/20 (금)",
      "label_en": "Fri 11/20",
-     "dep": "00:20",
+     "dep": "00:15",
      "arr": "04:45",
      "sched_dep_eff": "00:15",
      "sched_arr_eff": "04:45",
@@ -608,7 +608,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-14T10:52:06+00:00",
+  "checked_at_utc": "2026-11-14T11:07:07+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -749,8 +749,9 @@
    "2026-11-15": "18:10",
    "2026-11-16": "17:15",
    "2026-11-17": "17:15",
+   "2026-11-18": "18:10",
    "2026-11-19": "18:10",
-   "2026-11-20": "17:15"
+   "2026-11-20": "18:10"
   },
   "QR862": {
    "2026-11-20": "10:30"
@@ -761,14 +762,14 @@
    "2026-11-17": "00:20",
    "2026-11-18": "00:15",
    "2026-11-19": "00:15",
-   "2026-11-20": "00:20"
+   "2026-11-20": "00:15"
   },
   "QR863": {
    "2026-11-20": "18:30"
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-14T10:57:19+00:00",
+  "checked_at_utc": "2026-11-14T11:12:57+00:00",
   "flags": [],
   "material": false
  }
