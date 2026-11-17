@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-17T01:37:10+00:00",
- "generated_at_doha": "2026-11-17 04:37",
- "generated_at_seoul": "2026-11-17 10:37",
+ "generated_at_utc": "2026-11-17T01:52:06+00:00",
+ "generated_at_doha": "2026-11-17 04:52",
+ "generated_at_seoul": "2026-11-17 10:52",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -21,7 +21,7 @@
    }
   ],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-17T01:37:37+00:00",
+  "checked_at_utc": "2026-11-17T01:52:16+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -62,7 +62,7 @@
    "badge": {
     "state": "warn",
     "kind": "delayed",
-    "delay": 26
+    "delay": 25
    },
    "days": [
     {
@@ -273,7 +273,7 @@
      "label": "11/17 (화)",
      "label_en": "Tue 11/17",
      "dep": "00:16",
-     "arr": "04:50",
+     "arr": "04:34",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
      "kind": "landed",
@@ -282,10 +282,10 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "On Time",
-       "statusCode": "OT",
+       "status": "First Bag",
+       "statusCode": "FB",
        "sched": "04:50",
-       "est": "04:49",
+       "est": "04:34",
        "other": "ICN",
        "source": "HIA"
       },
@@ -408,10 +408,10 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "On Time",
-     "statusCode": "OT",
+     "status": "First Bag",
+     "statusCode": "FB",
      "sched": "04:50",
-     "est": "04:49",
+     "est": "04:34",
      "other": "ICN",
      "source": "HIA"
     },
@@ -428,7 +428,7 @@
     "label": "11/17 (화)",
     "label_en": "Tue 11/17",
     "dep": "00:16",
-    "arr": "04:49",
+    "arr": "04:34",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
@@ -613,7 +613,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-17T01:37:10+00:00",
+  "checked_at_utc": "2026-11-17T01:52:06+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -676,10 +676,10 @@
      "other": "ICN"
     },
     "QR859@2026-11-17": {
-     "status": "On Time",
-     "statusCode": "OT",
+     "status": "First Bag",
+     "statusCode": "FB",
      "sched": "04:50",
-     "est": "04:49",
+     "est": "04:34",
      "other": "ICN"
     },
     "QR859@2026-11-18": {
@@ -747,7 +747,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-17T01:42:33+00:00",
+  "checked_at_utc": "2026-11-17T01:57:25+00:00",
   "flags": [],
   "material": false
  }
