@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-20T22:37:07+00:00",
- "generated_at_doha": "2026-11-21 01:37",
- "generated_at_seoul": "2026-11-21 07:37",
+ "generated_at_utc": "2026-11-20T22:52:07+00:00",
+ "generated_at_doha": "2026-11-21 01:52",
+ "generated_at_seoul": "2026-11-21 07:52",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -16,7 +16,7 @@
   "warning_stated": true,
   "advisories": [],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-20T22:37:21+00:00",
+  "checked_at_utc": "2026-11-20T22:52:32+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -86,8 +86,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Check In Open",
-       "statusCode": "CO",
+       "status": "Go to Gate",
+       "statusCode": "GO",
        "sched": "03:10",
        "est": "03:10",
        "other": "ICN",
@@ -200,8 +200,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Check In Open",
-     "statusCode": "CO",
+     "status": "Go to Gate",
+     "statusCode": "GO",
      "sched": "03:10",
      "est": "03:10",
      "other": "ICN",
@@ -524,12 +524,12 @@
      "label": "11/20 (금)",
      "label_en": "Fri 11/20",
      "dep": "18:31",
-     "arr": "23:02",
+     "arr": "23:06",
      "kind": "landed",
      "cls": "good",
-     "delay": 2,
+     "delay": 6,
      "delay_dep": 1,
-     "delay_arr": 2,
+     "delay_arr": 6,
      "confirmed": true
     },
     {
@@ -565,12 +565,12 @@
     "label": "11/20 (금)",
     "label_en": "Fri 11/20",
     "dep": "18:31",
-    "arr": "23:02",
+    "arr": "23:06",
     "kind": "landed",
     "cls": "good",
-    "delay": 2,
+    "delay": 6,
     "delay_dep": 1,
-    "delay_arr": 2,
+    "delay_arr": 6,
     "confirmed": true
    }
   }
@@ -604,7 +604,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-20T22:37:07+00:00",
+  "checked_at_utc": "2026-11-20T22:52:07+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -637,8 +637,8 @@
      "other": "ICN"
     },
     "QR858@2026-11-21": {
-     "status": "Check In Open",
-     "statusCode": "CO",
+     "status": "Go to Gate",
+     "statusCode": "GO",
      "sched": "03:10",
      "est": "03:10",
      "other": "ICN"
@@ -670,7 +670,7 @@
      "status": "Last Bag",
      "statusCode": "LB",
      "sched": "23:00",
-     "est": "23:02",
+     "est": "23:06",
      "other": "ICN"
     },
     "QR859@2026-11-21": {
@@ -751,7 +751,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-20T22:42:19+00:00",
+  "checked_at_utc": "2026-11-20T22:57:33+00:00",
   "flags": [],
   "material": false
  }
