@@ -1,11 +1,11 @@
 {
- "generated_at_utc": "2026-11-20T20:22:07+00:00",
- "generated_at_doha": "2026-11-20 23:22",
- "generated_at_seoul": "2026-11-21 05:22",
+ "generated_at_utc": "2026-11-20T20:37:08+00:00",
+ "generated_at_doha": "2026-11-20 23:37",
+ "generated_at_seoul": "2026-11-21 05:37",
  "degraded": false,
  "fetch_health": {
-  "ok": 80,
-  "err": 1
+  "ok": 81,
+  "err": 0
  },
  "airspace": {
   "risk_level": null,
@@ -16,7 +16,7 @@
   "warning_stated": true,
   "advisories": [],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-20T20:22:33+00:00",
+  "checked_at_utc": "2026-11-20T20:37:25+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -251,8 +251,19 @@
      "sched_arr_eff": "05:20",
      "kind": "landed",
      "cls": "good",
-     "delay": 5,
-     "confirmed": true
+     "delay": 0,
+     "confirmed": true,
+     "board": {
+      "korea": {
+       "status": "Departure",
+       "sched": "0015",
+       "est": "0012",
+       "airport": "DOH",
+       "source": "ICN"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-11-21",
@@ -389,7 +400,8 @@
     "arr": "04:50",
     "kind": "landed",
     "cls": "good",
-    "delay": 5,
+    "delay": 0,
+    "delay_dep": 0,
     "confirmed": true
    }
   },
@@ -515,14 +527,25 @@
      "date": "2026-11-20",
      "label": "11/20 (금)",
      "label_en": "Fri 11/20",
-     "dep": "18:30",
+     "dep": "18:31",
      "arr": "23:13",
      "sched_dep_eff": "18:30",
      "sched_arr_eff": "22:30",
      "kind": "landed",
      "cls": "good",
-     "delay": 13,
-     "confirmed": true
+     "delay": 1,
+     "confirmed": true,
+     "board": {
+      "korea": {
+       "status": "Departure",
+       "sched": "1830",
+       "est": "1831",
+       "airport": "DOH",
+       "source": "ICN"
+      }
+     },
+     "delay_dep": 1,
+     "board_ok": true
     },
     {
      "date": "2026-11-27",
@@ -552,15 +575,25 @@
     }
    ],
    "position": null,
+   "board": {
+    "korea": {
+     "status": "Departure",
+     "sched": "1830",
+     "est": "1831",
+     "airport": "DOH",
+     "source": "ICN"
+    }
+   },
    "last_done": {
     "date": "2026-11-20",
     "label": "11/20 (금)",
     "label_en": "Fri 11/20",
-    "dep": "18:30",
+    "dep": "18:31",
     "arr": "23:13",
     "kind": "landed",
     "cls": "good",
-    "delay": 13,
+    "delay": 1,
+    "delay_dep": 1,
     "confirmed": true
    }
   }
@@ -594,7 +627,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-20T20:22:07+00:00",
+  "checked_at_utc": "2026-11-20T20:37:08+00:00",
   "hamad": {
    "ok": false
   },
@@ -626,6 +659,18 @@
      "sched": "0015",
      "est": "0027",
      "airport": "DOH"
+    },
+    "QR859@2026-11-20": {
+     "status": "Departure",
+     "sched": "0015",
+     "est": "0012",
+     "airport": "DOH"
+    },
+    "QR863@2026-11-20": {
+     "status": "Departure",
+     "sched": "1830",
+     "est": "1831",
+     "airport": "DOH"
     }
    }
   }
@@ -655,7 +700,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-20T20:27:18+00:00",
+  "checked_at_utc": "2026-11-20T20:42:03+00:00",
   "flags": [],
   "material": false
  }
