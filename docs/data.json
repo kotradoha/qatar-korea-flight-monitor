@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-20T11:52:08+00:00",
- "generated_at_doha": "2026-11-20 14:52",
- "generated_at_seoul": "2026-11-20 20:52",
+ "generated_at_utc": "2026-11-20T12:07:08+00:00",
+ "generated_at_doha": "2026-11-20 15:07",
+ "generated_at_seoul": "2026-11-20 21:07",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -16,7 +16,7 @@
   "warning_stated": true,
   "advisories": [],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-20T11:52:35+00:00",
+  "checked_at_utc": "2026-11-20T12:07:36+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -24,7 +24,17 @@
   "status": "caution",
   "override": null
  },
- "alerts": [],
+ "alerts": [
+  {
+   "flight": "QR859",
+   "date": "2026-11-21",
+   "type": "delay",
+   "dep": 0,
+   "arr": 20,
+   "minutes": 20,
+   "state": "expected"
+  }
+ ],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
@@ -63,7 +73,7 @@
      "date": "2026-11-20",
      "label": "11/20 (금)",
      "label_en": "Fri 11/20",
-     "dep": "03:10",
+     "dep": "03:12",
      "arr": "18:15",
      "sched_dep_eff": "03:30",
      "sched_arr_eff": "18:30",
@@ -72,6 +82,14 @@
      "delay": 0,
      "confirmed": true,
      "board": {
+      "doha": {
+       "status": "Departed",
+       "statusCode": "DP",
+       "sched": "03:10",
+       "est": "03:12",
+       "other": "ICN",
+       "source": "HIA"
+      },
       "korea": {
        "status": "Arrived",
        "sched": "1810",
@@ -80,6 +98,7 @@
        "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -94,7 +113,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "03:10",
+       "est": "03:10",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_dep": 0,
+     "board_ok": true
     },
     {
      "date": "2026-11-22",
@@ -177,6 +208,14 @@
    ],
    "position": null,
    "board": {
+    "doha": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "03:10",
+     "est": "03:12",
+     "other": "ICN",
+     "source": "HIA"
+    },
     "korea": {
      "status": "Arrived",
      "sched": "1810",
@@ -189,11 +228,12 @@
     "date": "2026-11-20",
     "label": "11/20 (금)",
     "label_en": "Fri 11/20",
-    "dep": "03:10",
+    "dep": "03:12",
     "arr": "18:15",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
+    "delay_dep": 0,
     "delay_arr": 0,
     "confirmed": true
    }
@@ -215,8 +255,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 20
    },
    "days": [
     {
@@ -224,7 +265,7 @@
      "label": "11/20 (금)",
      "label_en": "Fri 11/20",
      "dep": "00:12",
-     "arr": "04:45",
+     "arr": "04:50",
      "sched_dep_eff": "01:20",
      "sched_arr_eff": "05:20",
      "kind": "landed",
@@ -232,14 +273,6 @@
      "delay": 0,
      "confirmed": true,
      "board": {
-      "doha": {
-       "status": "All Bags Delivered",
-       "statusCode": "ABD",
-       "sched": "04:45",
-       "est": "04:45",
-       "other": "ICN",
-       "source": "HIA"
-      },
       "korea": {
        "status": "Departure",
        "sched": "0015",
@@ -249,7 +282,6 @@
       }
      },
      "delay_dep": 0,
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -257,26 +289,15 @@
      "label": "11/21 (토)",
      "label_en": "Sat 11/21",
      "dep": "00:15",
-     "arr": "04:45",
+     "arr": "05:05",
      "sched_dep_eff": "00:15",
      "sched_arr_eff": "04:45",
-     "kind": "sched",
-     "cls": "good",
-     "delay": 0,
+     "kind": "delayed",
+     "cls": "warn",
+     "delay": 20,
      "confirmed": true,
      "delay_dep": 0,
-     "delay_arr": 0,
-     "board": {
-      "doha": {
-       "status": "Scheduled",
-       "statusCode": "SH",
-       "sched": "04:45",
-       "est": "04:45",
-       "other": "ICN",
-       "source": "HIA"
-      }
-     },
-     "board_ok": true
+     "delay_arr": 20
     },
     {
      "date": "2026-11-22",
@@ -359,14 +380,6 @@
    ],
    "position": null,
    "board": {
-    "doha": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
-     "sched": "04:45",
-     "est": "04:45",
-     "other": "ICN",
-     "source": "HIA"
-    },
     "korea": {
      "status": "Departure",
      "sched": "0015",
@@ -380,12 +393,11 @@
     "label": "11/20 (금)",
     "label_en": "Fri 11/20",
     "dep": "00:12",
-    "arr": "04:45",
+    "arr": "04:50",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
     "delay_dep": 0,
-    "delay_arr": 0,
     "confirmed": true
    }
   },
@@ -415,7 +427,7 @@
      "date": "2026-11-19",
      "label": "11/19 (목)",
      "label_en": "Thu 11/19",
-     "dep": "19:28",
+     "dep": "19:30",
      "arr": "익일 09:59",
      "sched_dep_eff": "20:25",
      "sched_arr_eff": "11:25",
@@ -424,6 +436,14 @@
      "delay": 0,
      "confirmed": true,
      "board": {
+      "doha": {
+       "status": "Departed",
+       "statusCode": "DP",
+       "sched": "19:30",
+       "est": "19:30",
+       "other": "ICN",
+       "source": "HIA"
+      },
       "korea": {
        "status": "Arrived",
        "sched": "1030",
@@ -432,6 +452,7 @@
        "source": "ICN"
       }
      },
+     "delay_dep": 0,
      "delay_arr": 0,
      "board_ok": true
     },
@@ -464,6 +485,14 @@
    ],
    "position": null,
    "board": {
+    "doha": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "19:30",
+     "est": "19:30",
+     "other": "ICN",
+     "source": "HIA"
+    },
     "korea": {
      "status": "Arrived",
      "sched": "1030",
@@ -476,11 +505,12 @@
     "date": "2026-11-19",
     "label": "11/19 (목)",
     "label_en": "Thu 11/19",
-    "dep": "19:28",
+    "dep": "19:30",
     "arr": "익일 09:59",
     "kind": "landed",
     "cls": "good",
     "delay": 0,
+    "delay_dep": 0,
     "delay_arr": 0,
     "confirmed": true
    }
@@ -525,7 +555,7 @@
      "label": "11/20 (금)",
      "label_en": "Fri 11/20",
      "dep": "18:31",
-     "arr": "23:00",
+     "arr": "23:07",
      "sched_dep_eff": "18:30",
      "sched_arr_eff": "22:30",
      "kind": "inflight",
@@ -533,14 +563,6 @@
      "delay": 1,
      "confirmed": true,
      "board": {
-      "doha": {
-       "status": "Scheduled",
-       "statusCode": "SH",
-       "sched": "23:00",
-       "est": "22:20",
-       "other": "ICN",
-       "source": "HIA"
-      },
       "korea": {
        "status": "Departure",
        "sched": "1830",
@@ -550,7 +572,6 @@
       }
      },
      "delay_dep": 1,
-     "delay_arr": 0,
      "board_ok": true
     },
     {
@@ -582,14 +603,6 @@
    ],
    "position": null,
    "board": {
-    "doha": {
-     "status": "Scheduled",
-     "statusCode": "SH",
-     "sched": "23:00",
-     "est": "22:20",
-     "other": "ICN",
-     "source": "HIA"
-    },
     "korea": {
      "status": "Departure",
      "sched": "1830",
@@ -642,54 +655,54 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-20T11:52:08+00:00",
+  "checked_at_utc": "2026-11-20T12:07:08+00:00",
   "hamad": {
    "ok": true,
-   "departures": {},
-   "arrivals": {
-    "QR859@2026-11-17": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
-     "sched": "04:50",
-     "est": "04:34",
+   "departures": {
+    "QR858@2026-11-17": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "03:10",
+     "est": "03:36",
      "other": "ICN"
     },
-    "QR859@2026-11-18": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
-     "sched": "04:45",
-     "est": "04:32",
+    "QR858@2026-11-18": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "03:10",
+     "est": "03:11",
      "other": "ICN"
     },
-    "QR859@2026-11-19": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
-     "sched": "04:45",
-     "est": "04:35",
+    "QR858@2026-11-19": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "03:10",
+     "est": "03:25",
      "other": "ICN"
     },
-    "QR859@2026-11-20": {
-     "status": "All Bags Delivered",
-     "statusCode": "ABD",
-     "sched": "04:45",
-     "est": "04:45",
+    "QR862@2026-11-19": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "19:30",
+     "est": "19:30",
      "other": "ICN"
     },
-    "QR863@2026-11-20": {
+    "QR858@2026-11-20": {
+     "status": "Departed",
+     "statusCode": "DP",
+     "sched": "03:10",
+     "est": "03:12",
+     "other": "ICN"
+    },
+    "QR858@2026-11-21": {
      "status": "Scheduled",
      "statusCode": "SH",
-     "sched": "23:00",
-     "est": "22:20",
-     "other": "ICN"
-    },
-    "QR859@2026-11-21": {
-     "status": "Scheduled",
-     "statusCode": "SH",
-     "sched": "04:45",
-     "est": "04:45",
+     "sched": "03:10",
+     "est": "03:10",
      "other": "ICN"
     }
-   }
+   },
+   "arrivals": {}
   },
   "icn": {
    "ok": true,
@@ -754,7 +767,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-20T11:57:24+00:00",
+  "checked_at_utc": "2026-11-20T12:12:30+00:00",
   "flags": [],
   "material": false
  }
