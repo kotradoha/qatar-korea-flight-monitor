@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-24T01:52:07+00:00",
- "generated_at_doha": "2026-11-24 04:52",
- "generated_at_seoul": "2026-11-24 10:52",
+ "generated_at_utc": "2026-11-24T02:07:07+00:00",
+ "generated_at_doha": "2026-11-24 05:07",
+ "generated_at_seoul": "2026-11-24 11:07",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -16,7 +16,7 @@
   "warning_stated": true,
   "advisories": [],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-24T01:52:22+00:00",
+  "checked_at_utc": "2026-11-24T02:07:11+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -276,8 +276,8 @@
      "confirmed": true,
      "board": {
       "doha": {
-       "status": "Bags On Belt",
-       "statusCode": "BB",
+       "status": "Arrived",
+       "statusCode": "OB",
        "sched": "04:50",
        "est": "04:24",
        "other": "ICN",
@@ -402,8 +402,8 @@
    "position": null,
    "board": {
     "doha": {
-     "status": "Bags On Belt",
-     "statusCode": "BB",
+     "status": "Arrived",
+     "statusCode": "OB",
      "sched": "04:50",
      "est": "04:24",
      "other": "ICN",
@@ -607,7 +607,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-24T01:52:07+00:00",
+  "checked_at_utc": "2026-11-24T02:07:07+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -670,8 +670,8 @@
      "other": "ICN"
     },
     "QR859@2026-11-24": {
-     "status": "Bags On Belt",
-     "statusCode": "BB",
+     "status": "Arrived",
+     "statusCode": "OB",
      "sched": "04:50",
      "est": "04:24",
      "other": "ICN"
@@ -742,7 +742,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-24T01:57:35+00:00",
+  "checked_at_utc": "2026-11-24T02:12:24+00:00",
   "flags": [],
   "material": false
  }
