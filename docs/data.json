@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-27T10:52:06+00:00",
- "generated_at_doha": "2026-11-27 13:52",
- "generated_at_seoul": "2026-11-27 19:52",
+ "generated_at_utc": "2026-11-27T11:07:07+00:00",
+ "generated_at_doha": "2026-11-27 14:07",
+ "generated_at_seoul": "2026-11-27 20:07",
  "degraded": false,
  "fetch_health": {
   "ok": 80,
@@ -16,7 +16,7 @@
   "warning_stated": true,
   "advisories": [],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-27T10:52:17+00:00",
+  "checked_at_utc": "2026-11-27T11:07:23+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -337,7 +337,7 @@
      "date": "2026-12-01",
      "label": "12/1 (화)",
      "label_en": "Tue 12/1",
-     "dep": "00:15",
+     "dep": "00:20",
      "arr": "04:45",
      "sched_dep_eff": "00:15",
      "sched_arr_eff": "04:45",
@@ -683,13 +683,13 @@
     "field": "dep",
     "expected": "01:20",
     "observed": "00:20",
-    "from": "2026-12-02",
+    "from": "2026-12-01",
     "source": "ICN"
    }
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-27T10:52:06+00:00",
+  "checked_at_utc": "2026-11-27T11:07:07+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -827,6 +827,7 @@
  },
  "icn_future": {
   "QR858": {
+   "2026-11-28": "18:10",
    "2026-11-29": "18:10",
    "2026-12-01": "17:15",
    "2026-12-02": "17:15",
@@ -836,12 +837,13 @@
    "2026-11-28": "00:15",
    "2026-11-29": "00:15",
    "2026-11-30": "00:15",
+   "2026-12-01": "00:20",
    "2026-12-02": "00:20",
    "2026-12-03": "00:20"
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-27T10:57:11+00:00",
+  "checked_at_utc": "2026-11-27T11:12:55+00:00",
   "flags": [],
   "material": false
  }
