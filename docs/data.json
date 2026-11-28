@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-28T00:22:07+00:00",
- "generated_at_doha": "2026-11-28 03:22",
- "generated_at_seoul": "2026-11-28 09:22",
+ "generated_at_utc": "2026-11-28T00:37:06+00:00",
+ "generated_at_doha": "2026-11-28 03:37",
+ "generated_at_seoul": "2026-11-28 09:37",
  "degraded": false,
  "fetch_health": {
   "ok": 78,
@@ -16,7 +16,7 @@
   "warning_stated": true,
   "advisories": [],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-28T00:22:22+00:00",
+  "checked_at_utc": "2026-11-28T00:37:20+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -87,7 +87,7 @@
      "board": {
       "doha": {
        "status": "Departed",
-       "statusCode": "OB",
+       "statusCode": "DP",
        "sched": "03:10",
        "est": "03:05",
        "other": "ICN",
@@ -213,7 +213,7 @@
    "board": {
     "doha": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "03:10",
      "est": "03:05",
      "other": "ICN",
@@ -319,7 +319,19 @@
      "kind": "sched",
      "cls": "good",
      "delay": 0,
-     "confirmed": true
+     "confirmed": true,
+     "board": {
+      "doha": {
+       "status": "Scheduled",
+       "statusCode": "SH",
+       "sched": "04:45",
+       "est": "04:45",
+       "other": "ICN",
+       "source": "HIA"
+      }
+     },
+     "delay_arr": 0,
+     "board_ok": true
     },
     {
      "date": "2026-11-30",
@@ -616,7 +628,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-28T00:22:07+00:00",
+  "checked_at_utc": "2026-11-28T00:37:06+00:00",
   "hamad": {
    "ok": true,
    "departures": {
@@ -650,7 +662,7 @@
     },
     "QR858@2026-11-28": {
      "status": "Departed",
-     "statusCode": "OB",
+     "statusCode": "DP",
      "sched": "03:10",
      "est": "03:05",
      "other": "ICN"
@@ -686,8 +698,8 @@
      "other": "ICN"
     },
     "QR863@2026-11-27": {
-     "status": "Last Bag",
-     "statusCode": "LB",
+     "status": "All Bags Delivered",
+     "statusCode": "ABD",
      "sched": "23:00",
      "est": "22:37",
      "other": "ICN"
@@ -697,6 +709,13 @@
      "statusCode": "OT",
      "sched": "04:45",
      "est": "04:39",
+     "other": "ICN"
+    },
+    "QR859@2026-11-29": {
+     "status": "Scheduled",
+     "statusCode": "SH",
+     "sched": "04:45",
+     "est": "04:45",
      "other": "ICN"
     }
    }
@@ -765,7 +784,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-28T00:27:14+00:00",
+  "checked_at_utc": "2026-11-28T00:42:28+00:00",
   "flags": [],
   "material": false
  }
