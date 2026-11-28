@@ -1,7 +1,7 @@
 {
- "generated_at_utc": "2026-11-28T18:22:07+00:00",
- "generated_at_doha": "2026-11-28 21:22",
- "generated_at_seoul": "2026-11-29 03:22",
+ "generated_at_utc": "2026-11-28T18:37:07+00:00",
+ "generated_at_doha": "2026-11-28 21:37",
+ "generated_at_seoul": "2026-11-29 03:37",
  "degraded": false,
  "fetch_health": {
   "ok": 79,
@@ -16,7 +16,7 @@
   "warning_stated": true,
   "advisories": [],
   "source": "https://safeairspace.net/qatar/",
-  "checked_at_utc": "2026-11-28T18:22:18+00:00",
+  "checked_at_utc": "2026-11-28T18:37:34+00:00",
   "ok": true,
   "level": "caution",
   "cancel_recent": 0,
@@ -24,7 +24,17 @@
   "status": "caution",
   "override": null
  },
- "alerts": [],
+ "alerts": [
+  {
+   "flight": "QR859",
+   "date": "2026-11-29",
+   "type": "delay",
+   "dep": 0,
+   "arr": 21,
+   "minutes": 21,
+   "state": "expected"
+  }
+ ],
  "travel_updates": [],
  "qr_notices": [],
  "news_notices": [],
@@ -226,8 +236,9 @@
    "note": "매일 운항",
    "note_en": "Daily",
    "badge": {
-    "state": "good",
-    "kind": "normal"
+    "state": "warn",
+    "kind": "delayed",
+    "delay": 21
    },
    "days": [
     {
@@ -259,13 +270,15 @@
      "label": "11/29 (일)",
      "label_en": "Sun 11/29",
      "dep": "00:10",
-     "arr": "04:50",
+     "arr": "05:06",
      "sched_dep_eff": "00:15",
      "sched_arr_eff": "04:45",
      "kind": "inflight",
      "cls": "good",
-     "delay": 0,
+     "delay": 21,
      "confirmed": true,
+     "delay_dep": 0,
+     "delay_arr": 21,
      "board": {
       "korea": {
        "status": "Departure",
@@ -275,7 +288,6 @@
        "source": "ICN"
       }
      },
-     "delay_dep": 0,
      "board_ok": true
     },
     {
@@ -577,7 +589,7 @@
   ]
  },
  "boards": {
-  "checked_at_utc": "2026-11-28T18:22:07+00:00",
+  "checked_at_utc": "2026-11-28T18:37:07+00:00",
   "hamad": {
    "ok": false
   },
@@ -637,7 +649,7 @@
   }
  },
  "integrity": {
-  "checked_at_utc": "2026-11-28T18:26:58+00:00",
+  "checked_at_utc": "2026-11-28T18:42:05+00:00",
   "flags": [],
   "material": false
  }
